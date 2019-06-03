@@ -362,6 +362,7 @@ namespace Gurutw.Controllers
             return View();
         }
 
+
         [HttpPost]
         public ActionResult PassData(int id, int count)
         {
@@ -388,12 +389,10 @@ namespace Gurutw.Controllers
                     }
                     else
                     {
-                        Shopping_Cart sc = new Shopping_Cart
-                        {
-                            m_id = userr,
-                            pd_id = id,
-                            cart_quantity = num
-                        };
+                        Shopping_Cart sc = new Shopping_Cart();
+                        sc.m_id = userr;
+                        sc.pd_id = id;
+                        sc.cart_quantity = num;
                         db.Shopping_Cart.Add(sc);
                         db.SaveChanges();
                     }

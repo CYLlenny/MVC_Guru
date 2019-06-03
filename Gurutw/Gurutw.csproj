@@ -49,20 +49,11 @@
     <Reference Include="Dapper, Version=1.60.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.1.60.6\lib\net451\Dapper.dll</HintPath>
     </Reference>
-    <Reference Include="LineBot, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\LineBotSDK.0.8.3\lib\net45\LineBot.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Cognitive.LUIS, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Cognitive.LUIS.2.0.2\lib\portable45-net45+win8+wpa81\Microsoft.Cognitive.LUIS.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http.Formatting, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
-    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
@@ -72,12 +63,6 @@
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
-    <Reference Include="System.Web.Http, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.2\lib\net45\System.Web.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http.WebHost, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.2\lib\net45\System.Web.Http.WebHost.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -189,15 +174,8 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LineWebHookSampleController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
-    <Compile Include="Controllers\TestLUISController.cs" />
-    <Compile Include="Controllers\TestQnAController.cs" />
-    <Compile Include="default.aspx.cs">
-      <DependentUpon>default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -299,12 +277,38 @@
     <Content Include="Assets\Images\product_category_img\分類中間圖4.jpg" />
     <Content Include="Assets\Images\product_category_img\分類頁上層大圖.jpg" />
     <Content Include="Assets\Images\product_category_img\分類頁商品1.png" />
+    <Content Include="Assets\Images\product_item_img\headset_01.png" />
+    <Content Include="Assets\Images\product_item_img\headset_01_01.jpg" />
+    <Content Include="Assets\Images\product_item_img\headset_01_02.jpg" />
+    <Content Include="Assets\Images\product_item_img\headset_01_03.jpg" />
+    <Content Include="Assets\Images\product_item_img\headset_01_04.jpg" />
+    <Content Include="Assets\Images\product_item_img\headset_02.png" />
+    <Content Include="Assets\Images\product_item_img\headset_03-01.jpg" />
+    <Content Include="Assets\Images\product_item_img\headset_03-02.jpg" />
+    <Content Include="Assets\Images\product_item_img\headset_03-03.jpg" />
+    <Content Include="Assets\Images\product_item_img\headset_03.png" />
+    <Content Include="Assets\Images\product_item_img\headset_04-01.jpg" />
+    <Content Include="Assets\Images\product_item_img\headset_04-02.jpg" />
+    <Content Include="Assets\Images\product_item_img\headset_04-03.jpg" />
+    <Content Include="Assets\Images\product_item_img\headset_04-04.jpg" />
+    <Content Include="Assets\Images\product_item_img\headset_04-05.jpg" />
+    <Content Include="Assets\Images\product_item_img\headset_04-06.jpg" />
+    <Content Include="Assets\Images\product_item_img\headset_04-07.png" />
+    <Content Include="Assets\Images\product_item_img\headset_04-08.png" />
+    <Content Include="Assets\Images\product_item_img\headset_04-09.png" />
+    <Content Include="Assets\Images\product_item_img\headset_04.png" />
+    <Content Include="Assets\Images\product_item_img\headset_05-01.jpg" />
+    <Content Include="Assets\Images\product_item_img\headset_05-02.jpg" />
+    <Content Include="Assets\Images\product_item_img\headset_05-03.jpg" />
+    <Content Include="Assets\Images\product_item_img\headset_05-04.jpg" />
+    <Content Include="Assets\Images\product_item_img\headset_05-05.jpg" />
+    <Content Include="Assets\Images\product_item_img\headset_05.png" />
     <Content Include="Assets\Images\product_item_img\iCUE_logo.png" />
     <Content Include="Assets\Images\product_item_img\LINE.jpg" />
-    <Content Include="Assets\Images\product_item_img\商品頁預設大圖_小圖-1.png" />
-    <Content Include="Assets\Images\product_item_img\點左鍵彈出.jpg" />
-    <Content Include="Assets\Images\product_item_img\點滾輪彈出.jpg" />
-    <Content Include="Assets\Images\product_item_img\點身體彈出.jpg" />
+    <Content Include="Assets\Images\product_item_img\mouse_item01.png" />
+    <Content Include="Assets\Images\product_item_img\mouse_item02.jpg" />
+    <Content Include="Assets\Images\product_item_img\mouse_item03.jpg" />
+    <Content Include="Assets\Images\product_item_img\mouse_item04.jpg" />
     <Content Include="Assets\Images\round-shadow.jpg" />
     <Content Include="Assets\js\catagory_js.js" />
     <Content Include="Assets\js\item_js.js" />
@@ -321,7 +325,6 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

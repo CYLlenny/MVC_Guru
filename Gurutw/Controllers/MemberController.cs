@@ -141,14 +141,12 @@ namespace Gurutw.Controllers
                         discount = 1;
                     }
                 }
-                Order_Detail od = new Order_Detail
-                {
-                    pd_id = u.pd_id,
-                    o_id = id,
-                    od_quantity = u.cart_quantity,
-                    od_discount = discount,
-                    od_price = (float)product.p_unitprice
-                };
+                Order_Detail od = new Order_Detail();
+                od.pd_id = u.pd_id;
+                od.o_id = id;
+                od.od_quantity = u.cart_quantity;
+                od.od_discount = discount;
+                od.od_price = (float)product.p_unitprice;
 
                 db.Order_Detail.Add(od);
                 db.SaveChanges();
