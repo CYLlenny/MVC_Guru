@@ -1,0 +1,108 @@
+$main-color:rgb(254, 203, 0) ;
+
+html{
+    header{
+        border-bottom: 1px solid rgb(230, 228, 228);
+    }
+}
+
+.cart-frame-container{
+    width: 60%;
+    margin: 100px auto;
+    div{
+        padding: 10px;
+    }
+    .shopping-cart-title,.cart-summary-title{
+        background: black;
+        color: white;
+        font-size: 1.2rem;
+    }
+    .selected-item{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid rgb(230, 228, 228);
+        div{
+            text-align: center;
+            .item-spec{
+                text-align: left;
+            }
+        }
+        .img-and-spec{
+            flex: 1 1 40%;
+            display: flex;
+            padding: 0px;
+            .item-img{
+                width: 40%;
+                height: 150px;
+            }
+            .item-spec{
+                width: 60%;
+            }
+        }
+        .item-quantity{
+            flex: 1 1 15%;
+        }
+        .item-price{
+            flex: 1 1 15%;
+        }
+        .delete-item{
+            flex: 1 1 3%;
+        }
+
+
+    }
+    .quantity{
+        width: 40%;
+    }
+
+    .cart-summary{
+        text-align: center;
+        .cart-summary-title{
+            text-align: left;
+        }
+
+        .amount > div{
+            display: flex;
+            justify-content: space-between;
+            padding: 0px;
+            div{
+                padding: 0px 10px;
+            }
+        }
+        .amount{
+            padding: 10px 0px;
+            border-bottom: 1px solid rgb(230, 228, 228);
+            .total-amount{
+                padding: 10px 0px;
+            }
+        }
+        .checkout{
+            text-align: center;
+            p{
+                margin-bottom: 5px;
+            }
+            div{
+                width: 50%;
+                margin: 10px auto;               
+                &:hover{
+                    cursor: pointer;
+                    opacity: 0.8;
+                }
+            }
+            .checkout-btn{
+                margin-top: 20px;
+                background-color: $main-color;
+            }
+            .continue-shopping{
+                background-color: black;
+                a{
+                    color: white;
+                }
+            }
+        }
+    }
+
+
+
+}

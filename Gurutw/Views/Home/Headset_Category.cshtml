@@ -1,0 +1,162 @@
+﻿
+@{
+    ViewBag.Title = "Headset_category";
+    var product = ViewBag.p;
+}
+
+@section topCSS{
+    <link href="~/Assets/Styles/category_style/category_styles.css" rel="stylesheet" />
+}
+
+
+<!--滿版-->
+<div class="container-max bg-white">
+    <img src="/Assets/Images/product_category_img/分類頁上層大圖.jpg" id="top_img" class="mb-5" />
+
+    <div id="img_text">
+        <h2>GAMING MICE</h2>
+        <p>
+            CHOOSE YOUR WEAPON
+        </p>
+    </div>
+
+    <div class="container_80 mb-5" id="category_1">
+        <div class="d-flex row" id="mid_data">
+            <div class="col-3">
+                <div>
+                    <h5>
+                        Wireless Gaming Mice
+                    </h5>
+                    <p>
+                        Powerful gaming performance without a wire to hold you back
+                    </p>
+                </div>
+                <div>
+                    <img src="/Assets/Images/product_category_img/分類中間圖1.jpg" class="category_mid_img" />
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div>
+                    <h5>
+                        FPS FAST ACTION GAMING MICE
+                    </h5>
+
+                    <p>
+                        Precision sensors and comfortable grips to give you the edge
+                    </p>
+                </div>
+                <div>
+                    <img src="/Assets/Images/product_category_img/分類中間圖2.jpg" class="category_mid_img" />
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div>
+                    <h5>
+                        MOBA STRATEGY & ACTION GAMING MICE
+                    </h5>
+
+                    <p>
+                        Upgrade your game with power and precision
+                    </p>
+                </div>
+                <div>
+                    <img src="/Assets/Images/product_category_img/分類中間圖3.jpg" class="category_mid_img" />
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div>
+                    <h5>
+                        MMO ROLE PLAY GAMING MICE
+                    </h5>
+
+                    <p>
+                        Powerful macro control and session-spanning comfort
+
+                    </p>
+                </div>
+                <div>
+                    <img src="/Assets/Images/product_category_img/分類中間圖4.jpg" class="category_mid_img" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center mb-5">
+        <h4>ETEKNIX</h4>
+        <p>"The CORSAIR Glaive is a robust mouse with a surprisingly focused yet very customizable design."</p>
+    </div>
+    <div class="container_80 mb-5">
+
+        <div id="sort_select" class="d-flex justify-content-around mb-5">
+            <button id="btn_1">PRICE FROM LOW TO HIGH</button>
+            <button id="btn_2">PRICE FROM HIGH TO LOW</button>
+            <button id="btn_3">DATE FROM OLD TO NEW</button>
+            <button id="btn_4">DATE FROM NEW TO OLD</button>
+        </div>
+
+        @*<div class="row mb-5" id="category_item_list">
+            @foreach (var i in product)
+            {
+                <div class="product_card col-md-3" onclick="location.href='/Home/Headset_item/@i.p_id'">
+                    <div class="card_body">
+                        <img src="@i.pp_path" alt="#" class="card_img">
+                    </div>
+
+                    <div class="text-center mt-2">
+                        <div>
+                            @{string pname = @i.p_name;}
+                        </div>
+                        @Html.ActionLink(pname, "Headset_item", new { id = i.p_id })
+                        $US<p>@Decimal.Round(i.p_unitprice)</p>
+                        Launched-date:<p>@i.p_lauchdate.ToShortDateString().ToString()</p>
+                    </div>
+                </div>
+            }
+        </div>*@
+
+        <div class="row" id="category_item_list">
+            @foreach (var item in product)
+            {
+                string[] i_pics = item.pic_path.Split(',');
+            <div class="product_card carousel slide carousel-fade col-md-3" id="carouselExampleFade" data-ride="carousel" onclick="location.href='/Home/Headset_item/@item.p_id'">
+                <div class="card_body carousel-inner">
+                    @if (i_pics.Length <= 1)
+                    {
+                        <div class="carousel-item">
+                            <img src="@i_pics[0]" alt="#" class="card_img">
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="carousel-item active">
+                            <img src="@i_pics[0]" alt="#" class="card_img">
+                        </div>
+                        for (var i = 1; i < i_pics.Length - 1; i++)
+                        {
+                            <div class="carousel-item ">
+                                <img src="@i_pics[i]" alt="#" class="card_img">
+                            </div>
+                        }
+                    }
+                </div>
+                <div class="text-center mt-2">
+                    <div id="item_data_name">
+                        @item.p_name
+                    </div>
+                    <p>@Decimal.Round(item.p_unitprice) </p>
+                    <p>@item.p_lauchdate.ToShortDateString().ToString()</p>
+                </div>
+            </div>
+            }
+        </div>
+
+    </div>
+
+</div>
+
+@section endJS{
+    <script src="~/Assets/js/catagory_js.js"></script>
+}
+

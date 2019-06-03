@@ -1,0 +1,122 @@
+header .main-header {
+  text-align: center;
+}
+
+header .main-header .main-menu-center, header .main-header .main-menu-right {
+  display: none;
+}
+
+header .main-header .logo-image {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 225px;
+          flex: 1 1 225px;
+}
+
+header {
+  border-bottom: 1px solid #e6e4e4;
+}
+
+.footer-menu .menu-for-footer {
+  height: 115px;
+}
+
+.footer-menu .menu-for-footer div {
+  display: none;
+}
+
+.login-in .title {
+  padding: 25px 0px;
+}
+
+.login-in .title-member-login {
+  padding: 25px 0px 12px 0px;
+  margin-bottom: 0px;
+}
+
+.login-in .para-2 {
+  padding-bottom: 25px;
+}
+
+.login-in .para-1 {
+  padding: 7.5px 25px 20px 25px;
+}
+
+.login-in .pic {
+  margin-top: 65px;
+  height: 150px;
+  background: url(/Images/Index-images/login-image.png) center center no-repeat;
+  background-size: 100%;
+}
+
+.login-in .reset-btn {
+  width: 100%;
+  height: 55px;
+  background-color: #fecb00;
+  color: black;
+  border: none;
+}
+
+.login-in .login-btn {
+  width: 100%;
+  height: 55px;
+  color: white;
+  background-color: black;
+  border: none;
+  margin-top: 10px;
+}
+
+.login-in .create-acc-btn {
+  width: 50%;
+  height: 55px;
+  color: white;
+  background-color: black;
+  border: none;
+}
+
+.login-in .reset-btn:hover, .login-in .login-btn:hover, .login-in .create-acc-btn:hover {
+  opacity: 0.8;
+}
+
+.login-in .frame-container-login {
+  text-align: center;
+  padding: 75px 0px;
+  width: 60%;
+  margin: 0 auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.login-in .frame-container-login .reset-password {
+  border-right: 1px solid black;
+  padding-right: 45px;
+}
+
+.login-in .frame-container-login .member-login {
+  padding-left: 45px;
+}
+
+.login-in .frame-container-login .member-login input {
+  display: block;
+}
+
+.login-in .frame-container-login .member-login .input-email, .login-in .frame-container-login .member-login .input-pass {
+  height: 45px;
+  width: 100%;
+  margin: 15px 0px;
+  padding: 0px 18px;
+}
+
+.login-in .frame-container-login .reset-password, .login-in .frame-container-login .member-login {
+  width: 50%;
+}
+
+.login-in .frame-container-login .create-new-acc {
+  margin-top: 40px;
+  padding: 40px 0 60px 0;
+  width: 100%;
+  background-color: #f8f8f8;
+}
+/*# sourceMappingURL=Signin.css.map */

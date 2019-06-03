@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Gurutw.Models.Order_Detail>
+
+@{
+    ViewBag.Title = "Outcome";
+    var a = ViewBag.t;
+}
+
+<h2>Outcome</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            od_quantity
+        </th>
+        <th>
+            od_price
+        </th>
+        <th>
+            od_discount
+        </th>
+        <th>
+            Order.o_receiver
+        </th>
+        <th>
+            Product_Detail.pd_color
+        </th>
+        <th>
+            p_name
+        </th>
+        <th>
+            p_unitprice
+        </th>
+        <th>
+            Total
+        </th>
+    </tr>
+
+    @foreach (var c in a)
+    {
+        <tr>
+            <td>
+                @c.od_quantity
+            </td>
+            <td>
+                @c.od_price
+            </td>
+            <td>
+                @c.od_discount
+            </td>
+            <td>
+                @c.o_receiver
+            </td>
+            <td>
+                @c.pd_color
+            </td>
+            <td>
+                @c.p_name
+            </td>
+            <td>
+                @c.p_unitprice
+            </td>
+            <td>
+                @(c.od_quantity * c.od_price * c.od_discount)
+            </td>
+            @*<td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.od_id }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.od_id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.od_id })
+                </td>*@
+        </tr>
+    }
+
+</table>

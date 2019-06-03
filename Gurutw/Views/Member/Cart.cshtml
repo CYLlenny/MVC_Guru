@@ -1,0 +1,82 @@
+﻿
+@{
+    /**/
+
+    ViewBag.Title = "Cart";
+    var o = ViewBag.od;
+    Decimal total = 0;
+}
+<div class="cart-frame-container shopping-cart">
+    <div class="selected-in-cart">
+        <div class="shopping-cart-title">SHOPPING CART</div>
+        @foreach (var x in o)
+        {
+            var d = x.d_discount;
+            var ds = Convert.ToString(d);
+            if (ds == null)
+            {
+                d = 1;
+            }
+            total = total + (x.cart_quantity * x.p_unitprice * Convert.ToDecimal(d));
+            <div class="selected-item">
+                <div class="img-and-spec">
+                    <div class="item-img"
+                         style="background: url(/Assets/Images/cart-images/mice_2.png) center center no-repeat"></div>
+                    <div class="item-spec">
+                        <h4>@x.p_name</h4>
+                        <span>Color :</span>&nbsp;<span>@x.pd_color</span>
+                    </div>
+                </div>
+                <div class="item-quantity">
+                    <form method="post" name="form" action="/Member/Cart">
+                        <input name="less" type="hidden" value=@x.pd_id />
+                        <button type="submit"><i class="fas fa-minus"></i></button>
+                    </form>
+                    <p class="quantity">@x.cart_quantity</p>
+                    <form method="post" name="form" action="/Member/Cart">
+                        <input name="add" type="hidden" value=@x.pd_id />
+                        <button type="submit"><i class="fas fa-plus"></i></button>
+                    </form>
+                </div>
+                <div class="item-price">
+                    <h4>@Decimal.Round(x.cart_quantity * x.p_unitprice, 2)</h4>
+                </div>
+                <form method="post" name="form" action="/Member/Cart">
+                    <input name="del" type="hidden" value=@x.pd_id />
+                    <button type="submit" class="delete-item"><i class="fas fa-trash-alt"></i></button>
+                </form>
+            </div>
+        }
+        <div class="cart-summary">
+            <div class="cart-summary-title">CART SUMMARY</div>
+            <div class="amount">
+                <div>
+                    <div>Subtotal</div>
+                    <div>
+                        <h5>$US @Decimal.Round(total)</h5>
+                    </div>
+                </div>
+                <div class="total-amount">
+                    <div>After Discount</div>
+                    <div>
+                        <h4>$US @Decimal.Round(total) </h4>
+                    </div>
+                </div>
+            </div>
+            <div class="checkout">
+                <p>Received Promotions</p>
+                <p>You spent over $US79.00 to qualify for free shipping.</p>
+                <div class="checkout-btn">
+                    <a href="">
+                        @Html.ActionLink("CHECKOUT", "OrderDeliver")
+                    </a>
+                </div>
+                <div class="continue-shopping"><a href="/Home/Index">CONTINUE SHOPPING</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+@section topCSS{
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="~/Assets/Styles/cart.css" rel="stylesheet" />
+}

@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Gurutw.Models.Order>
+
+@{
+    ViewBag.Title = "result";
+    var a = ViewBag.t;
+}
+
+<h2>result</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            編號
+        </th>
+        <th>
+            購買人
+        </th>
+        <th>
+            運送地址
+        </th>
+        <th>
+            取貨方式
+        </th>
+        @*<th>
+                會員編號
+            </th>*@
+        <th>
+            付款方式
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var t in a)
+    {
+        <tr>
+            <td>
+                @t.o_id
+            </td>
+            <td>
+                @t.o_receiver
+            </td>
+            <td>
+                @t.o_address
+            </td>
+            <td>
+                @t.dw_name
+            </td>
+            @*<td>
+                    @t.m_id
+                </td>*@
+            <td>
+                @t.pay_name
+            </td>
+            <td>
+                @Html.ActionLink("訂單詳細", "Outcome", new { Id = t.o_id })
+            </td>
+        </tr>
+    }
+
+</table>

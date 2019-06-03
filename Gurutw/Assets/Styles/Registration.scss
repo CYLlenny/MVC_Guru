@@ -1,0 +1,78 @@
+
+header .main-header{
+    .main-menu-center,.main-menu-right{
+        display: none;
+    }
+    text-align: center;
+    .logo-image{
+        flex: 1 1 225px; //
+    }
+}
+header{
+    border-bottom: 1px solid rgb(230, 228, 228);
+}
+
+.footer-menu{
+    .menu-for-footer{ 
+        height: 115px; //
+        div{
+            display: none;
+        }
+    }
+
+}
+
+.frame-container-regis{
+    width: 60%;
+    margin: 0 auto;
+    text-align: center;
+    border: 1px solid rgb(230, 228, 228);
+    padding-bottom: 40px; //
+    h2{
+        padding: 25px; //
+        padding-top: 100px; //
+    }
+    h4{
+        padding-bottom: 15px; //
+    }
+    input:not(.check){
+        width: 80%;
+        height: 55px; //
+        margin: 15px auto; //
+        display: block;
+        padding: 0 18px; //
+        border-left: 3.5px solid #914545;
+        border-top: 1px solid rgb(230, 228, 228);
+        border-right: 1px solid rgb(230, 228, 228);
+        border-bottom: 1px solid rgb(230, 228, 228);
+        &:focus{
+            outline: none;
+        }
+        background-color: #f8f8f8;                    
+    }
+    .check{
+        margin: 25px 0px; //
+    }
+}
+
+.registration{
+    background-color: #f8f8f8;
+    padding-bottom: 75px; //
+    border-top: 1px solid rgb(230, 228, 228);
+
+    .frame-container-regis{
+        background-color: white;
+        #submit{
+            color: white;
+            background-color: black;
+            border: none; 
+            &:hover{
+                opacity: 0.8;
+            }   
+        }
+    }
+}
+
+.field-validation-error{
+    display: block;
+}

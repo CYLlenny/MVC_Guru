@@ -1,0 +1,56 @@
+﻿@model Gurutw.ViewModels.RegisterViewModel
+
+@{
+    ViewBag.Title = "Registration";
+}
+
+
+<div class="registration">
+    @Html.AntiForgeryToken()
+    <form action="/Home/Registration" class="frame-container-regis" method="POST">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <h2>CREATE AN ACCOUNT</h2>
+        <h4>PERSONAL INFORMATION</h4>
+        @*<input type="text" id="username" name="m_name" placeholder="USERNAME">*@
+        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { placeholder = "USERNAME" } })
+        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+        @*<input type="text" id="email" name="m_email" placeholder="EMAIL ADDRESS">*@
+        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { placeholder = "EMAIL ADDRESS" } })
+        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+        @*<input type="password" name="m_password" placeholder="PASSWORDS At least 8-16 characters for length.">*@
+        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { type = "password", placeholder = "PASSWORDS At least 8-16 characters for length." } })
+        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+        @*<input type="password" name="confirmpassword" placeholder="CONFIRM PASSWORDS">*@
+        @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { type = "password", placeholder = "CONFIRM PASSWORDS" } })
+        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+        @*<input type="checkbox" class="check" name="bechecked" value="check">*@
+        @Html.CheckBoxFor(model => model.TermsAndConditions, new { @class = "check" })
+        @Html.LabelFor(model => model.TermsAndConditions)
+        @Html.ValidationMessageFor(model => model.TermsAndConditions, "", new { @class = "text-danger" })
+        <input type="submit" name="submit" id="submit" value="SUBMIT">
+    </form>
+</div>
+
+
+@section topCSS{
+    <link href="~/Assets/Styles/Registration.css" rel="stylesheet" />
+}
+
+@section endJS{
+    <script>
+        // extend jquery range validator to work for required checkboxes
+        var defaultRangeValidator = $.validator.methods.range;
+        $.validator.methods.range = function (value, element, param) {
+            if (element.type === 'checkbox') {
+                // if it's a checkbox return true if it is checked
+                return element.checked;
+            } else {
+                // otherwise run the default validation function
+                return defaultRangeValidator.call(this, value, element, param);
+            }
+        }
+    </script>
+}
+
+
+

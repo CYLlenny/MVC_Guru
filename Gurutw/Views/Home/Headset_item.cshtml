@@ -1,0 +1,154 @@
+﻿@{
+    ViewBag.Title = "TestB4";
+    var p_List = ViewBag.p_List;
+    var pf_List = ViewBag.pf_List;
+    var pd_List = ViewBag.pd_List;
+    var pp_List = ViewBag.pp_List;
+    var classift_List = ViewBag.classift_List;
+    var c_List = ViewBag.c_List;
+
+    var count = 0;
+
+}
+
+@section topCSS{
+    <link href="~/Assets/Styles/item_style/item_style.css" rel="stylesheet" />
+}
+
+<form method="post" name="form" action="/Home/UserCart">
+    <div class="container-fluid">
+        <!--畫面1-->
+        <div id="panel1" class="bg-light">
+            <div class="container">
+                <!--上下保留空間-->
+                <div class="pt-5 pb-5 d-flex row">
+                    <!--左邊小圖-->
+                    <div class="d-flex col-1">
+                        <div class="d-flex flex-column justify-content-center" id="small_img_wrapper">
+                            @foreach (var item in pp_List)
+                            {
+                                count++;
+                                <img src=@item.pp_path alt="#" class="test_img mb-2" id="img_@count">
+                            }
+                        </div>
+                    </div>
+
+                    <!--中間大圖-->
+                    <div class="d-flex justify-content-center col-8 ">
+                        <img src="@pp_List[0].pp_path" alt="#" id="item_img">
+                    </div>
+
+                    <!--右邊資訊-->
+                    <div class="col-3">
+                        <h2>@p_List[0].p_name</h2>
+                        <h3>$ @Decimal.Round(p_List[0].p_unitprice, 0)</h3>
+
+                        @for (var i = 0; i < 2; i++)
+                        {
+                            <p class="h6 text-muted mt-3">
+                                ※ @pf_List[i].pf_description + @pf_List[i].pf_note
+                            </p>
+                        }
+                        <img src="/Assets/images/iCUE_logo.png" alt="" id="icue_logo">
+
+                        <div class="line-it-button mt-3 mb-3" data-lang="zh_Hant" data-type="share-b" data-ver="3" data-url="http://localhost:61949/Home/Product_item/@p_List[0].p_id" data-color="default" data-size="large" data-count="false" style="display: none;"></div>
+
+                        <select name="id" id="select_item_color" class="mt-5 custom-select">
+                            @foreach (var item in pd_List)
+                            {
+                                <option value="@item.pd_id">@item.pd_color</option>
+                            }
+                        </select>
+                        <div class="mt-5">
+                            <input type="text" name="num" />
+                        </div>
+                        <button type="submit" class="mt-5 btn btn-dark btn-block">ADD TO CART</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--畫面2-->
+        <div id="panel2">
+            <div class="container">
+                <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active text-dark" id="OVERVIEW-tab" data-toggle="tab" href="#OVERVIEW"
+                           role="tab" aria-controls="OVERVIEW" aria-selected="true">OVERVIEW</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" id="TECH_SPECS-tab" data-toggle="tab" href="#TECH_SPECS"
+                           role="tab" aria-controls="TECH_SPECS" aria-selected="false">TECH SPECS</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" id="PACKAGE_CONTENTS-tab" data-toggle="tab"
+                           href="#PACKAGE_CONTENTS" role="tab" aria-controls="PACKAGE_CONTENTS"
+                           aria-selected="false">PACKAGE CONTENTS</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--畫面2的分頁  要在滿板底下-->
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="OVERVIEW" role="tabpanel" aria-labelledby="OVERVIEW-tab">
+                <div id=bg_wrapper>
+                    <div class="container mt-4">
+                        @foreach (var item in pf_List)
+                        {
+                            <h4>@item.pf_description</h4>
+                            <p class="h6 mt-1 mb-2">
+                                @item.pf_note
+                            </p>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="TECH_SPECS" role="tabpanel" aria-labelledby="TECH_SPECS-tab">
+                <div class="container mt-4">
+                    <table>
+                        @foreach (var item in classift_List)
+                        {
+                            <tr>
+                                <th>
+                                    <h4 class="table_th">@item.cl_specs</h4>
+                                </th>
+                                <td>
+                                    <h4>
+                                        @item.cl_content
+                                    </h4>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="PACKAGE_CONTENTS" role="tabpanel" aria-labelledby="PACKAGE_CONTENTS-tab">
+                <div class="container mt-4">
+                    <ul>
+                        <li>
+                            <p class="h4 mt-1 mt-3">Product</p>
+                        </li>
+                        <li>
+                            <p class="h4 mt-1 mt-3">Quick Start Guide</p>
+                        </li>
+                        <li>
+                            <p class="h4 mt-1 mt-3">Safety Leaflet</p>
+                        </li>
+                        <li>
+                            <p class="h4 mt-1 mt-3"> Warranty Card</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</form>
+
+@section endJS{
+    <script src="~/Assets/js/item_js.js"></script>
+    <script src="https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
+
+}

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5a333a027a9141bc814ecda6145985a0" Name="Diagram1">
+        <EntityTypeShape EntityType="MvcDataBaseModel.Category" Width="1.5" PointX="0.75" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="MvcDataBaseModel.Classify" Width="1.5" PointX="5.25" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MvcDataBaseModel.Delive_Way" Width="1.5" PointX="3" PointY="18.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MvcDataBaseModel.Discount" Width="1.5" PointX="3" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MvcDataBaseModel.Member" Width="1.5" PointX="3" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MvcDataBaseModel.Order" Width="1.5" PointX="5.25" PointY="20.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MvcDataBaseModel.Order_Detail" Width="1.5" PointX="7.5" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MvcDataBaseModel.Payment" Width="1.5" PointX="3" PointY="24" IsExpanded="true" />
+        <EntityTypeShape EntityType="MvcDataBaseModel.Product" Width="1.5" PointX="3" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MvcDataBaseModel.Product_Detail" Width="1.5" PointX="5.25" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MvcDataBaseModel.Product_Feature" Width="1.5" PointX="5.25" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="MvcDataBaseModel.Product_Picture" Width="1.5" PointX="5.25" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MvcDataBaseModel.Shopping_Cart" Width="1.5" PointX="10.5" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="MvcDataBaseModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="MvcDataBaseModel.FK_Discount_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="MvcDataBaseModel.FK_Product_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="MvcDataBaseModel.FK_Classify_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="MvcDataBaseModel.FK_Order_Delive_Way" ManuallyRouted="false" />
+        <AssociationConnector Association="MvcDataBaseModel.FK_Order_Member" ManuallyRouted="false" />
+        <AssociationConnector Association="MvcDataBaseModel.FK_Shopping_Cart_Member" ManuallyRouted="false" />
+        <AssociationConnector Association="MvcDataBaseModel.FK_Order_Detail_Order" ManuallyRouted="false" />
+        <AssociationConnector Association="MvcDataBaseModel.FK_Order_Payment" ManuallyRouted="false" />
+        <AssociationConnector Association="MvcDataBaseModel.FK_Order_Detail_Product_Detail" ManuallyRouted="false" />
+        <AssociationConnector Association="MvcDataBaseModel.FK_Product_Detail_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="MvcDataBaseModel.FK_Product_Feature_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="MvcDataBaseModel.FK_Product_Picture_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="MvcDataBaseModel.FK_Shopping_Cart_Product_Detail" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

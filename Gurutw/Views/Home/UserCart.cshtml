@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewBag.Title = "UserCart";
+}
+
+@{
+    ViewBag.Title = "UserCart";
+    var o = ViewBag.od;
+}
+
+<h2>UserCart</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            p_name
+        </th>
+        <th>
+            p_Unitprice
+        </th>
+        <th>
+            pd_color
+        </th>
+        <th>
+            cart_quanitity
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var x in o)
+    {
+        <tr>
+            <td>
+                @x.p_name
+            </td>
+            <th>
+                @x.p_unitprice
+            </th>
+            <td>
+                @x.pd_color
+            </td>
+            <td>
+                @x.cart_quantity
+            </td>
+        </tr>
+    }
+</table>
+
+<h2>CastSumarry</h2>
+<table>
+    <tr>
+        <th>
+            p_name
+        </th>
+        <th>
+            p_unitprice
+        </th>
+        <th class="text-center">
+            d_discount
+        </th>
+        <th>
+            cart_quantity
+        </th>
+        <th>
+            Total
+        </th>
+    </tr>
+
+    @foreach (var x in o)
+    {
+        <tr>
+            <th>
+                @x.p_name
+            </th>
+            <th class="text-center">
+                @Decimal.Round(x.p_unitprice, 2)
+            </th>
+            <th>
+                @x.d_discount
+            </th>
+            <th>
+                @x.cart_quantity
+            </th>
+
+            @if (x.d_discount != null)
+            {
+                <th>
+                    @(Convert.ToInt32(x.p_unitprice) * Convert.ToDouble(x.d_discount) * x.cart_quantity)
+                </th>
+            }
+            else
+            {
+                <th>@Decimal.Round(x.p_unitprice * x.cart_quantity)</th>
+            }
+        </tr>
+    }
+</table>
+@Html.ActionLink("下訂單", "Order")

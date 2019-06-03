@@ -1,0 +1,88 @@
+header .main-header {
+  text-align: center;
+}
+
+header .main-header .main-menu-center, header .main-header .main-menu-right {
+  display: none;
+}
+
+header .main-header .logo-image {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 225px;
+          flex: 1 1 225px;
+}
+
+header {
+  border-bottom: 1px solid #e6e4e4;
+}
+
+.footer-menu .menu-for-footer {
+  height: 115px;
+}
+
+.footer-menu .menu-for-footer div {
+  display: none;
+}
+
+.frame-container-regis {
+  width: 60%;
+  margin: 0 auto;
+  text-align: center;
+  border: 1px solid #e6e4e4;
+  padding-bottom: 40px;
+}
+
+.frame-container-regis h2 {
+  padding: 25px;
+  padding-top: 100px;
+}
+
+.frame-container-regis h4 {
+  padding-bottom: 15px;
+}
+
+.frame-container-regis input:not(.check) {
+  width: 80%;
+  height: 55px;
+  margin: 15px auto;
+  display: block;
+  padding: 0 18px;
+  border-left: 3.5px solid #914545;
+  border-top: 1px solid #e6e4e4;
+  border-right: 1px solid #e6e4e4;
+  border-bottom: 1px solid #e6e4e4;
+  background-color: #f8f8f8;
+}
+
+.frame-container-regis input:not(.check):focus {
+  outline: none;
+}
+
+.frame-container-regis .check {
+  margin: 25px 0px;
+}
+
+.registration {
+  background-color: #f8f8f8;
+  padding-bottom: 75px;
+  border-top: 1px solid #e6e4e4;
+}
+
+.registration .frame-container-regis {
+  background-color: white;
+}
+
+.registration .frame-container-regis #submit {
+  color: white;
+  background-color: black;
+  border: none;
+}
+
+.registration .frame-container-regis #submit:hover {
+  opacity: 0.8;
+}
+
+.field-validation-error {
+  display: block;
+}
+/*# sourceMappingURL=Registration.css.map */

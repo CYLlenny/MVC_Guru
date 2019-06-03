@@ -1,0 +1,39 @@
+﻿@model Gurutw.ViewModels.SignInViewModel
+
+@{
+    ViewBag.Title = "Sign In";
+}
+
+<div class="login-in">
+    <div class="pic" style="background: url(/Assets/Images/Index-images/login-image.png) center center no-repeat;"></div>
+    <div class="frame-container-login">
+        <div class="reset-password">
+            <h2 class="title">RESET YOUR PASSWORD</h2>
+            <p class="para-1">Existing customers: we have made improvements to the security of our website, which requires you to reset your password</p>
+            <button class="reset-btn">RESET MY PASSWORD</button>
+        </div>
+        <div class="member-login">
+            <form action="/Home/SignIn" method="POST">
+                <h2 class="title-member-login">MEMBER LOGIN</h2>
+                @*<input id="Email" class="input-email" name="Email" type="text" placeholder="Email">*@
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "input-email" , placeholder="Email" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                @*<input id="Password" class="input-pass" name="Password" type="password" placeholder="Password">*@
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "input-pass" , placeholder="Password" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                <input class="login-btn" style="margin-top: 10px;" type="submit" value="LOGIN">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            </form>
+        </div>
+        <div class="create-new-acc">
+            <h2 class="title">NEW TO GURU?</h2>
+            <p class="para-2">Welcome! Get started by creating your account.</p>
+            <button class="create-acc-btn" onclick="location.href='/Home/Registration'">CREATE MY ACCOUNT</button>
+        </div>
+    </div>
+</div>
+@section topCSS{
+    <link href="~/Assets/Styles/Signin.css" rel="stylesheet" />
+}
+
+

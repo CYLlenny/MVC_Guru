@@ -1,0 +1,224 @@
+@import url('https://fonts.googleapis.com/css?family=Varela+Round');
+$main-color:rgb(254, 203, 0) ;
+html body{
+    font-family: 'Varela Round', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%;
+    height: 100%;
+}
+
+.new-item{
+    height: 600px; //
+    //background: url(/Images/Index-images/razer-turret.jpg) center center no-repeat ;
+    //background-size: 100% 100%;
+    overflow: hidden;
+    video{
+        height: auto;
+        width: 100%;
+    }
+}
+
+    .new-item-video{
+        height: 50%;
+        width: 100%;
+    }
+
+.new-item-title {
+    text-align: center;
+    color: white;
+    position: absolute;
+    top: 22.5%; //
+    left: 22.5%; //
+    h1{
+        font-size: 4rem ;
+        font-weight: bold;
+        margin-bottom: 18px; //
+    }
+    .learn-more{
+        margin-top: 45px; //
+        padding: 18px 40px; //
+        height: auto;
+        color: black;
+        font-weight: bold;
+        font-size: 1.5rem;
+        border: none;
+        background-color: $main-color;
+        &:hover{
+            background-color: white;
+        }
+    }
+}
+.menu-slide{
+    .explore{
+        font-weight: bold;
+    }
+}
+.carousel-inner {
+    .carousel-item{
+        display: flex;
+        justify-content: space-around;
+        padding: 25px 0; //
+        transition: transform 0s ease-in-out !important;
+        div{
+            text-align: center;
+            cursor: pointer;
+            &:hover{
+                img{
+                    transform: translate(0px,-15px); //
+                }
+                p img{
+                    transform: none;
+                    padding: 0 15px; //
+                }
+            }
+        }
+        img{
+            width: 140px; // 
+            height: 150px; //
+            position: relative;
+            transition: transform 0.8s;
+        }
+        p img{
+            width: 140px; //
+            height: 30px; //
+        }
+        h3{
+            font-size: 1.1rem;
+            font-weight: bold;
+        }       
+    }
+}
+.carousel-control-prev-icon , .carousel-control-next-icon{
+    background-color: #393939;
+}
+.carousel-control-prev{
+    left: -10%; //
+}
+
+.carousel-control-next{
+    right: -10%; //
+}
+
+.prev-icon,.next-icon{
+    text-align: center;
+    width: 30px;
+    height: 30px;
+    padding: 6px; //
+    border-radius: 50%;
+    background-color:  #302f2f;
+}
+
+.corsair-in-action{
+    background-color: #393939;
+    text-align: center;
+    color: white;
+    .text-center{
+        padding: 60px 0; //
+        h1{
+            span{
+                font-weight: bolder;
+            }
+        }
+    }
+    .total-ones{
+        width: 100%;
+        //height: 100%;
+        overflow: hidden;
+    }
+    .big-one{
+        width: 48.9%; //
+        height: 595px; //
+        margin: 6px; //
+        float: left;
+        overflow: hidden;
+        position: relative;
+        div:first-child{
+            width: 100%;
+            height: 100%;
+            padding-top: 5%;
+            transition: transform 1s;            
+        }
+        p{
+            top:13%;
+        }
+        h2{
+            top:5.25%;
+        }
+        p,h2{
+            width: 100%;
+            display: block;
+            left: 50%;
+            transform: translate(-50%,0%);
+            position: absolute;
+        }
+        button{
+                position: absolute;
+                border: none;
+                padding: 15px 25px; //
+                background-color: $main-color;
+                color: black;
+                transform: translate(-50%,0%);
+                left: 50%;
+                top:80%;
+                display: none;
+        } 
+        &:focus,&:hover{
+            cursor: pointer;
+            button{
+                display: block;
+            }
+            div:first-child{
+                transform: scale(1.1);
+            }       
+        }
+    }
+
+    .small-one{
+        width: 48.9%; //
+        height: 291.5px; //
+        float: left;
+        overflow: hidden;
+        margin: 6px; //
+        position: relative;
+        div:first-child{
+            width: 100%;
+            height: 100%;
+            padding-top: 5%;
+            transition: transform 1s;            
+        }
+        p{
+            top: 20%;
+        }
+        h2{
+            top:5.25%;
+        }
+        p,h2{
+            width: 100%;
+            display: block;
+            left: 50%;
+            transform: translate(-50%,0%);
+            position: absolute;
+        }
+        button{
+                position: absolute;
+                border: none;
+                padding: 15px 25px; //
+                background-color: $main-color;
+                color: black;
+                transform: translate(-50%,0%);
+                left: 50%;
+                top: 60%; //
+                display: none;
+        } 
+        &:focus,&:hover{
+            cursor: pointer;
+            button{
+                display: block;
+            }
+            div:first-child{
+                transform: scale(1.1);
+            }       
+        }
+    }
+}

@@ -1,0 +1,67 @@
+﻿
+/*處理商品頁大圖*/
+#item_img {
+    width: 560px;
+    height: 540px;
+}
+
+/*處理商品頁小圖*/
+.test_img {
+    width: 60px;
+    height: 60px;
+}
+
+/*處理資訊logo*/
+#icue_logo {
+    width: 120px;
+    height: 60px;
+}
+
+/*處理商品頁滿版容器左右預設padding*/
+.container-fluid {
+    padding: 0px;
+    margin-top: 65px;
+}
+
+
+/*處理商品頁overview 其中一部分div*/
+#bg_yellw_wrapper {
+    padding-top: 50px;
+}
+
+/*處理ovewview圖*/
+#overview_img {
+    width: 230px;
+    height: 520px;
+}
+
+.table_th {
+    margin-right: 50px;
+}
+
+
+
+
+
+
+* {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.img-magnifier-container {
+    position: relative;
+}
+
+.img-magnifier-glass {
+    position: absolute;
+    border: 3px solid #000;
+    border-radius: 50%;
+    cursor: none;
+    /*Set the size of the magnifier glass:*/
+    width: 100px;
+    height: 100px;
+}
+
+
+/*# sourceMappingURL=style.css.map */
