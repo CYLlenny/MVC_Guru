@@ -6,7 +6,7 @@ namespace Gurutw.Models
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
-        [Display(Name = "電子郵件")]
+        [Display(Name = "Email")]
         public string Email { get; set; }
     }
 
@@ -48,17 +48,17 @@ namespace Gurutw.Models
 
     public class LoginViewModel
     {
-        [Required]
-        [Display(Name = "電子郵件")]
-        [EmailAddress]
+        [StringLength(50)]
+        [Required(ErrorMessage = "Field can't be empty")]
+        [DataType(DataType.EmailAddress, ErrorMessage = "Email is not valid")]
         public string Email { get; set; }
 
+        [StringLength(50, ErrorMessage = "The password must be at least {2} characters long.", MinimumLength = 8)]
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "密碼")]
         public string Password { get; set; }
 
-        [Display(Name = "記住我?")]
+        [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
     }
 

@@ -1,63 +1,48 @@
 ﻿@using Gurutw.Models
 @model LoginViewModel
 @{
-    ViewBag.Title = "登入";
+    ViewBag.Title = "Sign In";
 }
 
-<h2>@ViewBag.Title.</h2>
-<div class="row">
-    <div class="col-md-8">
-        <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
+<div class="login-in">
+    <div class="pic" style="background: url(/Assets/Images/Index-images/login-image.png) center center no-repeat;"></div>
+    <div class="frame-container-login">
+        <div class="reset-password">
+            <h2 class="title">RESET YOUR PASSWORD</h2>
+            <p class="para-1">Existing customers: we have made improvements to the security of our website, which requires you to reset your password</p>
+            <button class="reset-btn">RESET MY PASSWORD</button>
+        </div>
+        <div class="member-login">
+            <form action="/Account/Login" method="POST">
                 @Html.AntiForgeryToken()
-                <h4>使用本機帳戶進行登入。</h4>
-                <hr />
+                <h2 class="title-member-login">MEMBER LOGIN</h2>
+                @*<input id="Email" class="input-email" name="Email" type="text" placeholder="Email">*@
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "input-email", placeholder = "Email" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                @*<input id="Password" class="input-pass" name="Password" type="password" placeholder="Password">*@
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "input-pass", placeholder = "Password" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                <input class="login-btn" style="margin-top: 10px;" type="submit" value="LOGIN">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <div class="checkbox">
-                            @Html.CheckBoxFor(m => m.RememberMe)
-                            @Html.LabelFor(m => m.RememberMe)
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="登入" class="btn btn-default" />
-                    </div>
-                </div>
-                <p>
-                    @Html.ActionLink("以新使用者身分註冊", "Register")
-                </p>
-                @* 只要您的密碼重設功能能夠進行帳戶確認，就啟用此項
-                    <p>
-                        @Html.ActionLink("忘記密碼?", "ForgotPassword")
-                    </p>*@
-            }
-        </section>
-    </div>
-    <div class="col-md-4">
-        <section id="socialLoginForm">
-            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-        </section>
+            </form>
+            <div style="margin-top:20px; ">
+                <section id="socialLoginForm">
+                    @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                </section>
+            </div>
+        </div>
+        <div class="create-new-acc">
+            <h2 class="title">NEW TO GURU?</h2>
+            <p class="para-2">Welcome! Get started by creating your account.</p>
+            <button class="create-acc-btn" onclick="location.href='/Home/Registration'">CREATE MY ACCOUNT</button>
+        </div>
     </div>
 </div>
 
-@section Scripts {
+@section topCSS{
+    <link href="~/Assets/Styles/Signin.css" rel="stylesheet" />
+
+}
+@section endJS {
     @Scripts.Render("~/bundles/jqueryval")
 }

@@ -29,41 +29,60 @@ namespace Gurutw.Controllers
             conn = new SqlConnection(connString);
             db = new MvcDataBaseEntities();
         }
-        public ActionResult Cart(int? add = 0, int? less = 0, int? del = 0)
+        public ActionResult AddCart(int? pdid)
+        {
+            var user = int.Parse(Session["m_id"].ToString());
+            var sure = db.Product_Detail.Where(x => x.pd_id == pdid).FirstOrDefault();
+            var pp = db.Shopping_Cart.Where(x => x.pd_id == pdid).Where(i => i.m_id == user).FirstOrDefault();
+            if (pdid != 0)
+            {
+                if (sure.pd_stock > sure.pd_onorder)
+                {
+                    sure.pd_onorder++;
+                    pp.cart_quantity++;
+                    pdid = 0;
+                    db.SaveChanges();
+                }
+                //否則跳出已沒庫存
+            }
+            return RedirectToAction("Cart");
+        }
+        public ActionResult LessCart(int? pdid)
+        {
+            var user = int.Parse(Session["m_id"].ToString());
+            var sure = db.Product_Detail.Where(x => x.pd_id == pdid).FirstOrDefault();
+            var pp = db.Shopping_Cart.Where(x => x.pd_id == pdid).Where(i => i.m_id == user).FirstOrDefault();
+            if (pdid != 0)
+            {
+                if (pp.cart_quantity == 0)
+                {
+                    return RedirectToAction("Cart", pdid);
+                }
+                sure.pd_onorder--;
+                pp.cart_quantity--;
+                db.SaveChanges();
+
+            }
+            return RedirectToAction("Cart");
+        }
+        public ActionResult DelCart(int? pdid = 0)
+        {
+            if (pdid != 0)
+            {
+                string delsql = "DELETE from Shopping_Cart Where pd_id=@pdid";
+                conn.Execute(delsql, new { pdid = pdid });
+            }
+            return RedirectToAction("Cart");
+        }
+
+
+        public ActionResult Cart()
         {
             Response.Cache.SetNoStore();
             using (conn)
             {
                 var nowtime = DateTime.Now;
                 var user = int.Parse(Session["m_id"].ToString());
-                if (add != 0)
-                {
-                    var sure = db.Product_Detail.Where(x => x.pd_id == add).FirstOrDefault();
-                    var pp = db.Shopping_Cart.Where(x => x.pd_id == add).Where(i => i.m_id == user).FirstOrDefault();
-                    if (sure.pd_stock > sure.pd_onorder)
-                        sure.pd_onorder++;
-                    pp.cart_quantity++;
-                    add = 0;
-                    db.SaveChanges();
-                }
-                if (less != 0)
-                {
-                    var sure = db.Product_Detail.Where(x => x.pd_id == less).FirstOrDefault();
-                    var pp = db.Shopping_Cart.Where(x => x.pd_id == less).Where(i => i.m_id == user).FirstOrDefault();
-                    sure.pd_onorder--;
-                    pp.cart_quantity--;
-                    db.SaveChanges();
-                    if (pp.cart_quantity == 0)
-                    {
-                        string delsql = "DELETE from Shopping_Cart Where pd_id=@pdid";
-                        conn.Execute(delsql, new { pdid = less });
-                    }
-                }
-                if (del != 0)
-                {
-                    string delsql = "DELETE from Shopping_Cart Where pd_id=@pdid";
-                    conn.Execute(delsql, new { pdid = del });
-                }
                 string sql = "SELECT dbo.Member.m_id,  " +
                                "dbo.Shopping_Cart.pd_id,  " +
                                "dbo.Product_Detail.pd_color,  " +
@@ -72,6 +91,9 @@ namespace Gurutw.Controllers
                                "(select dbo.Discount.d_discount from dbo.Discount where CONVERT(VARCHAR(10), GETDATE(), 120) " +
                                "between dbo.Discount.d_startdate And dbo.Discount.d_enddate " +
                                "And dbo.Discount.c_id = dbo.Category.c_id ) d_discount, " +
+                               "(SELECT TOP 1 dbo.Product_Picture.pp_path " +
+                               "FROM dbo.Product_Picture " +
+                               "WHERE dbo.Product_Picture.p_id = dbo.Product.p_id) AS pp_path," +
                                "dbo.Category.c_id,  " +
                                "dbo.Shopping_Cart.cart_quantity " +
                                "FROM dbo.Product_Detail " +
@@ -82,10 +104,6 @@ namespace Gurutw.Controllers
                                "WHERE dbo.Shopping_Cart.m_id = " + user + ";"; //依照會員id查詢
 
                 var CartTotal = conn.Query(sql).ToList();
-                foreach (var i in CartTotal)
-                {
-
-                }
                 ViewBag.od = CartTotal;
             }
 

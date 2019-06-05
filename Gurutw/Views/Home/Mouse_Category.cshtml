@@ -122,7 +122,7 @@
             @foreach (var item in product)
             {
                 string[] i_pics = item.pic_path.Split(',');
-            <div class="product_card carousel slide carousel-fade col-md-3" id="carouselExampleFade" data-ride="carousel" onclick="location.href='/Home/Mouse_item/@item.p_id'">
+            <div class="product_card carousel slide carousel-fade col-md-3" id="carouselExampleFade" data-ride="carousel" onclick="location.href='/Mouse/@item.p_id'">
                 <div class="card_body carousel-inner">
                     @if (i_pics.Length <= 1)
                     {

@@ -35,8 +35,6 @@ namespace Gurutw
            );
 
 
-
-
             //鍵盤產品頁
             routes.MapRoute(
                name: "Keyboard_Product",

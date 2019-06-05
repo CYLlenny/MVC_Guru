@@ -9,6 +9,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Gurutw.Models;
+using System.Data.SqlClient;
+using System.Configuration;
+using System.Web.Security;
 
 namespace Gurutw.Controllers
 {
@@ -18,8 +21,18 @@ namespace Gurutw.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+        private readonly SqlConnection conn;
+        private static string connString;
+
+        private MvcDataBaseEntities db = new MvcDataBaseEntities();
+
         public AccountController()
         {
+            if (string.IsNullOrEmpty(connString))
+            {
+                connString = ConfigurationManager.ConnectionStrings["MvcDataBase"].ConnectionString;
+            }
+            conn = new SqlConnection(connString);
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -66,29 +79,46 @@ namespace Gurutw.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public  ActionResult Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
+            string email = HttpUtility.HtmlEncode(model.Email);
+            string password = HttpUtility.HtmlEncode(model.Password);
+
+            Member user = db.Member.Where(x => x.m_email == email && x.m_password == password).FirstOrDefault();
+            if (user == null)
+            {
+                ModelState.AddModelError("", "The email or password is invalid.");
+                return View();
+            }
+            Session["m_name"] = user.m_name.ToString();
+            Session["m_id"] = user.m_id;
+            //Create FormsAuthenticationTicket
+            var ticket = new FormsAuthenticationTicket(
+            version: 1,
+            name: user.m_email.ToString(), //可以放使用者Id
+            issueDate: DateTime.UtcNow,//現在UTC時間
+            expiration: DateTime.UtcNow.AddMinutes(30),//Cookie有效時間=現在時間往後+30分鐘
+            isPersistent: true,// 是否要記住我 true or false
+            userData: "", //可以放使用者角色名稱
+            cookiePath: FormsAuthentication.FormsCookiePath);
+
+            // Encrypt the ticket.
+            var encryptedTicket = FormsAuthentication.Encrypt(ticket); //把驗證的表單加密
+
+            // Create the cookie.
+            var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
+            Response.Cookies.Add(cookie);
+
+            // Redirect back to original URL.
+            var url = FormsAuthentication.GetRedirectUrl(email, true);
 
             // 這不會計算為帳戶鎖定的登入失敗
             // 若要啟用密碼失敗來觸發帳戶鎖定，請變更為 shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "登入嘗試失試。");
-                    return View(model);
-            }
+            return RedirectToAction("Index","Home");
         }
 
         //
@@ -129,7 +159,7 @@ namespace Gurutw.Controllers
                     return View("Lockout");
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "代碼無效。");
+                    ModelState.AddModelError("", "The code is invalid.");
                     return View(model);
             }
         }
@@ -322,29 +352,49 @@ namespace Gurutw.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
-            var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
+            ExternalLoginInfo loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
             if (loginInfo == null)
             {
                 return RedirectToAction("Login");
             }
 
-            // 若使用者已經有登入資料，請使用此外部登入提供者登入使用者
-            var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
-            switch (result)
+            else 
             {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
-                case SignInStatus.Failure:
-                default:
-                    // 若使用者沒有帳戶，請提示使用者建立帳戶
+                var memb = db.Member.Where(x => x.m_email == loginInfo.Email).FirstOrDefault();
+                if (memb != null)
+                {
+                    Session["m_id"] = memb.m_id;
+                    Session["m_name"] = memb.m_name;
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
                     return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                }
             }
+
+                      
+            // 若使用者已經有登入資料，請使用此外部登入提供者登入使用者
+            //var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
+
+            //switch (result)
+            //{
+            //    case SignInStatus.Success:
+            //        //Member memb = db.Member.Where(x => x.m_email == loginInfo.Email).FirstOrDefault();
+            //        Session["m_name"] = User.Identity.GetUserName();
+            //        //Session["m_id"] = memb.m_id;
+            //        return RedirectToLocal(returnUrl);
+            //    case SignInStatus.LockedOut:
+            //        return View("Lockout");
+            //    case SignInStatus.RequiresVerification:
+            //        return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
+            //    case SignInStatus.Failure:
+            //    default:
+            //        // 若使用者沒有帳戶，請提示使用者建立帳戶
+                    
+            //}
         }
 
         //
@@ -354,31 +404,43 @@ namespace Gurutw.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Index", "Manage");
-            }
+            //if (User.Identity.IsAuthenticated)
+            //{
+            //    return RedirectToAction("Index", "Manage");
+            //}
 
             if (ModelState.IsValid)
             {
-                // 從外部登入提供者處取得使用者資訊
+                // Get the information about the user from the external login provider
                 var info = await AuthenticationManager.GetExternalLoginInfoAsync();
                 if (info == null)
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user);
-                if (result.Succeeded)
+                if(info != null)
                 {
-                    result = await UserManager.AddLoginAsync(user.Id, info.Login);
-                    if (result.Succeeded)
-                    {
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        return RedirectToLocal(returnUrl);
-                    }
+                    var memb = new Member();
+                    memb.m_name = info.Email;
+                    memb.m_email = info.Email;
+                    Session["m_name"] = memb.m_name;
+                    db.Member.Add(memb);
+                    db.SaveChanges();
+                    Session["m_id"] = memb.m_id;
+                    return RedirectToLocal(returnUrl);
                 }
-                AddErrors(result);
+                //var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+
+                //var result = await UserManager.CreateAsync(user);
+                //if (result.Succeeded)
+                //{
+                //    result = await UserManager.AddLoginAsync(user.Id, info.Login);
+                //    if (result.Succeeded)
+                //    {
+                //        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        
+                //    }
+                //}
+                //AddErrors(result);
             }
 
             ViewBag.ReturnUrl = returnUrl;

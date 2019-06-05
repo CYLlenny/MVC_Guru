@@ -20,29 +20,30 @@
             total = total + (x.cart_quantity * x.p_unitprice * Convert.ToDecimal(d));
             <div class="selected-item">
                 <div class="img-and-spec">
-                    <div class="item-img"
-                         style="background: url(/Assets/Images/cart-images/mice_2.png) center center no-repeat"></div>
+                    <div >
+                        <img id="item-img" src="@x.pp_path"/>
+                    </div>
                     <div class="item-spec">
                         <h4>@x.p_name</h4>
                         <span>Color :</span>&nbsp;<span>@x.pd_color</span>
                     </div>
                 </div>
                 <div class="item-quantity">
-                    <form method="post" name="form" action="/Member/Cart">
-                        <input name="less" type="hidden" value=@x.pd_id />
+                    <form method="post" name="form" action="/Member/LessCart">
+                        <input name="pdid" type="hidden" value=@x.pd_id />
                         <button type="submit"><i class="fas fa-minus"></i></button>
                     </form>
                     <p class="quantity">@x.cart_quantity</p>
-                    <form method="post" name="form" action="/Member/Cart">
-                        <input name="add" type="hidden" value=@x.pd_id />
+                    <form method="post" name="form" action="/Member/AddCart">
+                        <input name="pdid" type="hidden" value=@x.pd_id />
                         <button type="submit"><i class="fas fa-plus"></i></button>
                     </form>
                 </div>
                 <div class="item-price">
                     <h4>@Decimal.Round(x.cart_quantity * x.p_unitprice, 2)</h4>
                 </div>
-                <form method="post" name="form" action="/Member/Cart">
-                    <input name="del" type="hidden" value=@x.pd_id />
+                <form method="post" name="form" action="/Member/DelCart">
+                    <input name="pdid" type="hidden" value=@x.pd_id />
                     <button type="submit" class="delete-item"><i class="fas fa-trash-alt"></i></button>
                 </form>
             </div>

@@ -46,19 +46,25 @@ html header {
   padding: 0px;
 }
 
-.cart-frame-container .selected-item .img-and-spec .item-img {
+.cart-frame-container .selected-item .img-and-spec {
   width: 40%;
-  height: 150px;
+  height: 200px;
+
+}
+#item-img {
+    width: 100%;
+    height: 100%;
 }
 
 .cart-frame-container .selected-item .img-and-spec .item-spec {
-  width: 60%;
+    width: 60%;
 }
 
 .cart-frame-container .selected-item .item-quantity {
   -webkit-box-flex: 1;
       -ms-flex: 1 1 15%;
           flex: 1 1 15%;
+          display:flex;
 }
 
 .cart-frame-container .selected-item .item-price {

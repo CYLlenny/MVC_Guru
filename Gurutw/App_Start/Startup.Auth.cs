@@ -58,11 +58,11 @@ namespace Gurutw
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "570781785601-jpmo7a9kdqfh41iap6lsfs7967227di2.apps.googleusercontent.com",
+                ClientSecret = "0kUM82is2LbMDTzJ4vRy9utw"
+            });
         }
     }
 }

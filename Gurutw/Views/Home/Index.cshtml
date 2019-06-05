@@ -2,7 +2,7 @@
     ViewBag.Title = "Home Page";
 }
 
-<div>
+<div class="new-item-container">
     <div class="new-item">
         <video autoplay loop muted class="new-item-video"
                src="https://cwsmgmt.corsair.com/responsive/videos/IronClaw_RGB_Wireless_Loop_v03.mp4"></video>
@@ -12,9 +12,20 @@
         <h2>GAMING MOUSE WITH SLIPSTREAM WIRELESS</h2>
         <button class="learn-more">LEARN MORE</button>
     </div>
+    <div class="move-svg-wrapper" onclick="location.href='#menu-slide'">
+        <svg version="1.1" class="move-svg" id="" xmlns="http://www.w3.org/2000/svg"
+             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" xml:space="preserve">
+        <path d="M83.4,31.1v38.6L50,88.9L16.6,69.6V31.1L50,11.8L83.4,31.1z M81.2,68.3v-36L50,14.4l-31.2,18v36l31.2,18L81.2,68.3z">
+                </path>
+        <g>
+        <polygon points="66.7,57.1 66.7,54.6 50,64.2 33.3,54.6 33.3,57.1 50,66.8"></polygon>
+        <polygon points="66.7,42.4 66.7,39.8 50,49.5 33.3,39.8 33.3,42.4 50,52.1"></polygon>
+                </g>
+            </svg>
+    </div>
 </div>
 
-<div class="frame-container menu-slide">
+<div class="frame-container menu-slide" id="menu-slide">
     <div class="text-center pt-5">
         <h1><span class="explore">EXPLORE </span><span>PRODUCTS</span></h1>
     </div>
@@ -26,17 +37,17 @@
                     <p><img src="/Assets/Images/round-shadow.jpg" alt=""></p>
                     <h3>CASES</h3>
                 </div>
-                <div>
+                <div onclick="location.href='/Keyboard'">
                     <img src="/Assets/Images/menu-categories/keyboards_2.png" class="d-block" alt="...">
                     <p><img src="/Assets/Images/round-shadow.jpg" alt=""></p>
                     <h3>KEYBOARDS</h3>
                 </div>
-                <div>
+                <div onclick="location.href='/Mouse'">
                     <img src="/Assets/Images/menu-categories/mice_2.png" class="d-block" alt="...">
                     <p><img src="/Assets/Images/round-shadow.jpg" alt=""></p>
                     <h3>MICE</h3>
                 </div>
-                <div>
+                <div onclick="location.href='/Headset'">
                     <img src="/Assets/Images/menu-categories/headsetsImage_2.png" class="d-block" alt="...">
                     <p><img src="/Assets/Images/round-shadow.jpg" alt=""></p>
                     <h3>HEADSETS</h3>
