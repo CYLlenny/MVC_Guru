@@ -17,7 +17,7 @@ namespace Gurutw.Controllers
     {
         private readonly SqlConnection conn;
         private static string connString;
-
+        int nowp = 0;
         private MvcDataBaseEntities db = new MvcDataBaseEntities();
 
         public HomeController()
@@ -28,6 +28,7 @@ namespace Gurutw.Controllers
             }
             conn = new SqlConnection(connString);
         }
+
         public ActionResult Index()
         {
             return View();
@@ -43,6 +44,7 @@ namespace Gurutw.Controllers
         //[ValidateAntiForgeryToken]
         public ActionResult Registration(RegisterViewModel m)
         {
+            Guid GmailId = Guid.NewGuid();
             ViewData["username"] = m.UserName;
 
             if (!ModelState.IsValid)
@@ -53,7 +55,8 @@ namespace Gurutw.Controllers
             {
                 m_name = m.UserName,
                 m_email = m.Email,
-                m_password = m.Password
+                m_password = m.Password,
+                m_email_id = GmailId
             };
             db.Member.Add(memb);
             db.SaveChanges();
@@ -312,8 +315,14 @@ namespace Gurutw.Controllers
         }
 
         /*鍵盤產品頁*/
-        public ActionResult Keyboard_item(int? id = 2)
+        public ActionResult Keyboard_item(int? id=0)
         {
+            if (id == 0)
+            {
+                nowp = Convert.ToInt32(Session["nowproduct"].ToString());
+                id = nowp;
+            }
+
             List<Product> p_List = db.Product.Where((x) => x.p_id == id).ToList();
             List<Product_Detail> pd_List = db.Product_Detail.Where((x) => x.p_id == id).ToList();
             List<Product_Picture> pp_List = db.Product_Picture.Where((x) => x.p_id == id).ToList();
@@ -325,12 +334,20 @@ namespace Gurutw.Controllers
             ViewBag.pf_List = pf_List;
             ViewBag.classift_List = classift_List;
 
+            Session["nowproduct"] = id;
+            Session["Nowitem"] = "Keyboard_item";
             return View();
         }
 
         /*滑鼠產品頁*/
-        public ActionResult Mouse_item(int? id = 2)
+        public ActionResult Mouse_item(int? id = 0)
         {
+            if (id == 0)
+            {
+                nowp = Convert.ToInt32(Session["nowproduct"].ToString());
+                id = nowp;
+            }
+
             List<Product> p_List = db.Product.Where((x) => x.p_id == id).ToList();
             List<Product_Detail> pd_List = db.Product_Detail.Where((x) => x.p_id == id).ToList();
             List<Product_Picture> pp_List = db.Product_Picture.Where((x) => x.p_id == id).ToList();
@@ -342,13 +359,22 @@ namespace Gurutw.Controllers
             ViewBag.pf_List = pf_List;
             ViewBag.classift_List = classift_List;
 
+            Session["nowproduct"] = id;
+            Session["Nowitem"] = "Mouse_item";
             return View();
         }
 
         /*耳機產品頁*/
-        public ActionResult Headset_item(int? id = 2)
+        public ActionResult Headset_item(int? id = 0)
         {
-            List<Product> p_List = db.Product.Where((x) => x.p_id == id).ToList();
+            if (id == 0)
+            {
+                nowp = Convert.ToInt32(Session["nowproduct"].ToString());
+                id = nowp;
+            }
+           
+
+            List<Product> p_List = db.Product.Where(x => x.p_id == id).ToList();
             List<Product_Detail> pd_List = db.Product_Detail.Where((x) => x.p_id == id).ToList();
             List<Product_Picture> pp_List = db.Product_Picture.Where((x) => x.p_id == id).ToList();
             List<Product_Feature> pf_List = db.Product_Feature.Where((x) => x.p_id == id).ToList();
@@ -359,6 +385,8 @@ namespace Gurutw.Controllers
             ViewBag.pf_List = pf_List;
             ViewBag.classift_List = classift_List;
 
+            Session["nowproduct"] = id;
+            Session["Nowitem"] = "Headset_item";
             return View();
         }
 
@@ -398,7 +426,12 @@ namespace Gurutw.Controllers
                     }
                 }
             }
-            return RedirectToAction("Headset_item");
+
+            string temp = Session["Nowitem"].ToString();
+            int tempid = Convert.ToInt32(Session["nowproduct"].ToString());
+
+            return RedirectToAction(Session["Nowitem"].ToString(), new { id = tempid });
+            //return View( Session["Nowitem"].ToString()+"/"+ id );
         }
 
     }

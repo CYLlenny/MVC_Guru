@@ -21,7 +21,7 @@ namespace Gurutw.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("MvcDataBase", throwIfV1Schema: false)
         {
         }
 

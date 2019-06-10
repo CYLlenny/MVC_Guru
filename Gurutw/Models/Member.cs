@@ -27,6 +27,7 @@ namespace Gurutw.Models
         public string m_password { get; set; }
         public string m_status { get; set; }
         public string m_verification { get; set; }
+        public Nullable<System.Guid> m_email_id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Order { get; set; }

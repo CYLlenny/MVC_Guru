@@ -413,6 +413,7 @@ namespace Gurutw.Controllers
             {
                 // Get the information about the user from the external login provider
                 var info = await AuthenticationManager.GetExternalLoginInfoAsync();
+                Guid GmailId = Guid.NewGuid();
                 if (info == null)
                 {
                     return View("ExternalLoginFailure");
@@ -422,6 +423,7 @@ namespace Gurutw.Controllers
                     var memb = new Member();
                     memb.m_name = info.Email;
                     memb.m_email = info.Email;
+                    memb.m_email_id = GmailId;
                     Session["m_name"] = memb.m_name;
                     db.Member.Add(memb);
                     db.SaveChanges();

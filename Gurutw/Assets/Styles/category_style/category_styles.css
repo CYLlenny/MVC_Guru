@@ -83,3 +83,6 @@
 #item_data_name{
     height:50px;
 }
+#sort_select button:focus{
+    outline : none;
+}

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MvcDataBaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="MvcDataBaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="c_id" />
@@ -49,6 +49,7 @@
           <Property Name="m_password" Type="varchar" MaxLength="50" />
           <Property Name="m_status" Type="char" MaxLength="1" />
           <Property Name="m_verification" Type="varchar" MaxLength="10" />
+          <Property Name="m_email_id" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -108,8 +109,8 @@
             <PropertyRef Name="pf_id" />
           </Key>
           <Property Name="pf_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="pf_description" Type="nvarchar" MaxLength="50" />
-          <Property Name="pf_note" Type="nvarchar" MaxLength="100" />
+          <Property Name="pf_description" Type="nvarchar(max)" />
+          <Property Name="pf_note" Type="nvarchar(max)" />
           <Property Name="p_id" Type="int" />
         </EntityType>
         <EntityType Name="Product_Picture">
@@ -364,8 +365,7 @@
             <End Role="Shopping_Cart" EntitySet="Shopping_Cart" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MvcDataBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -420,6 +420,7 @@
           <Property Name="m_verification" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Order" Relationship="Self.FK_Order_Member" FromRole="Member" ToRole="Order" />
           <NavigationProperty Name="Shopping_Cart" Relationship="Self.FK_Shopping_Cart_Member" FromRole="Member" ToRole="Shopping_Cart" />
+          <Property Name="m_email_id" Type="Guid" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -494,8 +495,8 @@
             <PropertyRef Name="pf_id" />
           </Key>
           <Property Name="pf_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="pf_description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="pf_note" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="pf_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="pf_note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="p_id" Type="Int32" />
           <NavigationProperty Name="Product" Relationship="Self.FK_Product_Feature_Product" FromRole="Product_Feature" ToRole="Product" />
         </EntityType>
@@ -801,6 +802,7 @@
           <EntitySetMapping Name="Member">
             <EntityTypeMapping TypeName="MvcDataBaseModel.Member">
               <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="m_email_id" ColumnName="m_email_id" />
                 <ScalarProperty Name="m_id" ColumnName="m_id" />
                 <ScalarProperty Name="m_name" ColumnName="m_name" />
                 <ScalarProperty Name="m_email" ColumnName="m_email" />

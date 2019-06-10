@@ -18,8 +18,11 @@ namespace Gurutw.Controllers
         //    return View();
         //}
         private readonly SqlConnection conn;
+
         private static string connString;
+
         private MvcDataBaseEntities db;
+
         public MemberController()
         {
             if (string.IsNullOrEmpty(connString))
@@ -29,6 +32,7 @@ namespace Gurutw.Controllers
             conn = new SqlConnection(connString);
             db = new MvcDataBaseEntities();
         }
+
         public ActionResult AddCart(int? pdid)
         {
             var user = int.Parse(Session["m_id"].ToString());
@@ -47,6 +51,7 @@ namespace Gurutw.Controllers
             }
             return RedirectToAction("Cart");
         }
+
         public ActionResult LessCart(int? pdid)
         {
             var user = int.Parse(Session["m_id"].ToString());
@@ -65,6 +70,7 @@ namespace Gurutw.Controllers
             }
             return RedirectToAction("Cart");
         }
+
         public ActionResult DelCart(int? pdid = 0)
         {
             if (pdid != 0)
@@ -74,7 +80,6 @@ namespace Gurutw.Controllers
             }
             return RedirectToAction("Cart");
         }
-
 
         public ActionResult Cart()
         {
@@ -136,6 +141,7 @@ namespace Gurutw.Controllers
             }
             return View(or);
         }
+
         public ActionResult CreateOrderDetail(int? id)
         {
             var user = int.Parse(Session["m_id"].ToString());
@@ -169,6 +175,25 @@ namespace Gurutw.Controllers
                 db.Order_Detail.Add(od);
                 db.SaveChanges();
             }
+
+            var uid = db.Member.Where(x => x.m_id == user).FirstOrDefault().m_email_id;
+            var email = db.Member.Where(x => x.m_id == user).FirstOrDefault().m_email;
+            string a = Convert.ToString(uid);
+            //if()
+            //{
+            string cont;
+            cont = "http://" + Request.Url.Authority + "/Member/result?uid=" + a;
+            System.Net.Mail.MailMessage MyMail = new System.Net.Mail.MailMessage();//建立MAIL   
+            MyMail.From = new System.Net.Mail.MailAddress("gurutw201905@gmail.com", "Guru");//寄信人   
+            MyMail.To.Add(new System.Net.Mail.MailAddress(email));//收信人1   
+                                                                  //MyMail.To.Add(new System.Net.Mail.MailAddress("123@yahoo.com.tw"));//收信人2   
+            MyMail.Subject = "訂單成立成功！";//主題   
+            MyMail.Body = "您好\n\n您的訂單於剛剛成立，謝謝你的支持\n\n在以下網址能夠返回網站看到剛剛的訂單\n\n" + cont + "\n\n 如果這不是您剛剛做的動作，請直接刪除這封電子郵件！\n\n Guru 團隊 敬上";//內容   
+            System.Net.Mail.SmtpClient Client = new System.Net.Mail.SmtpClient("smtp.gmail.com", 587);//GMAIL主機   
+                                                                                                      //System.Net.Mail.SmtpClient Client = new System.Net.Mail.SmtpClient("msa.hinet.net");//hinet主機   
+            Client.Credentials = new System.Net.NetworkCredential("gurutw201905@gmail.com", "wearethe@1");//帳密，Hinet不用但須在它的ADLS(區段)裡面   
+            Client.EnableSsl = true;//Gmail需啟動SSL，Hinet不用   
+            Client.Send(MyMail);//寄出
 
             //db.SaveChanges();
             return RedirectToAction("result");
