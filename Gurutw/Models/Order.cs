@@ -11,7 +11,8 @@ namespace Gurutw.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Order
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,11 +23,17 @@ namespace Gurutw.Models
     
         public int o_id { get; set; }
         public Nullable<System.DateTime> o_date { get; set; }
+
+        [Display(Name = "Receiver")]
         public string o_receiver { get; set; }
+
+        [Display(Name = "Address")]
         public string o_address { get; set; }
         public Nullable<System.DateTime> o_delivedate { get; set; }
         public string o_status { get; set; }
+
         public Nullable<int> pay_id { get; set; }
+
         public Nullable<int> dw_id { get; set; }
         public Nullable<int> m_id { get; set; }
     

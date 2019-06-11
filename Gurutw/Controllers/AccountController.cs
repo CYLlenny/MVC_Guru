@@ -96,6 +96,7 @@ namespace Gurutw.Controllers
             }
             Session["m_name"] = user.m_name.ToString();
             Session["m_id"] = user.m_id;
+            Session["m_email"] = user.m_email;
             //Create FormsAuthenticationTicket
             var ticket = new FormsAuthenticationTicket(
             version: 1,
@@ -365,6 +366,7 @@ namespace Gurutw.Controllers
                 {
                     Session["m_id"] = memb.m_id;
                     Session["m_name"] = memb.m_name;
+                    Session["m_email"] = memb.m_email;
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -425,6 +427,7 @@ namespace Gurutw.Controllers
                     memb.m_email = info.Email;
                     memb.m_email_id = GmailId;
                     Session["m_name"] = memb.m_name;
+                    Session["m_email"] = memb.m_email;
                     db.Member.Add(memb);
                     db.SaveChanges();
                     Session["m_id"] = memb.m_id;

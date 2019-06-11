@@ -400,38 +400,46 @@ namespace Gurutw.Controllers
 
         public ActionResult UserCart(int? num,int? id)
         {
-            var userr = int.Parse(Session["m_id"].ToString());
-            using (conn)
-            {
-                if (num != null)
-                {
-                    string sql = "SELECT *FROM dbo.Shopping_Cart WHERE dbo.Shopping_Cart.m_id =@mid  AND dbo.Shopping_Cart.pd_id =@pdid";
-                    var Cart = conn.QuerySingleOrDefault(sql,new {mid=userr,pdid=id});
 
-                    if (Cart != null)
+            if(Session["m_id"] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                var userr = int.Parse(Session["m_id"].ToString());
+                using (conn)
+                {
+                    if (num != null)
                     {
-                        num += Cart.cart_quantity;
-                        string sqlUpdata = "Update dbo.Shopping_Cart SET cart_quantity=@Num WHERE dbo.Shopping_Cart.m_id="+ userr +
-                            "AND dbo.Shopping_Cart.pd_id=" + Cart.pd_id;
-                        conn.Execute(sqlUpdata, new { Num = num });
-                    }
-                    else
-                    {
-                        Shopping_Cart sc = new Shopping_Cart();
-                        sc.m_id = userr;
-                        sc.pd_id = id;
-                        sc.cart_quantity = num;
-                        db.Shopping_Cart.Add(sc);
-                        db.SaveChanges();
+                        string sql = "SELECT *FROM dbo.Shopping_Cart WHERE dbo.Shopping_Cart.m_id =@mid  AND dbo.Shopping_Cart.pd_id =@pdid";
+                        var Cart = conn.QuerySingleOrDefault(sql, new { mid = userr, pdid = id });
+
+                        if (Cart != null)
+                        {
+                            num += Cart.cart_quantity;
+                            string sqlUpdata = "Update dbo.Shopping_Cart SET cart_quantity=@Num WHERE dbo.Shopping_Cart.m_id=" + userr +
+                                "AND dbo.Shopping_Cart.pd_id=" + Cart.pd_id;
+                            conn.Execute(sqlUpdata, new { Num = num });
+                        }
+                        else
+                        {
+                            Shopping_Cart sc = new Shopping_Cart();
+                            sc.m_id = userr;
+                            sc.pd_id = id;
+                            sc.cart_quantity = num;
+                            db.Shopping_Cart.Add(sc);
+                            db.SaveChanges();
+                        }
                     }
                 }
+
+                string temp = Session["Nowitem"].ToString();
+                int tempid = Convert.ToInt32(Session["nowproduct"].ToString());
+
+                return RedirectToAction(Session["Nowitem"].ToString(), new { id = tempid });
             }
 
-            string temp = Session["Nowitem"].ToString();
-            int tempid = Convert.ToInt32(Session["nowproduct"].ToString());
-
-            return RedirectToAction(Session["Nowitem"].ToString(), new { id = tempid });
-            //return View( Session["Nowitem"].ToString()+"/"+ id );
         }
 
     }

@@ -1,0 +1,67 @@
+.memb-container{
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 130px;
+    margin-bottom: 65px;
+
+    display: flex;
+    flex-direction: row;
+    .nav-sidebar{
+        padding-right: 30px;
+        ul{
+            list-style: none;
+            padding-left: 25px;
+            padding-top : 23px;
+            li{
+                padding: 5px;
+                a:hover{
+                    color: #ada9a9;
+                }
+            }
+        }
+        .title{
+            background-color: #f5f5f5;
+            h3{
+                font-weight: bold;
+                margin: 0;
+            }
+            padding: 20px;
+
+        }
+        flex: 0 0 25%;
+
+    }
+    a{
+        text-decoration: none;
+        color: black;
+    }
+}
+.my-dashbrd{
+    h2{
+        letter-spacing: 3.9px;
+        margin-bottom: 55px;
+    }
+    h3{
+        letter-spacing: 3px;
+    }
+    .u-name , .u-email{
+        padding-left: 8px;
+        background-color: #f7f7f7;
+        margin: 0px;
+        padding-top: 7.5px;
+        padding-bottom: 7.5px;
+        width: 30%;
+    }
+}
+.profile{
+    .my-pro{
+        width: 1300px;
+    }
+    h2{
+        letter-spacing: 3.9px;
+        margin-bottom: 55px;
+    }
+    a:hover{
+        color: #ada9a9;
+    }
+}

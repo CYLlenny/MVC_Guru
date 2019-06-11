@@ -28,8 +28,10 @@ html body{
     text-align: center;
     color: white;
     position: absolute;
-    top: 26%; //
-    left: 22.5%; //
+    top: 50%; //
+    left: 50%; //
+    width: 100%;
+    transform: translate(-50%,-45%);
     h1{
         font-size: 4rem ;
         font-weight: bold;
@@ -129,7 +131,7 @@ html body{
     .big-one{
         width: 48.9%; //
         height: 595px; //
-        margin: 6px; //
+        margin: 0.5%; //
         float: left;
         overflow: hidden;
         position: relative;
@@ -179,7 +181,7 @@ html body{
         height: 291.5px; //
         float: left;
         overflow: hidden;
-        margin: 6px; //
+        margin: 0.5%; //
         position: relative;
         div:first-child{
             width: 100%;
@@ -228,8 +230,8 @@ html body{
 .move-svg-wrapper{
     text-align: center;
     position: absolute;
-    left: 48.5%;
-    transform: translateY(-150%);
+    left: 50%;
+    transform: translate(-50%,-150%);
 }
 svg{
     fill: $main-color;
@@ -253,4 +255,32 @@ svg{
      100%{
          transform: translateY(0px)
      }
- }
+}
+
+@media screen and(max-width: 1296px){
+    .corsair-in-action .big-one{
+        height: 593px;
+    }
+}
+
+@media screen and(max-width: 1268px){
+    .corsair-in-action .big-one{
+        height: 592px;
+    }
+}
+@media screen and(max-width: 1143px){
+    .corsair-in-action .big-one{
+        height: 591px;
+    }
+    .move-svg-wrapper{
+        transform: translate(-50%, -180%);
+    }
+}
+
+@media screen and(max-width: 1010px){
+    .new-item-title {
+        h1{
+            font-size: 3rem;
+        }
+    }
+}

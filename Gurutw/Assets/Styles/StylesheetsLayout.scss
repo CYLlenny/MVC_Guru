@@ -236,3 +236,53 @@ html body{
 .field-validation-error{
     display: block;
 }
+
+@media screen and(max-width: 1296px){
+    .frame-container .main-menu-center{
+        font-size: 1rem;
+        .menu-item{
+            padding: 0 10px;
+        }
+    }
+
+}
+
+@media screen and(max-width: 1268px){
+    .frame-container .main-menu-center{
+        font-size: 1rem;
+        .menu-item{
+            padding: 0 10px;
+        }
+    }
+
+}
+
+@media screen and(max-width: 1248px){
+    .frame-container{
+         .main-menu-center{
+        padding-left: 4%;
+        font-size: 1rem;
+            .menu-item{
+                padding: 0 8px;
+            }
+        }
+        .main-menu-right{
+            flex: 1 1 200px;
+        }
+    }
+    .main-header .logo-image{
+        flex: 0 0 200px;
+    }
+
+}
+
+@media screen and(max-width: 1134px){
+    .frame-container{
+        width: 90%;
+    }
+}
+@media screen and(max-width: 1010px){
+    .frame-container .main-menu-center{
+        font-size: 0.9rem;
+    }
+}

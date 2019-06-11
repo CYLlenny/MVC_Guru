@@ -358,4 +358,54 @@ html body header {
 .field-validation-error {
   display: block;
 }
+
+@media screen and (max-width: 1296px) {
+  .frame-container .main-menu-center {
+    font-size: 1rem;
+  }
+  .frame-container .main-menu-center .menu-item {
+    padding: 0 10px;
+  }
+}
+
+@media screen and (max-width: 1268px) {
+  .frame-container .main-menu-center {
+    font-size: 1rem;
+  }
+  .frame-container .main-menu-center .menu-item {
+    padding: 0 10px;
+  }
+}
+
+@media screen and (max-width: 1248px) {
+  .frame-container .main-menu-center {
+    padding-left: 4%;
+    font-size: 1rem;
+  }
+  .frame-container .main-menu-center .menu-item {
+    padding: 0 8px;
+  }
+  .frame-container .main-menu-right {
+    -webkit-box-flex: 1;
+        -ms-flex: 1 1 200px;
+            flex: 1 1 200px;
+  }
+  .main-header .logo-image {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 200px;
+            flex: 0 0 200px;
+  }
+}
+
+@media screen and (max-width: 1134px) {
+  .frame-container {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 1010px) {
+  .frame-container .main-menu-center {
+    font-size: 0.9rem;
+  }
+}
 /*# sourceMappingURL=StylesheetsLayout.css.map */

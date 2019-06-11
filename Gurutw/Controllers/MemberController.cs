@@ -253,5 +253,71 @@ namespace Gurutw.Controllers
 
             return View();
         }
+
+        public ActionResult Member_Manager()
+        {
+            var user = int.Parse(Session["m_id"].ToString());
+            Member memb = db.Member.Where(m => m.m_id == user).FirstOrDefault();
+            ViewBag.memb = memb;
+            return View();
+        }
+
+        public ActionResult Account_DashBoard()
+        {
+            TempData["view"] = "Account_DashBoard";
+            return RedirectToAction("Member_Manager");
+        }
+
+        public ActionResult Account_Information()
+        {
+            TempData["view"] = "Account_Information";
+            return RedirectToAction("Member_Manager");
+        }
+
+        [HttpGet]
+        public ActionResult Update_Profile()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Update_Profile(UpdateProfileViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var userid = int.Parse(Session["m_id"].ToString());
+            Member memb = db.Member.Where(x => x.m_id == userid).FirstOrDefault();
+            memb.m_name = model.UserName;
+            memb.m_email = model.Email;
+            Session["m_name"] = memb.m_name;
+            Session["m_email"] = memb.m_email;
+            db.SaveChanges();
+            return RedirectToAction("Member_Manager");
+        }
+        [HttpGet]
+        public ActionResult Change_Pw()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Change_Pw(ChangePassword model)
+        {
+            var userid = int.Parse(Session["m_id"].ToString());
+            Member memb = db.Member.Where(x => x.m_id == userid).FirstOrDefault();
+            if (!ModelState.IsValid || model.CurrentPassword != memb.m_password)
+            {
+                return View(model);
+            }
+
+            if (model.CurrentPassword == memb.m_password)
+            {
+                memb.m_password = model.NewPassword;
+                db.SaveChanges();
+            }
+            return View("ChangePwResult");
+        }
     }
 }

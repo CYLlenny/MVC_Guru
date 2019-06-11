@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "Account Managemet";
+    var memb = ViewBag.memb;
+    var partialView = TempData["view"];
+}
+
+@section topCSS{
+    <link href="~/Assets/Styles/membmanager.css" rel="stylesheet" />
+    }
+<div class="memb-container">
+    <div class="nav-sidebar">
+        <div class="title">
+            <h3>MY ACCOUNT</h3>
+        </div>
+        <div>
+            <ul>
+                <li><a href="/Member/Account_DashBoard">Account DashBoard</a></li>
+                <li><a href="/Member/Account_Information">Account Information</a></li>
+                <li><a href="/Member/Payment_Details">Payment Details</a></li>
+                <li><a href="/Member/My_Orders">My Orders</a></li>
+                <li><a href="/Member/Gift_Card">Gift Card</a></li>
+            </ul>
+        </div>
+    </div>
+    @{
+        switch ((string)partialView)
+        {
+
+            case "Account_DashBoard":
+                {
+                    @Html.Partial("Account_DashBoard"); break;
+                }
+            case "Account_Information":
+                {
+                    @Html.Partial("Account_Information"); break;
+                }
+            case "Payment_Details":
+                {
+                    @Html.Partial("Payment_Details"); break;
+                }
+            case "My_Orders":
+                {
+                    @Html.Partial("My_Orders"); break;
+                }
+            case "Gift_Card":
+                {
+                    @Html.Partial("Gift_Card"); break;
+                }
+            default:
+                {
+                    @Html.Partial("Account_DashBoard"); break;
+                }
+        }
+    }
+</div>

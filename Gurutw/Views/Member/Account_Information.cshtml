@@ -1,0 +1,20 @@
+﻿@{ 
+        var memb = ViewBag.memb;
+}
+<div class="profile">
+    <h2>PROFILE</h2>
+    <div class="row my-pro">
+        <div class="col-md-7 row">
+            <div class="col-md-3 title">USERNAME : </div>
+            <div class="col-md-9">@memb.m_name</div>
+            <div class="col-md-3 title">E-MAIL : </div>
+            <div class="col-md-9">@memb.m_email</div>
+        </div>
+        <div class="col-md-5">
+            <a class="row"
+               href="/Member/Update_Profile"><b>Update Profile</b></a>
+            <a class="row"
+               href="/Member/Change_Pw"><b>Change Password</b></a>
+        </div>
+    </div>
+</div>

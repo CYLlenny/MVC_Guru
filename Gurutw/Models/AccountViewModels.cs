@@ -109,4 +109,32 @@ namespace Gurutw.Models
         [Display(Name = "電子郵件")]
         public string Email { get; set; }
     }
+
+    public class UpdateProfileViewModel
+    {
+        [StringLength(50, ErrorMessage = "The Username must be at least {2} characters long.", MinimumLength = 6)]
+        //[Required]
+        public string UserName { get; set; }
+
+        [StringLength(50)]
+        //[Required(ErrorMessage = "Field can't be empty")]
+        [DataType(DataType.EmailAddress, ErrorMessage = "Email is not valid")]
+        public string Email { get; set; }
+    }
+    public class ChangePassword
+    {
+        [StringLength(50, ErrorMessage = "The password must be at least {2} characters long.", MinimumLength = 8)]
+        [Required]
+        [DataType(DataType.Password)]
+        public string CurrentPassword { get; set; }
+
+        [StringLength(50, ErrorMessage = "The password must be at least {2} characters long.", MinimumLength = 8)]
+        [Required]
+        [DataType(DataType.Password)]
+        public string NewPassword { get; set; }
+
+        [Required]
+        [Compare("NewPassword", ErrorMessage = "Confirm password doesn't match, Type again !")]
+        public string ConfirmPassword { get; set; }
+    }
 }

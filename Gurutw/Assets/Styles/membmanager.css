@@ -1,0 +1,81 @@
+.memb-container {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 130px;
+  margin-bottom: 65px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.memb-container .nav-sidebar {
+  padding-right: 30px;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 25%;
+          flex: 0 0 25%;
+}
+
+.memb-container .nav-sidebar ul {
+  list-style: none;
+  padding-left: 25px;
+  padding-top: 23px;
+}
+
+.memb-container .nav-sidebar ul li {
+  padding: 5px;
+}
+
+.memb-container .nav-sidebar ul li a:hover {
+  color: #ada9a9;
+}
+
+.memb-container .nav-sidebar .title {
+  background-color: #f5f5f5;
+  padding: 20px;
+}
+
+.memb-container .nav-sidebar .title h3 {
+  font-weight: bold;
+  margin: 0;
+}
+
+.memb-container a {
+  text-decoration: none;
+  color: black;
+}
+
+.my-dashbrd h2 {
+  letter-spacing: 3.9px;
+  margin-bottom: 55px;
+}
+
+.my-dashbrd h3 {
+  letter-spacing: 3px;
+}
+
+.my-dashbrd .u-name, .my-dashbrd .u-email {
+  padding-left: 8px;
+  background-color: #f7f7f7;
+  margin: 0px;
+  padding-top: 7.5px;
+  padding-bottom: 7.5px;
+  width: 30%;
+}
+
+.profile .my-pro {
+  width: 1300px;
+}
+
+.profile h2 {
+  letter-spacing: 3.9px;
+  margin-bottom: 55px;
+}
+
+.profile a:hover {
+  color: #ada9a9;
+}
+/*# sourceMappingURL=membmanager.css.map */
