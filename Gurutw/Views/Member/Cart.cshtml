@@ -1,80 +1,106 @@
 ﻿
 @{
-    /**/
-
     ViewBag.Title = "Cart";
     var o = ViewBag.od;
-    Decimal total = 0;
+    Decimal aftotal = 0;
 }
 <div class="cart-frame-container shopping-cart">
     <div class="selected-in-cart">
         <div class="shopping-cart-title">SHOPPING CART</div>
         @foreach (var x in o)
         {
-            var d = x.d_discount;
-            var ds = Convert.ToString(d);
-            if (ds == null)
+            var d = Convert.ToString(x.d_discount);
+            if (d == null)
             {
                 d = 1;
             }
-            total = total + (x.cart_quantity * x.p_unitprice * Convert.ToDecimal(d));
+
             <div class="selected-item">
                 <div class="img-and-spec">
-                    <div >
-                        <img id="item-img" src="@x.pp_path"/>
+                    <div class="img-pic">
+                        <img id="item-img" src="@x.pp_path" />
                     </div>
                     <div class="item-spec">
-                        <h4>@x.p_name</h4>
-                        <span>Color :</span>&nbsp;<span>@x.pd_color</span>
+                        <h4 class="productName">@x.p_name</h4>
+                        <span>Color : @x.pd_color</span>
+                        @{string dname = x.d_name.ToString();}
+                        @if (dname != null)
+                        {
+                            <br />
+                            <span style="color:darkgray;">@x.d_name Special Offer! @((1 - x.d_discount) * 100) % OFF discount.</span>
+                        }
                     </div>
                 </div>
-                <div class="item-quantity">
-                    <form method="post" name="form" action="/Member/LessCart">
+                <div class="item-price-right">
+                    <div class="item-quantity">
+                        <form method="post" name="form" action="/Member/LessCart">
+                            <input name="pdid" type="hidden" value=@x.pd_id />
+                            <button type="submit"><i class="fas fa-minus"></i></button>
+                        </form>
+                        <h4 class="quantity"> @x.cart_quantity </h4>
+                        <form method="post" name="form" action="/Member/AddCart">
+                            <input name="pdid" type="hidden" value=@x.pd_id />
+                            <button type="submit"><i class="fas fa-plus"></i></button>
+                        </form>
+
+
+                    </div>
+                    <div class="item-price">
+                        @if (Convert.ToDecimal(d) == 1)
+                        {
+                            <h4>$ @Decimal.Round(x.p_unitprice * x.cart_quantity, 0)</h4>
+
+                            aftotal = aftotal + (x.cart_quantity * x.p_unitprice);
+                        }
+                        else
+                        {
+                            <h4 style="text-decoration: line-through;color:rgb(188,181,181);">$ @Decimal.Round(x.cart_quantity * x.p_unitprice, 0)</h4>
+                            <h4>$ @Decimal.Round(x.cart_quantity * x.p_unitprice * Convert.ToDecimal(d), 0)</h4>
+
+                            aftotal = aftotal + (x.cart_quantity * x.p_unitprice * Convert.ToDecimal(d));
+                        }
+                    </div>
+                    <form method="post" name="form" action="/Member/DelCart">
                         <input name="pdid" type="hidden" value=@x.pd_id />
-                        <button type="submit"><i class="fas fa-minus"></i></button>
-                    </form>
-                    <p class="quantity">@x.cart_quantity</p>
-                    <form method="post" name="form" action="/Member/AddCart">
-                        <input name="pdid" type="hidden" value=@x.pd_id />
-                        <button type="submit"><i class="fas fa-plus"></i></button>
+                        <button type="submit" class="delete-item"><i class="fas fa-trash-alt"></i></button>
                     </form>
                 </div>
-                <div class="item-price">
-                    <h4>@Decimal.Round(x.cart_quantity * x.p_unitprice, 2)</h4>
-                </div>
-                <form method="post" name="form" action="/Member/DelCart">
-                    <input name="pdid" type="hidden" value=@x.pd_id />
-                    <button type="submit" class="delete-item"><i class="fas fa-trash-alt"></i></button>
-                </form>
+
             </div>
         }
-        <div class="cart-summary">
-            <div class="cart-summary-title">CART SUMMARY</div>
-            <div class="amount">
-                <div>
-                    <div>Subtotal</div>
+        @if (aftotal > 0)
+        {
+            <div class="cart-summary">
+                <div class="cart-summary-title">CART SUMMARY</div>
+                <div class="amount">
                     <div>
-                        <h5>$US @Decimal.Round(total)</h5>
+                        <div>Subtotal</div>
+                        <div>
+                            <h5>$US @Decimal.Round(aftotal)</h5>
+                        </div>
                     </div>
                 </div>
-                <div class="total-amount">
-                    <div>After Discount</div>
-                    <div>
-                        <h4>$US @Decimal.Round(total) </h4>
+                <div class="checkout">
+                    @if (@Decimal.Round(aftotal) > 79)
+                    {
+                        <p>Received Promotions</p>
+                        <p>You spent over $TWD 79.00 to qualify for free shipping.</p>
+                    }
+
+                    <div class="checkout-btn">
+                        <a href="">
+                            @Html.ActionLink("CHECKOUT", "OrderDeliver")
+                        </a>
                     </div>
+                    <div class="continue-shopping"><a href="/Home/Index">CONTINUE SHOPPING</a></div>
                 </div>
             </div>
-            <div class="checkout">
-                <p>Received Promotions</p>
-                <p>You spent over $US79.00 to qualify for free shipping.</p>
-                <div class="checkout-btn">
-                    <a href="">
-                        @Html.ActionLink("CHECKOUT", "OrderDeliver")
-                    </a>
-                </div>
-                <div class="continue-shopping"><a href="/Home/Index">CONTINUE SHOPPING</a></div>
-            </div>
-        </div>
+        }
+        else
+        {
+            <h1>No product!!</h1>
+        }
+
     </div>
 </div>
 @section topCSS{

@@ -25,7 +25,7 @@ html body{
 .center-menu-sub{
     display: none;
     background: $main-color;
-    line-height: 30px;
+    line-height: 25px;
     font-size: 1rem;
     padding: 15px 15px;
     div{
@@ -36,6 +36,9 @@ html body{
     }
     z-index: 5;
 
+}
+.fa-chevron-right{
+    display: none;
 }
 .product div:last-child , .support div:last-child{
     width: 120px; //
@@ -58,7 +61,7 @@ html body{
         font-size: 1.2rem;
         font-weight: bold;
         //justify-content: space-between;
-        flex: 0 1 765px; //
+        flex: 1 0 765px; //
         padding-left: 5.4%;
         .menu-item{
             float: left;
@@ -89,17 +92,29 @@ html body{
     height: 65px; //
     line-height: 65px; //
     justify-content: space-between;
+    .top-menu{
+        display: flex;
+    }
     .logo-image{
         flex: 0 0 225px; //
         height: 61px;
-        background-size: contain; 
+        background-size: 100%;
+        text-align: center;
         cursor: pointer;
         //background: url(/Images/Index-images/logo-img.png) center center no-repeat; 
         &:hover{
             animation: shake 0.5s;
             animation-iteration-count: infinite;
-        }     
+        }
+        img{
+            width: auto;
+            height: 100%;
+            vertical-align: top;
+        }
     }
+}
+.phone-menu{
+    display: none;
 }
 
 @keyframes shake {
@@ -273,6 +288,9 @@ html body{
     .main-header .logo-image{
         flex: 0 0 200px;
     }
+    #search-input input{
+        width: 550px;
+    }
 
 }
 
@@ -285,4 +303,110 @@ html body{
     .frame-container .main-menu-center{
         font-size: 0.9rem;
     }
+    .center-menu-sub{
+        font-size: 0.9rem;
+    }
+    #search-input input{
+        width: 450px;
+    }
+}
+@media screen and(max-width: 946px){
+    .frame-container{
+       .main-menu-right{
+           font-size: 1.5rem;
+       }
+   }
+   .main-header .logo-image{
+       flex: 0 0 160px;
+   }
+}
+@media screen and(max-width: 906px){
+    .frame-container .main-menu-center{
+        font-size: 0.8rem;
+    }
+    .center-menu-sub{
+        font-size: 0.8rem;
+    }
+    #search-input input{
+        width: 380px;
+    }
+}
+@media screen and(max-width: 800px){
+    .main-header{
+        .top-menu{
+            flex-direction: row-reverse;
+            flex: 1 0 61%;
+            .main-menu-center{
+                position: absolute;
+                top: 65px;
+                left: -100%;
+                background-color: $main-color;
+                padding: 10px 20px;
+                width: 100%;
+                font-size: 1rem;
+                transition: 0.3s;
+                .menu-item{
+                    float: none;
+                    position: relative;
+                    line-height: 2rem;
+                    .center-menu-sub{
+                        padding: 0 15px;
+                        div ul{
+                            margin: 0;
+                        }  
+                    }
+                    &:hover{
+                        .center-menu-sub{
+                            display: none;
+                            width: 100%;
+                            position: relative;
+                            top: 0;
+                            left: 0;                          
+                        }
+                    }
+                }
+            }
+            .phone-menu{
+                display: block;
+                flex: 0 1 267px;
+                font-size: 1.5rem;
+                cursor: pointer;
+                .closebar{
+                    display: none;
+                }
+            }
+        }
+    }
+    .frame-container{
+        .main-menu-right{
+            flex: 1 1 39%;
+        }
+    }
+    .fa-chevron-right{
+        display: inline-block;
+        position: absolute;
+        top: 5px;
+        right: 10px ;
+    }
+}
+@media screen and(max-width: 400px){
+    .frame-container .main-menu-right{
+        font-size: 1.2rem;
+    }
+    .main-header .top-menu .phone-menu{
+        font-size: 1.2rem;
+    }
+    #search-input i{
+        font-size: 1.2rem;
+    }
+    .main-header .logo-image{
+        flex: 0 0 140px;
+    }
+    .frame-container .main-menu-right{
+        flex: 1 1 33%;
+    }
+
+}
+@media screen and(max-width: 321px){
+
 }

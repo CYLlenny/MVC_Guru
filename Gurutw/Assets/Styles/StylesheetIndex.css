@@ -54,6 +54,10 @@ html body {
   background-color: white;
 }
 
+.menu-slide .div-explore {
+  padding-top: 50px;
+}
+
 .menu-slide .explore {
   font-weight: bold;
 }
@@ -299,6 +303,10 @@ svg:hover {
   height: 75px;
 }
 
+.two-ones, .three-ones {
+  display: none;
+}
+
 @-webkit-keyframes moving {
   0% {
     -webkit-transform: translateY(0px);
@@ -354,6 +362,298 @@ svg:hover {
 @media screen and (max-width: 1010px) {
   .new-item-title h1 {
     font-size: 3rem;
+  }
+  .menu-slide .div-explore {
+    padding-top: 30px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .move-svg-wrapper {
+    -webkit-transform: translate(-50%, -220%);
+            transform: translate(-50%, -220%);
+  }
+  .five-ones {
+    display: none;
+  }
+  .three-ones {
+    display: block;
+  }
+  .menu-slide .div-explore {
+    padding-top: 0px;
+  }
+}
+
+@media screen and (max-width: 946px) {
+  .move-svg-wrapper {
+    -webkit-transform: translate(-50%, -260%);
+            transform: translate(-50%, -260%);
+  }
+  .new-item-title {
+    top: 45%;
+  }
+  .new-item-title .learn-more {
+    margin-top: 20px;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+  }
+  .corsair-in-action .big-one {
+    height: 490px;
+  }
+  .corsair-in-action .big-one p {
+    top: 15%;
+  }
+  .corsair-in-action .small-one {
+    height: 241.5px;
+  }
+  .corsair-in-action .small-one p {
+    top: 25%;
+  }
+}
+
+@media screen and (max-width: 906px) {
+  .new-item {
+    height: 550px;
+  }
+  .move-svg-wrapper {
+    -webkit-transform: translate(-50%, -230%);
+            transform: translate(-50%, -230%);
+  }
+  .menu-slide .div-explore h1 {
+    font-size: 2.2rem;
+  }
+}
+
+@media screen and (max-width: 841px) {
+  .new-item {
+    height: 520px;
+  }
+  .move-svg-wrapper {
+    -webkit-transform: translate(-50%, -220%);
+            transform: translate(-50%, -220%);
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .new-item {
+    height: 490px;
+  }
+  .move-svg-wrapper {
+    -webkit-transform: translate(-50%, -205%);
+            transform: translate(-50%, -205%);
+  }
+  .new-item-title h2 {
+    font-size: 1.5rem;
+  }
+  .corsair-in-action .big-one {
+    height: 489.5px;
+  }
+}
+
+@media screen and (max-width: 741px) {
+  .new-item {
+    height: 450px;
+  }
+  .move-svg-wrapper {
+    -webkit-transform: translate(-50%, -185%);
+            transform: translate(-50%, -185%);
+  }
+  .new-item-title h2 {
+    font-size: 1.5rem;
+  }
+  .new-item-title h1 {
+    font-size: 2.5rem;
+  }
+  .corsair-in-action .big-one {
+    height: 216.5px;
+  }
+  .corsair-in-action .big-one button {
+    padding: 15px;
+    top: 60%;
+  }
+  .corsair-in-action .big-one p {
+    top: 25%;
+  }
+  .corsair-in-action .small-one {
+    height: 216.5px;
+  }
+  .corsair-in-action .small-one button {
+    padding: 15px;
+  }
+  .footer-menu .frame-container a {
+    font-size: 0.9rem;
+  }
+  .carousel-control-next {
+    right: -5%;
+  }
+  .carousel-control-prev {
+    left: -5%;
+  }
+}
+
+@media screen and (max-width: 715px) {
+  .new-item {
+    height: 430px;
+  }
+  .move-svg-wrapper {
+    -webkit-transform: translate(-50%, -175%);
+            transform: translate(-50%, -175%);
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .new-item video {
+    height: 460px;
+  }
+  .menu-slide .div-explore {
+    padding-top: 30px;
+  }
+}
+
+@media screen and (max-width: 680px) {
+  .corsair-in-action .big-one {
+    height: 291.5px;
+    width: 98.8%;
+  }
+  .corsair-in-action .big-one button {
+    padding: 15px;
+    top: 60%;
+  }
+  .corsair-in-action .big-one p {
+    top: 25%;
+  }
+  .corsair-in-action .small-one {
+    height: 291.5px;
+    width: 98.8%;
+  }
+  .corsair-in-action .small-one button {
+    padding: 15px;
+  }
+  .footer-menu .frame-container div {
+    padding: 20px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .new-item video {
+    height: 490px;
+  }
+  .new-item-title h1 {
+    font-size: 2rem;
+  }
+  .new-item-title h2 {
+    font-size: 1.2rem;
+  }
+  .new-item-title .learn-more {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 570px) {
+  .three-ones {
+    display: none;
+  }
+  .two-ones {
+    display: block;
+  }
+  .carousel-item {
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+  }
+}
+
+@media screen and (max-width: 521px) {
+  .new-item video {
+    width: 150%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .new-item-title {
+    top: 50%;
+  }
+  .new-item-title h1 {
+    font-size: 1.8rem;
+  }
+  .new-item-title h2 {
+    font-size: 1.1rem;
+  }
+  .move-svg-wrapper {
+    -webkit-transform: translate(-50%, -160%);
+            transform: translate(-50%, -160%);
+  }
+  .carousel-inner .carousel-item div {
+    padding: 0 20px;
+  }
+  .guru-action-title h1 {
+    font-size: 2rem;
+  }
+  .corsair-in-action .big-one h2 {
+    font-size: 1.8rem;
+    top: 6%;
+  }
+  .corsair-in-action .small-one h2 {
+    font-size: 1.8rem;
+    top: 6.5%;
+  }
+  .menu-slide .div-explore h1 {
+    font-size: 2rem;
+  }
+}
+
+@media screen and (max-width: 440px) {
+  .prev-icon, .next-icon {
+    width: 25px;
+    height: 25px;
+    padding: 4px;
+  }
+  .carousel-control-next-icon, .carousel-control-prev-icon {
+    width: 14px;
+    height: 14px;
+  }
+  .corsair-in-action .big-one p, .corsair-in-action .small-one p {
+    top: 40%;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .new-item video {
+    width: 180%;
+  }
+  .new-item-title {
+    top: 47%;
+  }
+  .move-svg-wrapper {
+    -webkit-transform: translate(-50%, -140%);
+            transform: translate(-50%, -140%);
+  }
+  .carousel-inner .carousel-item img {
+    width: 100px;
+    height: 110px;
+  }
+  .carousel-inner .carousel-item p img {
+    width: 100px;
+  }
+  .carousel-inner .carousel-item h3 {
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (max-width: 332px) {
+  .corsair-in-action .big-one button {
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
+  .corsair-in-action .small-one button {
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
+}
+
+@media screen and (max-width: 321px) {
+  .new-item video {
+    width: 215%;
   }
 }
 /*# sourceMappingURL=StylesheetIndex.css.map */

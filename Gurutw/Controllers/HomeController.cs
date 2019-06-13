@@ -137,6 +137,7 @@ namespace Gurutw.Controllers
 
         public ActionResult Logout()
         {
+            Session["m_id"] = null;
             Session["m_name"] = null;
             return RedirectToAction("Index");
         }
@@ -198,21 +199,27 @@ namespace Gurutw.Controllers
                 //        " AND p.p_status = 0 ";
 
                 string sql =
-                    "SELECT distinct " +
+                       "SELECT distinct " +
                        "p.p_id , " +
                        "p.p_name, " +
                        "p.p_unitprice , " +
                        "p.p_lauchdate , " +
-                       "p.p_status , " +                  
+                       "p.p_status , " +
                        "pic_path = STUFF(( " +
                               "SELECT ',' + dbo.Product_Picture.pp_path " +
                               "FROM dbo.Product_Picture " +
                              "where p.p_id = dbo.Product_Picture.p_id " +
-                             "FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'), 1, 1, '') " +
+                             "FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'), 1, 1, ''),  " +
+                        "d.d_discount, " +
+                        "d.d_startdate, " +
+                        "d.d_enddate " +
                     "FROM dbo.Product p " +
                     "INNER JOIN dbo.Product_Picture ON p.p_id = dbo.Product_Picture.p_id " +
+                    "INNER JOIN dbo.Category c ON c.c_id = p.c_id " +
+                    "INNER JOIN dbo.Discount d ON d.c_id = c.c_id " +
                     "where p.c_id = 1 " +
-                    "and p.p_status = 0 ";
+                    "and p.p_status = 0 " +
+                    "AND DATEADD(HH,+8, GETDATE() ) BETWEEN d.d_startdate AND d.d_enddate ";
 
                 var product = conn.Query(sql).ToList();
                 ViewBag.p = product;
@@ -243,22 +250,28 @@ namespace Gurutw.Controllers
                 //      " WHERE p.c_id = 2 " +
                 //      " AND p.p_status = 0 ";
 
-                      string sql =             
-                    "SELECT distinct " +
+                string sql =
+                       "SELECT distinct " +
                        "p.p_id , " +
                        "p.p_name, " +
                        "p.p_unitprice , " +
                        "p.p_lauchdate , " +
-                       "p.p_status , " +  
+                       "p.p_status , " +
                        "pic_path = STUFF(( " +
                               "SELECT ',' + dbo.Product_Picture.pp_path " +
                               "FROM dbo.Product_Picture " +
                              "where p.p_id = dbo.Product_Picture.p_id " +
-                             "FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'), 1, 1, '') " +
+                             "FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'), 1, 1, ''),  " +
+                        "d.d_discount, " +
+                        "d.d_startdate, " +
+                        "d.d_enddate " +
                     "FROM dbo.Product p " +
                     "INNER JOIN dbo.Product_Picture ON p.p_id = dbo.Product_Picture.p_id " +
+                    "INNER JOIN dbo.Category c ON c.c_id = p.c_id " +
+                    "INNER JOIN dbo.Discount d ON d.c_id = c.c_id " +
                     "where p.c_id = 2 " +
-                    "and p.p_status = 0 ";
+                    "and p.p_status = 0 " +
+                    "AND DATEADD(HH,+8, GETDATE() ) BETWEEN d.d_startdate AND d.d_enddate ";
 
 
                 var product = conn.Query(sql).ToList();
@@ -300,11 +313,17 @@ namespace Gurutw.Controllers
                               "SELECT ',' + dbo.Product_Picture.pp_path " +
                               "FROM dbo.Product_Picture " +
                              "where p.p_id = dbo.Product_Picture.p_id " +
-                             "FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'), 1, 1, '') " +
+                             "FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'), 1, 1, ''),  " +
+                        "d.d_discount, " +
+                        "d.d_startdate, " +
+                        "d.d_enddate " +
                     "FROM dbo.Product p " +
                     "INNER JOIN dbo.Product_Picture ON p.p_id = dbo.Product_Picture.p_id " +
+                    "INNER JOIN dbo.Category c ON c.c_id = p.c_id " +
+                    "INNER JOIN dbo.Discount d ON d.c_id = c.c_id " +
                     "where p.c_id = 3 " +
-                    "and p.p_status = 0 ";
+                    "and p.p_status = 0 " +
+                    "AND DATEADD(HH,+8, GETDATE() ) BETWEEN d.d_startdate AND d.d_enddate ";
 
 
                 var product = conn.Query(sql).ToList();

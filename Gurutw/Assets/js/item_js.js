@@ -20,6 +20,7 @@
     /*and also for touch screens:*/
     glass.addEventListener("touchmove", moveMagnifier);
     img.addEventListener("touchmove", moveMagnifier);
+
     function moveMagnifier(e) {
         var pos, x, y;
         /*prevent any other actions that may occur when moving over the image*/
@@ -39,6 +40,7 @@
         /*display what the magnifier glass "sees":*/
         glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
     }
+
     function getCursorPos(e) {
         var a, x = 0, y = 0;
         e = e || window.event;
@@ -70,11 +72,25 @@
     })
 
 
-    function myFunction() {
-        var x = document.getElementById("snackbar");
-        x.className = "show";
-        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
-    }
+    $("#sub_btn").on("click", function () {
+        var $count = $("#count").val()
+
+        if ($count - 1 >= 0) {
+            $count--;
+        }
+
+        $("#count").val($count)
+    })
+
+    $("#add_btn").on("click", function () {
+        var $count = $("#count").val()
+        $count++
+        $("#count").val($count)
+    })
+
+
+
+
 
 }
 

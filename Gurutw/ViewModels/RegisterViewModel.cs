@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
+using CompareAttribute = System.ComponentModel.DataAnnotations.CompareAttribute;
 
 namespace Gurutw.ViewModels
 {
@@ -10,11 +12,13 @@ namespace Gurutw.ViewModels
     {
         [StringLength(50, ErrorMessage = "The Username must be at least {2} characters long.", MinimumLength = 6)]
         [Required]
+      
         public string UserName { get; set; }
 
         [StringLength(50)]
         [Required(ErrorMessage = "Field can't be empty")]
         [DataType(DataType.EmailAddress, ErrorMessage = "Email is not valid")]
+        
         public string Email { get; set; }
 
         [StringLength(50, ErrorMessage = "The password must be at least {2} characters long.", MinimumLength = 8)]

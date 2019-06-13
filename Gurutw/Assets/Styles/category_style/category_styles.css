@@ -1,3 +1,7 @@
+html{
+    
+}
+
 .container-max{
     margin-top: 65px;
 }
@@ -7,11 +11,15 @@
     width: 80%;
 }
 
-
-#top_img{
+#top_img_border {
     width: 100%;
-    height: 500px;
-   position: relative;
+    height:500px;
+}
+
+#top_img {
+    width: 100%;
+    height: 100%;
+    position: relative;
 }
 
 #img_text{
@@ -19,13 +27,17 @@
     color: white;
     top:120px;
     left: 120px;
-    font-size: xx-large;
+    font-size: 2rem;
     letter-spacing: 4px;
 }
 
 .category_mid_img{
-    width: 270px;
-    height: 270px;
+    width: auto;
+    height: auto;
+
+    max-height:100%;
+    max-width:100%;
+
 }
 
 #mid_data h5{
@@ -41,25 +53,23 @@
 
 #sort_select{
     width: 100%;
-
     margin: 20px 0;
     border-radius: 20px;
 }
 
-#sort_select button{
+#sort_select button {
     background-color: #000;
-    color:#fecb00;
+    color: #fecb00;
     border: #fff 5px solid;
     border-radius: 20px;
-    font-weight:bold;
-    padding:0 15px;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 0 15px;
     height: 50px;
-
 }
 
-
 .product_card {
-    height: 400px;
+    height: 100%;
     cursor: pointer;
 }
 
@@ -68,11 +78,11 @@
     text-align: center;
 }
 
-
-
 .card_img {
-    width: 281px;
+    width: 270px;
     height: 270px;
+    max-height: 100%;
+    max-width: 100%;
 }
 
 .card_a{
@@ -81,8 +91,80 @@
 }
 
 #item_data_name{
-    height:50px;
+    height:75px;
 }
+
 #sort_select button:focus{
     outline : none;
+}
+
+
+.item_price{
+    margin-bottom:0;
+}
+
+.item_date {
+    margin-bottom: 10px;
+}
+
+
+.item_price::before {
+    content: "$ ";
+}
+
+
+.item_date::before {
+    content: "date: ";
+}
+
+#price_line-through {
+    text-decoration: line-through;
+}
+
+#price_discount {
+    font-weight: bolder;
+    color : red ;
+}
+
+@media screen and (max-width: 1030px) {
+    #item_data_name {
+        height: 80px;
+    }
+
+}
+
+@media screen and (max-width: 990px) {
+    #item_data_name {
+        height: 50px;
+    }
+
+    #top_img_border{
+        height:400px;
+    }
+
+}
+
+@media screen and (max-width: 650px) {
+    #item_data_name {
+        height: 80px;
+    }
+
+    #top_img_border {
+        height: 300px;
+    }
+
+    #img_text h2{
+        font-size : 1.5rem;
+    }
+
+}
+
+@media screen and (max-width: 575px) {
+    #item_data_name {
+        height: 50px;
+    }
+
+    #img_text h2{
+        font-size: 0.75rem;
+    }
 }

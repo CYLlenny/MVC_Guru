@@ -2,6 +2,8 @@
 @{
     ViewBag.Title = "Headset_category";
     var product = ViewBag.p;
+    DateTime dateTime = DateTime.Now;
+
 }
 
 @section topCSS{
@@ -11,18 +13,22 @@
 
 <!--滿版-->
 <div class="container-max bg-white">
-    <img src="/Assets/Images/product_category_img/分類頁上層大圖.jpg" id="top_img" class="mb-5" />
+
+    <div id="top_img_border" class="mb-5">
+        <img src="/Assets/Images/product_category_img/分類頁上層大圖.jpg" id="top_img" class="mb-5" />
+    </div>
+
 
     <div id="img_text">
         <h2>GAMING MICE</h2>
-        <p>
+        <h2>
             CHOOSE YOUR WEAPON
-        </p>
+        </h2>
     </div>
 
     <div class="container_80 mb-5" id="category_1">
         <div class="d-flex row" id="mid_data">
-            <div class="col-3">
+            <div class="col-lg-3 col-sm-6 col-xs-12">
                 <div>
                     <h5>
                         Wireless Gaming Mice
@@ -36,10 +42,10 @@
                 </div>
             </div>
 
-            <div class="col-3">
+            <div class="col-lg-3 col-sm-6 col-xs-12">
                 <div>
                     <h5>
-                        FPS FAST ACTION GAMING MICE
+                        FPS FAST GAMING MICE
                     </h5>
 
                     <p>
@@ -51,10 +57,10 @@
                 </div>
             </div>
 
-            <div class="col-3">
+            <div class="col-lg-3 col-sm-6 col-xs-12">
                 <div>
                     <h5>
-                        MOBA STRATEGY & ACTION GAMING MICE
+                        MOBA STRATEGY
                     </h5>
 
                     <p>
@@ -66,7 +72,7 @@
                 </div>
             </div>
 
-            <div class="col-3">
+            <div class="col-lg-3 col-sm-6 col-xs-12">
                 <div>
                     <h5>
                         MMO ROLE PLAY GAMING MICE
@@ -89,70 +95,70 @@
     </div>
     <div class="container_80 mb-5">
 
-        <div id="sort_select" class="d-flex justify-content-around mb-5">
-            <button id="btn_1">PRICE FROM LOW TO HIGH</button>
-            <button id="btn_2">PRICE FROM HIGH TO LOW</button>
-            <button id="btn_3">DATE FROM OLD TO NEW</button>
-            <button id="btn_4">DATE FROM NEW TO OLD</button>
+        <div id="sort_select" class="d-flex justify-content-around mb-5 row">
+            <button id="btn_1" class="col-lg-3 col-sm-6 col-xs-12">PRICE FROM LOW TO HIGH</button>
+            <button id="btn_2" class="col-lg-3 col-sm-6 col-xs-12">PRICE FROM HIGH TO LOW</button>
+            <button id="btn_3" class="col-lg-3 col-sm-6 col-xs-12">DATE FROM OLD TO NEW</button>
+            <button id="btn_4" class="col-lg-3 col-sm-6 col-xs-12">DATE FROM NEW TO OLD</button>
         </div>
-
-        @*<div class="row mb-5" id="category_item_list">
-            @foreach (var i in product)
-            {
-                <div class="product_card col-md-3" onclick="location.href='/Home/Headset_item/@i.p_id'">
-                    <div class="card_body">
-                        <img src="@i.pp_path" alt="#" class="card_img">
-                    </div>
-
-                    <div class="text-center mt-2">
-                        <div>
-                            @{string pname = @i.p_name;}
-                        </div>
-                        @Html.ActionLink(pname, "Headset_item", new { id = i.p_id })
-                        $US<p>@Decimal.Round(i.p_unitprice)</p>
-                        Launched-date:<p>@i.p_lauchdate.ToShortDateString().ToString()</p>
-                    </div>
-                </div>
-            }
-        </div>*@
 
         <div class="row" id="category_item_list">
             @foreach (var item in product)
             {
                 string[] i_pics = item.pic_path.Split(',');
-            <div class="product_card carousel slide carousel-fade col-md-3" id="carouselExampleFade" data-ride="carousel" onclick="location.href='/Headset/@item.p_id'">
-                <div class="card_body carousel-inner">
-                    @if (i_pics.Length <= 1)
-                    {
-                        <div class="carousel-item">
-                            <img src="@i_pics[0]" alt="#" class="card_img">
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="carousel-item active">
-                            <img src="@i_pics[0]" alt="#" class="card_img">
-                        </div>
-                        for (var i = 1; i < i_pics.Length - 1; i++)
+                <div class="product_card carousel slide carousel-fade col-lg-3 col-sm-6 col-xs-12" id="carouselExampleFade" data-ride="carousel" onclick="location.href='/Headset/@item.p_id'">
+                    <div class="card_body carousel-inner">
+                        @if (i_pics.Length <= 1)
                         {
-                            <div class="carousel-item ">
-                                <img src="@i_pics[i]" alt="#" class="card_img">
+                            <div class="carousel-item">
+                                <img src="@i_pics[0]" alt="#" class="card_img">
                             </div>
                         }
-                    }
-                </div>
-                <div class="text-center mt-2">
-                    <div id="item_data_name">
-                        @item.p_name
+                        else
+                        {
+                            <div class="carousel-item active">
+                                <img src="@i_pics[0]" alt="#" class="card_img">
+                            </div>
+                            for (var i = 1; i < i_pics.Length - 1; i++)
+                            {
+                                <div class="carousel-item ">
+                                    <img src="@i_pics[i]" alt="#" class="card_img">
+                                </div>
+                            }
+                        }
                     </div>
-                    <p>@Decimal.Round(item.p_unitprice) </p>
-                    <p>@item.p_lauchdate.ToShortDateString().ToString()</p>
+                    <div class="text-center mt-2">
+                        <div id="item_data_name">
+                            @item.p_name
+                        </div>
+
+                        @*有折扣時*@
+                        @if (item.d_startdate <= dateTime && item.d_enddate >= dateTime && item.d_discount != 1)
+                        {
+
+                            decimal discount_off = (Convert.ToDecimal(1) - Convert.ToDecimal(item.d_discount)) * 100;
+
+
+                            <div class="item_price">
+                                <span id="price_line-through">@Decimal.Round(item.p_unitprice)</span>
+                                <span id="price_discount">@discount_off%OFF </span>
+                            </div>
+                            <p class="item_price">@Decimal.Round(item.p_unitprice * Convert.ToDecimal(item.d_discount)) </p>
+                            <p class="item_date">@item.p_lauchdate.ToShortDateString().ToString()</p>
+                        }
+                        else
+                        {
+                            <p class="item_price">@Decimal.Round(item.p_unitprice)  </p>
+                            <p class="item_date">@item.p_lauchdate.ToShortDateString().ToString()</p>
+                        }
+                    </div>
                 </div>
-            </div>
             }
         </div>
 
+
     </div>
+
 
 </div>
 

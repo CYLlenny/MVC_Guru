@@ -17,95 +17,103 @@
 <body>
     <header class="fixed-top">
         <div class="frame-container main-header">
-            <div class="logo-image" style="background: url(/Assets/Images/Index-images/logo-img2.png) center center no-repeat;" onclick="location.href='/Home/Index'"></div>
-            <div class="main-menu-center">
-                <div class="menu-item">
-                    <a href="#">PRODUCTS</a>
-                    <div class="center-menu-sub product">
-                        <div>
-                            <ul>
-                                <li><a href="~/headset">HEADSETS</a></li>
-                                <li><a href="~/mouse">MICE</a></li>                                                   
-                                <li><a href="~/keyboard">KEYBOARDS</a></li>
-                                <li><a href="~/headset">COOLING</a></li>
-                                <li><a href="~/headset">FANS</a></li>
-                                <li><a href="~/headset">MEMORY</a></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <ul>
-                                <li><a href="~/headset">GAME PCS</a></li>
-                                <li><a href="~/headset">POWER SUPPLY UNITS</a></li>
-                                <li><a href="~/headset">HOT NEW PRODUCT</a></li>
-                                <li><a href="~/headset">CASES</a></li>
-                                <li><a href="~/headset">MOUSE PADS</a></li>
-                                <li><a href="~/headset">ACCESSORIES | PARTS</a></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <ul>
-                                <li><a href="~/headset">GURU ICUE</a></li>
-                                <li><a href="~/headset">GAMING CHAIRS</a></li>
-                                <li><a href="~/headset">STORAGE</a></li>
-                            </ul>
+            <div class="top-menu">
+                <div class="logo-image" onclick="location.href='/Home/Index'">
+                    <a href="#"><img src="~/Assets/Images/Index-images/logo-img2.png" alt=""></a>
+                </div>
+                <div class="phone-menu">
+                    <span onclick="openNav()"><i class="fas fa-bars openbar"></i></span>
+                    <span onclick="closeNav()"><i class="fas fa-times closebar"></i></span>
+                </div>
+                <div class="main-menu-center">
+                    <div class="menu-item" data-sub-menu="product">
+                        <a href="#">PRODUCTS</a><i class="fas fa-chevron-right"></i>
+                        <div class="center-menu-sub product" id="product">
+                            <div>
+                                <ul>
+                                    <li><a href="~/headset">HEADSETS</a></li>
+                                    <li><a href="~/mouse">MICE</a></li>
+                                    <li><a href="~/keyboard">KEYBOARDS</a></li>
+                                    <li><a href="~/headset">COOLING</a></li>
+                                    <li><a href="~/headset">FANS</a></li>
+                                    <li><a href="~/headset">MEMORY</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <ul>
+                                    <li><a href="~/headset">GAME PCS</a></li>
+                                    <li><a href="~/headset">POWER SUPPLY UNITS</a></li>
+                                    <li><a href="~/headset">HOT NEW PRODUCT</a></li>
+                                    <li><a href="~/headset">CASES</a></li>
+                                    <li><a href="~/headset">MOUSE PADS</a></li>
+                                    <li><a href="~/headset">ACCESSORIES | PARTS</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <ul>
+                                    <li><a href="~/headset">GURU ICUE</a></li>
+                                    <li><a href="~/headset">GAMING CHAIRS</a></li>
+                                    <li><a href="~/headset">STORAGE</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="menu-item">
-                    <a href="#">SHOWCASE</a>
-                    <div class="center-menu-sub showcase">
-                        <div>
-                            <ul>
-                                <li><a href="~/headset">HOT NEW PRODUCTS</a></li>
-                                <li><a href="~/headset">BUILDERS SHOWCASE</a></li>
-                                <li><a href="~/headset">GURU ICUE</a></li>
-                            </ul>
+                    <div class="menu-item" data-sub-menu="showcase">
+                        <a href="#">SHOWCASE</a><i class="fas fa-chevron-right"></i>
+                        <div class="center-menu-sub showcase" id="showcase">
+                            <div>
+                                <ul>
+                                    <li><a href="~/headset">HOT NEW PRODUCTS</a></li>
+                                    <li><a href="~/headset">BUILDERS SHOWCASE</a></li>
+                                    <li><a href="~/headset">GURU ICUE</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="menu-item">
-                    <a href="#">SUPPORT</a>
-                    <div class="center-menu-sub support">
-                        <div>
-                            <ul>
-                                <li><a href="~/headset">DOWNLOADS</a></li>
-                                <li><a href="~/headset">CUSTOMER SUPPORT</a></li>
-                                <li><a href="~/headset">KNOWLEDGE BASE</a></li>
-                                <li><a href="~/headset">FAQs</a></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <ul>
-                                <li><a href="~/headset">WARRANTY</a></li>
-                                <li><a href="~/headset">MEMORY FINDER</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="menu-item">
-                    <a href="#">COMMUNITY</a>
-                    <div class="center-menu-sub community">
-                        <div>
-                            <ul>
-                                <li><a href="~/headset">FORUMS</a></li>
-                                <li><a href="~/headset">BLOGS</a></li>
-                                <li><a href="~/headset">HOW-TO GUIDES</a></li>
-                                <li><a href="~/headset">PRESS ROOM</a></li>
-                                <li><a href="~/headset">WALLPAPER</a></li>
-                            </ul>
+                    <div class="menu-item" data-sub-menu="support">
+                        <a href="#">SUPPORT</a><i class="fas fa-chevron-right"></i>
+                        <div class="center-menu-sub support" id="support">
+                            <div>
+                                <ul>
+                                    <li><a href="~/headset">DOWNLOADS</a></li>
+                                    <li><a href="~/headset">CUSTOMER SUPPORT</a></li>
+                                    <li><a href="~/headset">KNOWLEDGE BASE</a></li>
+                                    <li><a href="~/headset">FAQs</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <ul>
+                                    <li><a href="~/headset">WARRANTY</a></li>
+                                    <li><a href="~/headset">MEMORY FINDER</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="menu-item">
-                    <a href="#">GAMING</a>
-                    <div class="center-menu-sub gaming">
-                        <div>
-                            <ul>
-                                <li><a href="~/headset">GURU GAMING</a></li>
-                                <li><a href="~/headset">ESPORTS</a></li>
-                                <li><a href="~/headset">STREAMERS</a></li>
-                                <li><a href="~/headset">STUDENTS</a></li>
-                            </ul>
+                    <div class="menu-item" data-sub-menu="community">
+                        <a href="#">COMMUNITY</a><i class="fas fa-chevron-right"></i>
+                        <div class="center-menu-sub community" id="community">
+                            <div>
+                                <ul>
+                                    <li><a href="~/headset">FORUMS</a></li>
+                                    <li><a href="~/headset">BLOGS</a></li>
+                                    <li><a href="~/headset">HOW-TO GUIDES</a></li>
+                                    <li><a href="~/headset">PRESS ROOM</a></li>
+                                    <li><a href="~/headset">WALLPAPER</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item" data-sub-menu="gaming">
+                        <a href="#">GAMING</a><i class="fas fa-chevron-right"></i>
+                        <div class="center-menu-sub gaming" id="gaming">
+                            <div>
+                                <ul>
+                                    <li><a href="~/headset">GURU GAMING</a></li>
+                                    <li><a href="~/headset">ESPORTS</a></li>
+                                    <li><a href="~/headset">STREAMERS</a></li>
+                                    <li><a href="~/headset">STUDENTS</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -206,24 +214,42 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script>
         $('#search-1').on("click", function () {
-            $('#search-1').hide();
+            $('#search-1').hide();            
             $('.main-menu-center').hide();
             $('#search-input').show();
             $('.main-menu-right').css('width', '1200')
         });
 
-    $('#cancel-search').on("click", function () {
+        $('#cancel-search').on("click", function () {
             $('#search-input').hide();
-            $('.main-menu-center').show();
+            if (window.matchMedia("(max-width: 800px)").matches) {
+                $('.main-menu-center').hide();
+            }
+            else {
+                $('.main-menu-center').show();
+            }
             $('#search-1').show();
             $('.main-menu-right').width(300);
         });
 
-        $(document).on('keypress',function(e) {
-            if (e.which == 13) {
-                $('#do-search').click();
-        }
+        $('[data-sub-menu]').click(function () {
+
+            var target = $(this).data('sub-menu');
+            $('.center-menu-sub').hide();
+            $("#" + target).show();
         });
+
+        function openNav() {
+            $('.main-menu-center').css('left','0');
+            $('.openbar').hide();
+            $('.closebar').show();
+        }
+
+        function closeNav() {
+            $('.main-menu-center').css('left','-100%');
+            $('.closebar').hide();
+            $('.openbar').show();
+        }
 
     </script>
     @RenderSection("endJS", required: false)

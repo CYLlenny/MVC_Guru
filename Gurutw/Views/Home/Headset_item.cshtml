@@ -23,47 +23,49 @@
                 <!--上下保留空間-->
                 <div class="pt-5 pb-5 d-flex row">
                     <!--左邊小圖-->
-                    <div class="d-flex col-1">
-                        <div class="d-flex flex-column justify-content-center" id="small_img_wrapper">
-                            @foreach (var item in pp_List)
-                            {
-                                count++;
-                                <img src=@item.pp_path alt="#" class="test_img mb-2" id="img_@count">
-                            }
-                        </div>
+                    
+                    <div class="d-flex flex-column justify-content-center col-lg-1  col-md-3 col-xs-12" id="small_img_wrapper">
+                        @foreach (var item in pp_List)
+                        {
+                            count++;
+                            <img src=@item.pp_path alt="#" class="test_img mb-2" id="img_@count">
+                        }
                     </div>
+                   
 
                     <!--中間大圖-->
-                    <div class="d-flex justify-content-center col-8 ">
+                    <div class="d-flex justify-content-center col-lg-8 c col-md-8 col-xs-12" id="item_img_border">
                         <img src="@pp_List[0].pp_path" alt="#" id="item_img">
                     </div>
 
                     <!--右邊資訊-->
-                    <div class="col-3">
+                    <div class="col-lg-3  col-md-12 col-xs-12 ">
                         <h2>@p_List[0].p_name</h2>
                         <h3>$ @Decimal.Round(p_List[0].p_unitprice, 0)</h3>
 
-                        @for (var i = 0; i < 2; i++)
+                        @foreach (var item in pf_List)
                         {
                             <p class="h6 text-muted mt-3">
-                                ※ @pf_List[i].pf_description + @pf_List[i].pf_note
+                                ※ @item.pf_description 
                             </p>
                         }
-                        <img src="/Assets/images/iCUE_logo.png" alt="" id="icue_logo">
-
+                  
                         <div class="line-it-button mt-3 mb-3" data-lang="zh_Hant" data-type="share-b" data-ver="3" data-url="https://gurutwmvc.azurewebsites.net/Headset/@p_List[0].p_id" data-color="default" data-size="large" data-count="false" style="display: none;"></div>
 
-                        <select name="id" id="select_item_color" class="mt-5 custom-select">
+                        <select name="id" id="select_item_color" class="mt-4 custom-select">
                             @foreach (var item in pd_List)
                             {
                                 <option value="@item.pd_id">@item.pd_color</option>
                             }
                         </select>
-                        <div class="mt-5">
-                            <input type="text" name="num" />
+                        <div class="mt-3 mb-4">
+                            <button id="sub_btn" type="button">-</button>
+                            <input type="number" name="num" id="count"/>
+                            <button id="add_btn" type="button">+</button>
                         </div>
-                        <button type="submit" class="mt-5 btn btn-dark btn-block" onclick="myFunction()" >ADD TO CART</button>
-                        <div id="snackbar">Some text some message..</div>
+
+                        <button type="submit" class="btn btn-dark btn-block">ADD TO CART</button>
+
                     </div>
                 </div>
             </div>

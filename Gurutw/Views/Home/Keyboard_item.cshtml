@@ -43,13 +43,13 @@
                         <h2>@p_List[0].p_name</h2>
                         <h3>$ @Decimal.Round(p_List[0].p_unitprice, 0)</h3>
 
-                        @for (var i = 0; i < 2; i++)
+                        @foreach (var item in pf_List)
                         {
                             <p class="h6 text-muted mt-3">
-                                ※ @pf_List[i].pf_description + @pf_List[i].pf_note
+                                ※ @item.pf_description
                             </p>
                         }
-                        <img src="/Assets/images/iCUE_logo.png" alt="" id="icue_logo">
+                        
 
                         <div class="line-it-button mt-3 mb-3" data-lang="zh_Hant" data-type="share-b" data-ver="3" data-url="https://gurutwmvc.azurewebsites.net/Keyboard/@p_List[0].p_id" data-color="default" data-size="large" data-count="false" style="display: none;"></div>
 
@@ -59,12 +59,14 @@
                                 <option value="@item.pd_id">@item.pd_color</option>
                             }
                         </select>
-                        <div class="mt-5">
-                            <input type="text" name="num" />
-                        </div>
-                        <button type="submit" class="mt-5 btn btn-dark btn-block" onclick="myFunction()">ADD TO CART</button>
 
-                        <div id="snackbar">Some text some message..</div>
+                        <div class="mt-5 mb-5">
+                            <button id="sub_btn" type="button">-</button>
+                            <input type="number" name="num" id="count" />
+                            <button id="add_btn" type="button">+</button>
+                        </div>
+
+                        <button type="submit" class="btn btn-dark btn-block">ADD TO CART</button>
                     </div>
                 </div>
             </div>

@@ -10,53 +10,164 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            編號
-        </th>
-        <th>
-            購買人
-        </th>
-        <th>
-            運送地址
-        </th>
-        <th>
-            取貨方式
-        </th>
-        @*<th>
-                會員編號
-            </th>*@
-        <th>
-            付款方式
-        </th>
-        <th></th>
-    </tr>
-    @foreach (var t in a)
-    {
-        <tr>
-            <td>
-                @t.o_id
-            </td>
-            <td>
-                @t.o_receiver
-            </td>
-            <td>
-                @t.o_address
-            </td>
-            <td>
-                @t.dw_name
-            </td>
-            @*<td>
-                    @t.m_id
-                </td>*@
-            <td>
-                @t.pay_name
-            </td>
-            <td>
-                @Html.ActionLink("訂單詳細", "Outcome", new { Id = t.o_id })
-            </td>
-        </tr>
-    }
+<div class="news-and-principle">
+    <div class="container1">
+        <section class="news">
+            <h2>最新快訊</h2>
+            @*<ul>
+                    <li>
+                        <a href="#">會員專區</a>
+                    </li>
+                    <li>
+                        <a href="#">我的收藏</a>
+                    </li>
+                    <li>
+                        <a href="#">我的折價券</a>
+                    </li>
+                    <li>
+                        <a href="#">常見問題/問答紀錄</a>
+                    </li>
+                    <li>
+                        <a href="#">常用收件人</a>
+                    </li>
+                    <li>
+                        <a href="#">常用統一編號</a>
+                    </li>
+                    <li>
+                        <a href="#">修改密碼</a>
+                    </li>
+                    <li>
+                        <a href="#">會員權益聲明</a>
+                    </li>
+                </ul>*@
+        </section>
+        <section class="principle">
+            <table class="table">
+                <tr>
+                    <th>
+                        編號
+                    </th>
+                    <th>
+                        購買人
+                    </th>
+                    <th>
+                        運送地址
+                    </th>
+                    <th>
+                        取貨方式
+                    </th>
+                    <th>
+                        付款方式
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                </tr>
+                @foreach (var t in a)
+                {
+                    <tr>
+                        <td>
+                            @t.o_id
+                        </td>
+                        <td>
+                            @t.o_receiver
+                        </td>
+                        <td>
+                            @t.o_address
+                        </td>
+                        <td>
+                            @t.dw_name
+                        </td>
+                        <td>
+                            @t.pay_name
+                        </td>
+                        <td>
+                            @Html.ActionLink("訂單詳細", "Outcome", new { Id = t.o_id }, new { @class = "text-info" })
+                        </td>
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td>
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            &nbsp;
+                        </th>
+                        <th>
+                            數量
+                        </th>
+                        <th>
+                            價格
+                        </th>
+                        <th>
+                            折扣
+                        </th>
+                        <th>
+                            收件者
+                        </th>
+                        <th>
+                            產品名稱
+                        </th>
+                        <th>
+                            產品顏色
+                        </th>
+                        <th>
+                            產品單價
+                        </th>
+                        <th>
+                            總價格
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            @t.pp_path
+                        </td>
+                        <td>
+                            @t.od_quantity
+                        </td>
+                        <td>
+                            @t.od_price
+                        </td>
+                        <td>
+                            @t.od_discount
+                        </td>
+                        <td>
+                            @t.o_receiver
+                        </td>
+                        <td>
+                            @t.p_name
+                        </td>
+                        <td>
+                            @t.pd_color
+                        </td>
+                        <td>
+                            @t.p_unitprice
+                        </td>
+                        <td>
+                            @(t.od_quantity * t.od_price * t.od_discount)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            &nbsp;
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            &nbsp;
+                        </th>
+                    </tr>
+                }
+            </table>
 
-</table>
+        </section>
+    </div>
+</div>

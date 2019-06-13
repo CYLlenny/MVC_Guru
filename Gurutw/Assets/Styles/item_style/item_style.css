@@ -1,8 +1,11 @@
-﻿
-/*處理商品頁大圖*/
-#item_img {
+﻿#item_img_border {
     width: 560px;
     height: 540px;
+}
+/*處理商品頁大圖*/
+#item_img {
+    max-width: 100%;
+    max-height: 100%;
 }
 
 /*處理商品頁小圖*/
@@ -19,7 +22,7 @@
 
 /*處理商品頁滿版容器左右預設padding*/
 .container-fluid {
-    padding: 0px;
+    padding: 0;
     margin-top: 65px;
 }
 
@@ -39,6 +42,9 @@
     margin-right: 50px;
 }
 
+#count{
+    width:70%;
+}
 
 
 * {
@@ -62,77 +68,45 @@
 
 
 /*# sourceMappingURL=style.css.map */
-
-/*加入購物車 彈出*/
-
-#snackbar {
-    visibility: hidden;
-    min-width: 250px;
-    margin-left: -125px;
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    border-radius: 2px;
-    padding: 16px;
-    position: fixed;
-    z-index: 1;
-    left: 50%;
-    bottom: 30px;
-    font-size: 17px;
-}
-
-#snackbar.show {
-    visibility: visible;
-    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-    animation: fadein 0.5s, fadeout 0.5s 2.5s;
-}
-
-@-webkit-keyframes fadein {
-    from {
-        bottom: 0;
-        opacity: 0;
+@media screen and (max-width: 1200px) {
+    .img-magnifier-glass{
+        visibility:hidden;
     }
 
-    to {
-        bottom: 30px;
-        opacity: 1;
+}
+
+@media screen and (max-width: 995px) {
+    #count {
+        width: 60%;
+    }
+
+    #item_img_border {
+        width: 450px;
+        height: 400px;
     }
 }
 
-@keyframes fadein {
-    from {
-        bottom: 0;
-        opacity: 0;
+@media screen and (max-width: 767px) {
+    #count {
+        width: 40%;
     }
 
-    to {
-        bottom: 30px;
-        opacity: 1;
-    }
-}
-
-@-webkit-keyframes fadeout {
-    from {
-        bottom: 30px;
-        opacity: 1;
+    #item_img_border {
+        max-height: 400px;
     }
 
-    to {
-        bottom: 0;
-        opacity: 0;
+    #select_item_color {
+        margin-top: 20px;
+    }
+
+    #small_img_wrapper {
+        flex-direction: row !important;
     }
 }
 
-@keyframes fadeout {
-    from {
-        bottom: 30px;
-        opacity: 1;
-    }
 
-    to {
-        bottom: 0;
-        opacity: 0;
+@media screen and (max-width: 510px) {
+    #count {
+        width: 30%;
     }
 }
-
-/********************************/

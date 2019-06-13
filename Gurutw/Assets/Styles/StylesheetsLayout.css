@@ -27,7 +27,7 @@ html body header {
 .center-menu-sub {
   display: none;
   background: #fecb00;
-  line-height: 30px;
+  line-height: 25px;
   font-size: 1rem;
   padding: 15px 15px;
   z-index: 5;
@@ -39,6 +39,10 @@ html body header {
 
 .center-menu-sub div a:hover {
   text-decoration: underline;
+}
+
+.fa-chevron-right {
+    display: none !important;
 }
 
 .product div:last-child, .support div:last-child {
@@ -65,9 +69,9 @@ html body header {
 .frame-container .main-menu-center {
   font-size: 1.2rem;
   font-weight: bold;
-  -webkit-box-flex: 0;
-      -ms-flex: 0 1 765px;
-          flex: 0 1 765px;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 765px;
+          flex: 1 0 765px;
   padding-left: 5.4%;
 }
 
@@ -114,12 +118,19 @@ html body header {
           justify-content: space-between;
 }
 
+.main-header .top-menu {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
 .main-header .logo-image {
   -webkit-box-flex: 0;
       -ms-flex: 0 0 225px;
           flex: 0 0 225px;
   height: 61px;
-  background-size: contain;
+  background-size: 100%;
+  text-align: center;
   cursor: pointer;
 }
 
@@ -128,6 +139,16 @@ html body header {
           animation: shake 0.5s;
   -webkit-animation-iteration-count: infinite;
           animation-iteration-count: infinite;
+}
+
+.main-header .logo-image img {
+  width: auto;
+  height: 100%;
+  vertical-align: top;
+}
+
+.phone-menu {
+  display: none;
 }
 
 @-webkit-keyframes shake {
@@ -395,6 +416,9 @@ html body header {
         -ms-flex: 0 0 200px;
             flex: 0 0 200px;
   }
+  #search-input input {
+    width: 550px;
+  }
 }
 
 @media screen and (max-width: 1134px) {
@@ -406,6 +430,120 @@ html body header {
 @media screen and (max-width: 1010px) {
   .frame-container .main-menu-center {
     font-size: 0.9rem;
+  }
+  .center-menu-sub {
+    font-size: 0.9rem;
+  }
+  #search-input input {
+    width: 450px;
+  }
+}
+
+@media screen and (max-width: 946px) {
+  .frame-container .main-menu-right {
+    font-size: 1.5rem;
+  }
+  .main-header .logo-image {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 160px;
+            flex: 0 0 160px;
+  }
+}
+
+@media screen and (max-width: 906px) {
+  .frame-container .main-menu-center {
+    font-size: 0.8rem;
+  }
+  .center-menu-sub {
+    font-size: 0.8rem;
+  }
+  #search-input input {
+    width: 380px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .main-header .top-menu {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: reverse;
+        -ms-flex-direction: row-reverse;
+            flex-direction: row-reverse;
+    -webkit-box-flex: 1;
+        -ms-flex: 1 0 61%;
+            flex: 1 0 61%;
+  }
+  .main-header .top-menu .main-menu-center {
+    position: absolute;
+    top: 65px;
+    left: -100%;
+    background-color: #fecb00;
+    padding: 10px 20px;
+    width: 100%;
+    font-size: 1rem;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+  }
+  .main-header .top-menu .main-menu-center .menu-item {
+    float: none;
+    position: relative;
+    line-height: 2rem;
+  }
+  .main-header .top-menu .main-menu-center .menu-item .center-menu-sub {
+    padding: 0 15px;
+  }
+  .main-header .top-menu .main-menu-center .menu-item .center-menu-sub div ul {
+    margin: 0;
+  }
+  .main-header .top-menu .main-menu-center .menu-item:hover .center-menu-sub {
+    display: none;
+    width: 100%;
+    position: relative;
+    top: 0;
+    left: 0;
+  }
+  .main-header .top-menu .phone-menu {
+    display: block;
+    -webkit-box-flex: 0;
+        -ms-flex: 0 1 267px;
+            flex: 0 1 267px;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  .main-header .top-menu .phone-menu .closebar {
+    display: none;
+  }
+  .frame-container .main-menu-right {
+    -webkit-box-flex: 1;
+        -ms-flex: 1 1 39%;
+            flex: 1 1 39%;
+  }
+  .fa-chevron-right {
+    display: inline-block;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .frame-container .main-menu-right {
+    font-size: 1.2rem;
+  }
+  .main-header .top-menu .phone-menu {
+    font-size: 1.2rem;
+  }
+  #search-input i {
+    font-size: 1.2rem;
+  }
+  .main-header .logo-image {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 140px;
+            flex: 0 0 140px;
+  }
+  .frame-container .main-menu-right {
+    -webkit-box-flex: 1;
+        -ms-flex: 1 1 33%;
+            flex: 1 1 33%;
   }
 }
 /*# sourceMappingURL=StylesheetsLayout.css.map */

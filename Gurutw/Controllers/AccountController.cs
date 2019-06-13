@@ -122,6 +122,7 @@ namespace Gurutw.Controllers
             return RedirectToAction("Index","Home");
         }
 
+
         //
         // GET: /Account/VerifyCode
         [AllowAnonymous]
@@ -353,13 +354,8 @@ namespace Gurutw.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
-            ExternalLoginInfo loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
-            if (loginInfo == null)
-            {
-                return RedirectToAction("Login");
-            }
-
-            else 
+            var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
+            if (loginInfo != null)
             {
                 var memb = db.Member.Where(x => x.m_email == loginInfo.Email).FirstOrDefault();
                 if (memb != null)
@@ -376,27 +372,8 @@ namespace Gurutw.Controllers
                     return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
                 }
             }
-
-                      
-            // 若使用者已經有登入資料，請使用此外部登入提供者登入使用者
-            //var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
-
-            //switch (result)
-            //{
-            //    case SignInStatus.Success:
-            //        //Member memb = db.Member.Where(x => x.m_email == loginInfo.Email).FirstOrDefault();
-            //        Session["m_name"] = User.Identity.GetUserName();
-            //        //Session["m_id"] = memb.m_id;
-            //        return RedirectToLocal(returnUrl);
-            //    case SignInStatus.LockedOut:
-            //        return View("Lockout");
-            //    case SignInStatus.RequiresVerification:
-            //        return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
-            //    case SignInStatus.Failure:
-            //    default:
-            //        // 若使用者沒有帳戶，請提示使用者建立帳戶
-                    
-            //}
+            return RedirectToAction("ExternalLoginCallback");
+            
         }
 
         //

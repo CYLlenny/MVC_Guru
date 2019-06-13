@@ -96,6 +96,11 @@ namespace Gurutw.Controllers
                                "(select dbo.Discount.d_discount from dbo.Discount where CONVERT(VARCHAR(10), GETDATE(), 120) " +
                                "between dbo.Discount.d_startdate And dbo.Discount.d_enddate " +
                                "And dbo.Discount.c_id = dbo.Category.c_id ) d_discount, " +
+                               "(select dbo.Discount.d_activity " +
+                               "from dbo.Discount " +
+                               "where CONVERT(VARCHAR(10), GETDATE(), 120) " +
+                               "between dbo.Discount.d_startdate " +
+                               "And dbo.Discount.d_enddate And dbo.Discount.c_id = dbo.Category.c_id ) d_name," +
                                "(SELECT TOP 1 dbo.Product_Picture.pp_path " +
                                "FROM dbo.Product_Picture " +
                                "WHERE dbo.Product_Picture.p_id = dbo.Product.p_id) AS pp_path," +
@@ -117,8 +122,11 @@ namespace Gurutw.Controllers
 
         public ActionResult OrderDeliver()
         {
+            var user = int.Parse(Session["m_id"].ToString());
             ViewBag.dw_id = new SelectList(db.Delive_Way, "dw_id", "dw_name");
             ViewBag.pay_id = new SelectList(db.Payment, "pay_id", "pay_name");
+            string delsql = "DELETE from Shopping_Cart Where m_id=@mid";
+            conn.Execute(delsql, new { mid = user });
 
             return View();
         }
@@ -153,7 +161,7 @@ namespace Gurutw.Controllers
                 var product = db.Product.Where(x => x.p_id == pdetail.p_id).FirstOrDefault();
                 var date = DateTime.Now;
                 var discountList = db.Discount.Where(x => x.c_id == product.c_id).ToList();
-                float discount = 0;
+                float discount = 1;
                 foreach (var t in discountList)
                 {
                     if (t.d_startdate <= date && t.d_enddate >= date)
@@ -172,9 +180,14 @@ namespace Gurutw.Controllers
                 od.od_discount = discount;
                 od.od_price = (float)product.p_unitprice;
 
+                pdetail.pd_stock = pdetail.pd_stock - u.cart_quantity;
+                pdetail.pd_onorder = pdetail.pd_onorder - u.cart_quantity;
+
                 db.Order_Detail.Add(od);
                 db.SaveChanges();
+                //return RedirectToAction("result");
             }
+
 
             var uid = db.Member.Where(x => x.m_id == user).FirstOrDefault().m_email_id;
             var email = db.Member.Where(x => x.m_id == user).FirstOrDefault().m_email;
@@ -193,7 +206,8 @@ namespace Gurutw.Controllers
                                                                                                       //System.Net.Mail.SmtpClient Client = new System.Net.Mail.SmtpClient("msa.hinet.net");//hinet主機   
             Client.Credentials = new System.Net.NetworkCredential("gurutw201905@gmail.com", "wearethe@1");//帳密，Hinet不用但須在它的ADLS(區段)裡面   
             Client.EnableSsl = true;//Gmail需啟動SSL，Hinet不用   
-            Client.Send(MyMail);//寄出
+            Client.Send(MyMail);//寄出  
+            //}
 
             //db.SaveChanges();
             return RedirectToAction("result");
@@ -210,13 +224,27 @@ namespace Gurutw.Controllers
             var user = int.Parse(Session["m_id"].ToString());
             using (conn)
             {
-                string sql = "SELECT dbo.[Order].o_id,dbo.[Order].o_receiver, dbo.[Order].o_address, dbo.[Order].pay_id, dbo.[Order].dw_id, dbo.[Order].m_id, dbo.Payment.pay_name, dbo.Delive_Way.dw_name FROM dbo.[Order] " +
-                    "INNER JOIN dbo.Payment ON dbo.[Order].pay_id = dbo.Payment.pay_id INNER JOIN dbo.Delive_Way ON dbo.[Order].dw_id = dbo.Delive_Way.dw_id" +
-                    " WHERE(dbo.[Order].m_id = " + user + "and dbo.[Order].o_status != 4 and dbo.[Order].o_status != 8 );";
+                string sql2 = "SELECT dbo.[Order].o_id, dbo.[Order].o_status, dbo.[Order].o_receiver, dbo.[Order].o_address, " +
+                            "dbo.Payment.pay_name, dbo.Order_Detail.od_quantity, dbo.Order_Detail.od_price, dbo.Order_Detail.od_discount, " +
+                            "dbo.Product_Detail.pd_color, dbo.Product.p_name, dbo.Product.p_unitprice, " +
+                                "(SELECT TOP(1) pp_path FROM dbo.Product_Picture WHERE(dbo.Product.p_id = p_id)) AS Pic, " +
+                            "Payment_1.pay_name AS Expr1, dbo.Delive_Way.dw_name FROM dbo.[Order] INNER JOIN " +
+                            "dbo.Order_Detail ON dbo.[Order].o_id = dbo.Order_Detail.o_id INNER JOIN " +
+                            "dbo.Payment ON dbo.[Order].pay_id = dbo.Payment.pay_id INNER JOIN " +
+                            "dbo.Product_Detail ON dbo.Order_Detail.pd_id = dbo.Product_Detail.pd_id INNER JOIN " +
+                            "dbo.Product ON dbo.Product_Detail.p_id = dbo.Product.p_id INNER JOIN " +
+                            "dbo.Delive_Way ON dbo.[Order].dw_id = dbo.Delive_Way.dw_id INNER JOIN " +
+                            "dbo.Payment AS Payment_1 ON dbo.[Order].pay_id = Payment_1.pay_id " +
+                            "WHERE(dbo.[Order].m_id = " + user + " AND dbo.[Order].o_status != 4 AND dbo.[Order].o_status != 8 and dbo.[Order].o_id = dbo.[Order_Detail].o_id );";
 
-                var o = conn.Query(sql, new { mid = user });
+
+
+                var o = conn.Query(sql2, new { mid = user });
+
                 ViewBag.t = o;
             }
+
+
             return View();
         }
 
