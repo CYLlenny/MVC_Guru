@@ -88,7 +88,7 @@ namespace Gurutw.Controllers
             string email = HttpUtility.HtmlEncode(model.Email);
             string password = HttpUtility.HtmlEncode(model.Password);
 
-            Member user = db.Member.Where(x => x.m_email == email && x.m_password == password).FirstOrDefault();
+            Member user = db.Member.Where(x => x.m_email == email && x.m_password == password && x.m_status=="1").FirstOrDefault();
             if (user == null)
             {
                 ModelState.AddModelError("", "The email or password is invalid.");

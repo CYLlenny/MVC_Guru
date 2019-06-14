@@ -38,6 +38,12 @@ namespace Gurutw.Models
 
         public bool RememberMe { get; set; }
     }
+    public class RegisVerifyCodeViewModel
+    {
+        [Required]
+        [Display(Name = "Code")]
+        public string Code { get; set; }
+    }
 
     public class ForgotViewModel
     {

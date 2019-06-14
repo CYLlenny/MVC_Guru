@@ -4,73 +4,143 @@
     ViewBag.Title = "Outcome";
     var a = ViewBag.t;
 }
-
+@section topCSS{
+<style>
+    .container2{
+        margin : 100px auto;
+        width : 1000px;
+    }
+    </style>
+    }
 <h2>Outcome</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            od_quantity
-        </th>
-        <th>
-            od_price
-        </th>
-        <th>
-            od_discount
-        </th>
-        <th>
-            Order.o_receiver
-        </th>
-        <th>
-            Product_Detail.pd_color
-        </th>
-        <th>
-            p_name
-        </th>
-        <th>
-            p_unitprice
-        </th>
-        <th>
-            Total
-        </th>
-    </tr>
 
-    @foreach (var c in a)
-    {
-        <tr>
-            <td>
-                @c.od_quantity
-            </td>
-            <td>
-                @c.od_price
-            </td>
-            <td>
-                @c.od_discount
-            </td>
-            <td>
-                @c.o_receiver
-            </td>
-            <td>
-                @c.pd_color
-            </td>
-            <td>
-                @c.p_name
-            </td>
-            <td>
-                @c.p_unitprice
-            </td>
-            <td>
-                @(c.od_quantity * c.od_price * c.od_discount)
-            </td>
-            @*<td>
-                    @Html.ActionLink("Edit", "Edit", new { id=item.od_id }) |
-                    @Html.ActionLink("Details", "Details", new { id=item.od_id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id=item.od_id })
-                </td>*@
+<div class="container2" >
+ 
+
+        <div style="position: relative;">
+            Orderer : @a[0].m_name
+            <span style="position: absolute; right : 0">
+                Ordered Date : @a[0].o_date
+            </span>
+        </div>
+        <div>
+            Receiver :@a[0].o_receiver
+        </div>
+        <div>
+            Address :@a[0].o_address
+        </div>
+        <div>
+            Delivery Method :@a[0].dw_name
+        </div>
+        <div>
+            Payment :@a[0].pay_name
+        </div>
+    
+
+
+
+    <table class="table">
+        <tr style="background-color : #f1f4f6">
+
+            @*<th>
+                    價格
+                </th>*@
+            <th>
+                &nbsp;
+            </th>
+            <th>
+                Receiver
+            </th>
+            <th>
+                Product
+            </th>
+            <th>
+                Color
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th>
+                UnitPrice
+            </th>
+            <th>
+                Discount
+            </th>
+            <th>
+                Total
+            </th>
         </tr>
-    }
 
-</table>
+        @foreach (var c in a)
+        {
+            <tr>
+
+                @*<td>
+                        @c.od_price
+                    </td>*@
+                <td>
+                    <div>
+                        <img src="@c.pp_path" style="width:100px;height:100px;" />
+                    </div>
+                </td>
+                <td>
+                    @c.o_receiver
+                </td>
+                <td>
+                    @c.p_name
+                </td>
+                <td>
+                    @c.pd_color
+                </td>
+                <td>
+                    @c.od_quantity
+                </td>
+                <td @*style="text-decoration: line-through;"*@>
+                    @c.p_unitprice
+                </td>
+                <td>
+                    @c.od_discount
+                </td>
+                <td>
+                    @(c.od_quantity * c.od_price * c.od_discount)
+                </td>
+                @*<td>
+                        @Html.ActionLink("Edit", "Edit", new { id=item.od_id }) |
+                        @Html.ActionLink("Details", "Details", new { id=item.od_id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id=item.od_id })
+                    </td>*@
+            </tr>
+            <tr>
+                <td>
+                    &nbsp;
+                </td>
+                <td>
+                    &nbsp;
+                </td>
+                <td>
+                    &nbsp;
+                </td>
+                <td>
+                    &nbsp;
+                </td>
+                <td>
+                    &nbsp;
+                </td>
+                <td>
+                    &nbsp;
+                </td>
+                <td>
+                    Total Amount :
+                </td>
+                <td>
+                    @(c.od_quantity * c.od_price * c.od_discount)
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

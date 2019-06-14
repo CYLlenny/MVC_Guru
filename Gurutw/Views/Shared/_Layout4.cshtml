@@ -126,8 +126,11 @@
                         <i id="cancel-search" class="fas fa-times"></i>
                     </form>
                 </div>
-                <div id="search-1"><a href="#"><i class="fas fa-search search-1"></i></a></div>
+                <div id="search-1"><a href="#"><i class="fas fa-search search-1"></i></a></div>              
+                @if(Session["m_name"] == null)
+                {
                 <div id="user"><a href="/Account/Login"><i class="fas fa-user"></i></a></div>
+                }
                 @if (Session["m_name"] != null)
                 {
                     <div class="loged-in-user" style="">

@@ -518,7 +518,7 @@ html body header {
             flex: 1 1 39%;
   }
   .fa-chevron-right {
-    display: inline-block;
+    display: inline-block !important;
     position: absolute;
     top: 5px;
     right: 10px;

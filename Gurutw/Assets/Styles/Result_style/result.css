@@ -1,0 +1,72 @@
+.news-and-principle .news ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    padding-left: 20px;
+  }
+
+  .news-and-principle {
+    padding: 40px 0;
+  }
+
+  .news-and-principle .container1 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width : 1300px;
+    margin: 0 auto;
+  }
+  
+  .news-and-principle .principle{
+      width : 1150px;
+  }
+
+  .news-and-principle .news {
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    min-width: 0;
+    /*BuildSchool-切版.pdf Page69*/
+  }
+
+  .news-and-principle .news h2 {
+    margin: 0 0 20px;
+    width: 120px;
+    height: 36px;
+    background: url("../images/news-title@2x.png") no-repeat;
+    background-size: 100% 100%;
+    text-indent: 110%;
+    /*首行縮排*/
+    overflow: hidden;
+    white-space: nowrap;
+    /*有多長都不換行*/
+  }
+
+  .news-and-principle .news li {
+    padding: 8px;
+    border-bottom: dotted;
+    width: 250px;
+  }
+
+  .news-and-principle .news ul {
+    /*將預設的點狀符號消除(三行必備)*/
+  }
+
+  .news-and-principle .news a {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .news-and-principle .news li:nth-child(even) {
+    /*even=雙數*/
+    background: #f5f5f5;
+  }
+
+  
+
+  .news-and-principle .principle .principle-content li {
+    margin: 10px 0;
+    font-size: 18px;
+  }

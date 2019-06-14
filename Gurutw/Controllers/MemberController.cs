@@ -122,11 +122,8 @@ namespace Gurutw.Controllers
 
         public ActionResult OrderDeliver()
         {
-            var user = int.Parse(Session["m_id"].ToString());
             ViewBag.dw_id = new SelectList(db.Delive_Way, "dw_id", "dw_name");
             ViewBag.pay_id = new SelectList(db.Payment, "pay_id", "pay_name");
-            string delsql = "DELETE from Shopping_Cart Where m_id=@mid";
-            conn.Execute(delsql, new { mid = user });
 
             return View();
         }
@@ -134,9 +131,7 @@ namespace Gurutw.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult OrderDeliver([Bind(Include = "o_receiver,o_address,pay_id,dw_id")]Order or)
         {
-
             var user = int.Parse(Session["m_id"].ToString());
-
             //Order or = new Order();
             if (ModelState.IsValid)
             {
@@ -188,7 +183,6 @@ namespace Gurutw.Controllers
                 //return RedirectToAction("result");
             }
 
-
             var uid = db.Member.Where(x => x.m_id == user).FirstOrDefault().m_email_id;
             var email = db.Member.Where(x => x.m_id == user).FirstOrDefault().m_email;
             string a = Convert.ToString(uid);
@@ -211,6 +205,7 @@ namespace Gurutw.Controllers
 
             //db.SaveChanges();
             return RedirectToAction("result");
+            //return View();
         }
         //[HttpGet]
         //public ActionResult result()
@@ -219,15 +214,15 @@ namespace Gurutw.Controllers
         //}
         //[HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult result()
+        public ActionResult result(string uid)
         {
             var user = int.Parse(Session["m_id"].ToString());
             using (conn)
             {
-                string sql2 = "SELECT dbo.[Order].o_id, dbo.[Order].o_status, dbo.[Order].o_receiver, dbo.[Order].o_address, " +
+                string sql2 = "SELECT dbo.[Order].o_id, dbo.[Order].o_status, dbo.[Order].o_date, dbo.[Order].o_delivedate, dbo.[Order].o_receiver, dbo.[Order].o_address, " +
                             "dbo.Payment.pay_name, dbo.Order_Detail.od_quantity, dbo.Order_Detail.od_price, dbo.Order_Detail.od_discount, " +
                             "dbo.Product_Detail.pd_color, dbo.Product.p_name, dbo.Product.p_unitprice, " +
-                                "(SELECT TOP(1) pp_path FROM dbo.Product_Picture WHERE(dbo.Product.p_id = p_id)) AS Pic, " +
+                                "(SELECT TOP(1) pp_path FROM dbo.Product_Picture WHERE(dbo.Product.p_id = p_id)) AS pp_path, " +
                             "Payment_1.pay_name AS Expr1, dbo.Delive_Way.dw_name FROM dbo.[Order] INNER JOIN " +
                             "dbo.Order_Detail ON dbo.[Order].o_id = dbo.Order_Detail.o_id INNER JOIN " +
                             "dbo.Payment ON dbo.[Order].pay_id = dbo.Payment.pay_id INNER JOIN " +
@@ -236,7 +231,6 @@ namespace Gurutw.Controllers
                             "dbo.Delive_Way ON dbo.[Order].dw_id = dbo.Delive_Way.dw_id INNER JOIN " +
                             "dbo.Payment AS Payment_1 ON dbo.[Order].pay_id = Payment_1.pay_id " +
                             "WHERE(dbo.[Order].m_id = " + user + " AND dbo.[Order].o_status != 4 AND dbo.[Order].o_status != 8 and dbo.[Order].o_id = dbo.[Order_Detail].o_id );";
-
 
 
                 var o = conn.Query(sql2, new { mid = user });
@@ -265,12 +259,20 @@ namespace Gurutw.Controllers
             //{
             using (conn)
             {
-                string sql = "SELECT dbo.Order_Detail.od_price, dbo.Order_Detail.od_quantity, dbo.Order_Detail.od_discount, dbo.Product_Detail.pd_color, dbo.[Order].o_receiver, dbo.Product.p_name, dbo.Product.p_unitprice FROM dbo.[Order] " +
-                            "INNER JOIN dbo.Order_Detail ON dbo.[Order].o_id = dbo.Order_Detail.o_id " +
-                            "INNER JOIN dbo.Product_Detail ON dbo.Order_Detail.pd_id = dbo.Product_Detail.pd_id " +
-                            "INNER JOIN dbo.Product ON dbo.Product_Detail.p_id = dbo.Product.p_id " +
-                            "WHERE dbo.[Order].m_id = " + user + "and dbo.[Order_Detail].o_id = " + Id;
-                var o = conn.Query(sql, new { mid = user });
+
+                string sql1 = "SELECT dbo.Member.m_name, dbo.Order_Detail.od_price, dbo.Order_Detail.od_discount, dbo.Order_Detail.od_quantity, " +
+                            "dbo.Product_Detail.pd_color, dbo.[Order].o_date, dbo.[Order].o_receiver, dbo.[Order].o_address, dbo.Product.p_name, " +
+                            "dbo.Product.p_unitprice, (SELECT TOP(1) pp_path FROM dbo.Product_Picture WHERE(dbo.Product.p_id = p_id)) AS pp_path, dbo.Delive_Way.dw_name, dbo.Payment.pay_name FROM dbo.[Order] INNER JOIN " +
+                            "dbo.Member ON dbo.[Order].m_id = dbo.Member.m_id INNER JOIN " +
+                            "dbo.Order_Detail ON dbo.[Order].o_id = dbo.Order_Detail.o_id INNER JOIN " +
+                            "dbo.Product_Detail ON dbo.Order_Detail.pd_id = dbo.Product_Detail.pd_id INNER JOIN " +
+                            "dbo.Product ON dbo.Product_Detail.p_id = dbo.Product.p_id INNER JOIN " +
+                            "dbo.Delive_Way ON dbo.[Order].dw_id = dbo.Delive_Way.dw_id INNER JOIN " +
+                            "dbo.Payment ON dbo.[Order].pay_id = dbo.Payment.pay_id " +
+                            "WHERE dbo.[Order].m_id = " + user + " and dbo.[Order_Detail].o_id = " + Id; 
+
+
+                var o = conn.Query(sql1, new { mid = user }).ToList();
                 ViewBag.t = o;
             }
             //}
@@ -301,6 +303,11 @@ namespace Gurutw.Controllers
             TempData["view"] = "Account_Information";
             return RedirectToAction("Member_Manager");
         }
+        //public ActionResult My_Orders()
+        //{
+        //    TempData["view"] = "My_Orders";
+        //    return RedirectToAction("Member_Manager");
+        //}
 
         [HttpGet]
         public ActionResult Update_Profile()

@@ -491,6 +491,7 @@
     <Content Include="Assets\Styles\membmanager.css" />
     <Content Include="Assets\Styles\normalize.css" />
     <Content Include="Assets\Styles\Registration.css" />
+    <Content Include="Assets\Styles\Result_style\result.css" />
     <Content Include="Assets\Styles\Signin.css" />
     <Content Include="Assets\Styles\StylesheetIndex.css" />
     <Content Include="Assets\Styles\StylesheetSearch.css" />
@@ -608,6 +609,8 @@
     <Content Include="Views\Member\Change_Pw.cshtml" />
     <Content Include="Views\Member\Member_Manager.cshtml" />
     <Content Include="Views\Member\Update_Profile.cshtml" />
+    <Content Include="Views\Home\VerifyRegistration.cshtml" />
+    <Content Include="Views\Member\My_Orders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

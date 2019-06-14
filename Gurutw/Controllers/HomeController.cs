@@ -40,29 +40,82 @@ namespace Gurutw.Controllers
             return View();
         }
 
+
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public ActionResult Registration(RegisterViewModel m)
         {
             Guid GmailId = Guid.NewGuid();
-            ViewData["username"] = m.UserName;
-
+            Session["regis-user"] = m.UserName;
+            Random rd = new Random();
+            var code = rd.Next(100000, 999999);
             if (!ModelState.IsValid)
             {
                 return View(m);
             }
-            Member memb = new Member()
+            Member user = db.Member.Where(x => x.m_email == m.Email).FirstOrDefault();
+            if (user != null)
             {
-                m_name = m.UserName,
-                m_email = m.Email,
-                m_password = m.Password,
-                m_email_id = GmailId
-            };
-            db.Member.Add(memb);
-            db.SaveChanges();
-            return View("RegisResult");
+                ModelState.AddModelError("", "The email is invalid.");
+                return View();
+            }
+            else
+            {
+                Member memb = new Member()
+                {
+                    m_name = m.UserName,
+                    m_email = m.Email,
+                    m_password = m.Password,
+                    m_status = "0",
+                    m_verification = code.ToString(),
+                    m_email_id = GmailId
+                };
+                db.Member.Add(memb);
+                db.SaveChanges();
+                Session["memb_id"] = memb.m_id;
+                var email = db.Member.Where(x => x.m_id == memb.m_id).FirstOrDefault().m_email;    //收信人的email            
+
+                System.Net.Mail.MailMessage MyMail = new System.Net.Mail.MailMessage();//建立MAIL   
+                MyMail.From = new System.Net.Mail.MailAddress("gurutw201905@gmail.com", "GuruTw");//寄信人   
+                MyMail.To.Add(new System.Net.Mail.MailAddress(email));//收信人1     
+                MyMail.Subject = "Welcome to Guru. Please verify your account to become Guru's member.";//主題   
+                MyMail.Body = "Hello,\n\n Thank you for your registration\n\n This is your account verification code \n\n" + code + "\n\n Best Regards,\n\n GuruTW";//內容   
+                System.Net.Mail.SmtpClient Client = new System.Net.Mail.SmtpClient("smtp.gmail.com", 587);//GMAIL主機   
+                                                                                                          //System.Net.Mail.SmtpClient Client = new System.Net.Mail.SmtpClient("msa.hinet.net");//hinet主機   
+                Client.Credentials = new System.Net.NetworkCredential("gurutw201905@gmail.com", "wearethe@1");//帳密，Hinet不用但須在它的ADLS(區段)裡面   
+                Client.EnableSsl = true;//Gmail需啟動SSL，Hinet不用   
+                Client.Send(MyMail);//寄出
+                return View("VerifyRegistration");
+            }
+
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult VerifyRegisCode(RegisVerifyCodeViewModel c)
+        {
+            Session["wrong-code"] = null;
+            var membid = int.Parse(Session["memb_id"].ToString());
+            var memb = db.Member.Where(x => x.m_id == membid).FirstOrDefault();
+
+            if (!ModelState.IsValid)
+            {
+                return View("VerifyRegistration");
+            }
+            if (memb.m_verification.ToString() == c.Code)
+            {
+                memb.m_status = "1";
+                db.SaveChanges();
+                return View("RegisResult");
+            }
+            else
+            {
+                Session["wrong-code"] = "Verification failed.";
+                return View("VerifyRegistration");
+            }
+
+        }
 
         [HttpGet]
         public ActionResult SignIn()
