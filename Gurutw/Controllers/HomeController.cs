@@ -10,6 +10,7 @@ using RegisterViewModel = Gurutw.ViewModels.RegisterViewModel;
 using System.Data.SqlClient;
 using System.Configuration;
 using Dapper;
+using Gurutw.Repositorys;
 
 namespace Gurutw.Controllers
 {
@@ -19,6 +20,7 @@ namespace Gurutw.Controllers
         private static string connString;
         int nowp = 0;
         private MvcDataBaseEntities db = new MvcDataBaseEntities();
+        HomeRepository homeRepository = new HomeRepository();
 
         public HomeController()
         {
@@ -40,9 +42,7 @@ namespace Gurutw.Controllers
             return View();
         }
 
-
         [HttpPost]
-        //[ValidateAntiForgeryToken]
         public ActionResult Registration(RegisterViewModel m)
         {
             Guid GmailId = Guid.NewGuid();
@@ -53,7 +53,9 @@ namespace Gurutw.Controllers
             {
                 return View(m);
             }
+
             Member user = db.Member.Where(x => x.m_email == m.Email).FirstOrDefault();
+
             if (user != null)
             {
                 ModelState.AddModelError("", "The email is invalid.");
@@ -70,9 +72,11 @@ namespace Gurutw.Controllers
                     m_verification = code.ToString(),
                     m_email_id = GmailId
                 };
+
                 db.Member.Add(memb);
                 db.SaveChanges();
                 Session["memb_id"] = memb.m_id;
+
                 var email = db.Member.Where(x => x.m_id == memb.m_id).FirstOrDefault().m_email;    //收信人的email            
 
                 System.Net.Mail.MailMessage MyMail = new System.Net.Mail.MailMessage();//建立MAIL   
@@ -85,6 +89,7 @@ namespace Gurutw.Controllers
                 Client.Credentials = new System.Net.NetworkCredential("gurutw201905@gmail.com", "wearethe@1");//帳密，Hinet不用但須在它的ADLS(區段)裡面   
                 Client.EnableSsl = true;//Gmail需啟動SSL，Hinet不用   
                 Client.Send(MyMail);//寄出
+
                 return View("VerifyRegistration");
             }
 
@@ -126,20 +131,6 @@ namespace Gurutw.Controllers
         [HttpPost]
         public ActionResult SignIn(SignInViewModel m)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    using (MvcDataBaseContext db = new MvcDataBaseContext())
-            //    {
-            //        var obj = db.Member.Where(a => a.m_email.Equals(m.m_email) && a.m_password.Equals(m.m_password)).FirstOrDefault();
-            //        if (obj != null)
-            //        {
-            //            Session["m_name"] = obj.m_name.ToString();
-            //            return RedirectToAction("Index");
-            //        }
-            //    }
-            //}
-            //return View(m);
-
             //未通過Model驗證
             if (!ModelState.IsValid)
             {
@@ -151,7 +142,6 @@ namespace Gurutw.Controllers
             string password = HttpUtility.HtmlEncode(m.Password);
 
             //以Name及Password查詢比對Account資料表記錄
-
             Member user = db.Member.Where(x => x.m_email == email && x.m_password == password).FirstOrDefault();
 
             if (user == null)
@@ -218,11 +208,27 @@ namespace Gurutw.Controllers
                         "SELECT ',' + dbo.Product_Picture.pp_path " +
                         "FROM dbo.Product_Picture " +
                         "where dbo.Product.p_id = dbo.Product_Picture.p_id " +
-                        "FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'), 1, 1, '') " +
+                        "FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'), 1, 1, ''), " +
+                        " ( SELECT TOP 1 dbo.Discount.d_discount " +
+                        " FROM dbo.Discount " +
+                        " WHERE dbo.Product.c_id = dbo.Discount.c_id " +
+                        " ORDER BY dbo.Discount.d_discount " +
+                        " )AS d_discount, " +
+                        "( SELECT TOP 1 dbo.Discount.d_startdate " +
+                        "FROM dbo.Discount " +
+                        "WHERE dbo.Product.c_id = dbo.Discount.c_id " +
+                        "AND DATEADD(HH,+8, GETDATE() ) BETWEEN dbo.Discount.d_startdate AND dbo.Discount.d_enddate " +
+                        "ORDER BY dbo.Discount.d_discount " +
+                        ")AS d_startdate, " +
+                        "( SELECT TOP 1 dbo.Discount.d_enddate " +
+                        "FROM dbo.Discount " +
+                        "WHERE dbo.Product.c_id = dbo.Discount.c_id " +
+                        "AND DATEADD(HH,+8, GETDATE() ) BETWEEN dbo.Discount.d_startdate AND dbo.Discount.d_enddate " +
+                        "ORDER BY dbo.Discount.d_discount " +
+                        ")AS d_enddate " +
                     "FROM dbo.Product " +
                     "INNER JOIN dbo.Product_Picture ON dbo.Product.p_id = dbo.Product_Picture.p_id " +
                     "where dbo.Product.p_name like" + "'%" + keywords + "%' ";
-
 
                 var search_product_list = conn.Query(sql).ToList();
                 ViewBag.searchlist = search_product_list;
@@ -233,47 +239,33 @@ namespace Gurutw.Controllers
         /*鍵盤分類頁*/
         public ActionResult Keyboard_Category()
         {
+
             using (conn)
             {
                 //string sql =
-                //        " SELECT " +
-                //            "   p.p_id, " +
-                //            "   p.p_name, " +
-                //            "   p.p_unitprice,  " +
-                //            "   p.p_lauchdate," +
-                //            "   p.p_status," +
-                //            "   ( " +
-                //                    "SELECT TOP 1 pp.pp_path " +
-                //                    "FROM dbo.Product_Picture pp " +
-                //                    "WHERE pp.p_id = p.p_id " +
-                //                " ) AS pp_path " +
-                //        " FROM dbo.Product p " +
-                //        " WHERE p.c_id = 1 " +
-                //        " AND p.p_status = 0 ";
+                //       "SELECT distinct " +
+                //       "p.p_id , " +
+                //       "p.p_name, " +
+                //       "p.p_unitprice , " +
+                //       "p.p_lauchdate , " +
+                //       "p.p_status , " +
+                //       "pic_path = STUFF(( " +
+                //              "SELECT ',' + dbo.Product_Picture.pp_path " +
+                //              "FROM dbo.Product_Picture " +
+                //             "where p.p_id = dbo.Product_Picture.p_id " +
+                //             "FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'), 1, 1, ''),  " +
+                //        "d.d_discount, " +
+                //        "d.d_startdate, " +
+                //        "d.d_enddate " +
+                //    "FROM dbo.Product p " +
+                //    "INNER JOIN dbo.Product_Picture ON p.p_id = dbo.Product_Picture.p_id " +
+                //    "INNER JOIN dbo.Category c ON c.c_id = p.c_id " +
+                //    "INNER JOIN dbo.Discount d ON d.c_id = c.c_id " +
+                //    "where p.c_id = 1 " +
+                //    "and p.p_status = 0 " +
+                //    "AND DATEADD(HH,+8, GETDATE() ) BETWEEN d.d_startdate AND d.d_enddate ";
 
-                string sql =
-                       "SELECT distinct " +
-                       "p.p_id , " +
-                       "p.p_name, " +
-                       "p.p_unitprice , " +
-                       "p.p_lauchdate , " +
-                       "p.p_status , " +
-                       "pic_path = STUFF(( " +
-                              "SELECT ',' + dbo.Product_Picture.pp_path " +
-                              "FROM dbo.Product_Picture " +
-                             "where p.p_id = dbo.Product_Picture.p_id " +
-                             "FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'), 1, 1, ''),  " +
-                        "d.d_discount, " +
-                        "d.d_startdate, " +
-                        "d.d_enddate " +
-                    "FROM dbo.Product p " +
-                    "INNER JOIN dbo.Product_Picture ON p.p_id = dbo.Product_Picture.p_id " +
-                    "INNER JOIN dbo.Category c ON c.c_id = p.c_id " +
-                    "INNER JOIN dbo.Discount d ON d.c_id = c.c_id " +
-                    "where p.c_id = 1 " +
-                    "and p.p_status = 0 " +
-                    "AND DATEADD(HH,+8, GETDATE() ) BETWEEN d.d_startdate AND d.d_enddate ";
-
+                string sql = homeRepository.GetCategorySqlString(1);
                 var product = conn.Query(sql).ToList();
                 ViewBag.p = product;
 
@@ -288,45 +280,29 @@ namespace Gurutw.Controllers
             using (conn)
             {
                 //string sql =
-                //      " SELECT " +
-                //          "   p.p_id, " +
-                //          "   p.p_name, " +
-                //          "   p.p_unitprice,  " +
-                //          "   p.p_lauchdate," +
-                //          "   p.p_status," +
-                //          "   ( " +
-                //                  "SELECT TOP 1 pp.pp_path " +
-                //                  "FROM dbo.Product_Picture pp " +
-                //                  "WHERE pp.p_id = p.p_id " +
-                //              " ) AS pp_path " +
-                //      " FROM dbo.Product p " +
-                //      " WHERE p.c_id = 2 " +
-                //      " AND p.p_status = 0 ";
+                //       "SELECT distinct " +
+                //       "p.p_id , " +
+                //       "p.p_name, " +
+                //       "p.p_unitprice , " +
+                //       "p.p_lauchdate , " +
+                //       "p.p_status , " +
+                //       "pic_path = STUFF(( " +
+                //              "SELECT ',' + dbo.Product_Picture.pp_path " +
+                //              "FROM dbo.Product_Picture " +
+                //             "where p.p_id = dbo.Product_Picture.p_id " +
+                //             "FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'), 1, 1, ''),  " +
+                //        "d.d_discount, " +
+                //        "d.d_startdate, " +
+                //        "d.d_enddate " +
+                //    "FROM dbo.Product p " +
+                //    "INNER JOIN dbo.Product_Picture ON p.p_id = dbo.Product_Picture.p_id " +
+                //    "INNER JOIN dbo.Category c ON c.c_id = p.c_id " +
+                //    "INNER JOIN dbo.Discount d ON d.c_id = c.c_id " +
+                //    "where p.c_id = 2 " +
+                //    "and p.p_status = 0 " +
+                //    "AND DATEADD(HH,+8, GETDATE() ) BETWEEN d.d_startdate AND d.d_enddate ";
 
-                string sql =
-                       "SELECT distinct " +
-                       "p.p_id , " +
-                       "p.p_name, " +
-                       "p.p_unitprice , " +
-                       "p.p_lauchdate , " +
-                       "p.p_status , " +
-                       "pic_path = STUFF(( " +
-                              "SELECT ',' + dbo.Product_Picture.pp_path " +
-                              "FROM dbo.Product_Picture " +
-                             "where p.p_id = dbo.Product_Picture.p_id " +
-                             "FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'), 1, 1, ''),  " +
-                        "d.d_discount, " +
-                        "d.d_startdate, " +
-                        "d.d_enddate " +
-                    "FROM dbo.Product p " +
-                    "INNER JOIN dbo.Product_Picture ON p.p_id = dbo.Product_Picture.p_id " +
-                    "INNER JOIN dbo.Category c ON c.c_id = p.c_id " +
-                    "INNER JOIN dbo.Discount d ON d.c_id = c.c_id " +
-                    "where p.c_id = 2 " +
-                    "and p.p_status = 0 " +
-                    "AND DATEADD(HH,+8, GETDATE() ) BETWEEN d.d_startdate AND d.d_enddate ";
-
-
+                string sql = homeRepository.GetCategorySqlString(2);
                 var product = conn.Query(sql).ToList();
                 ViewBag.p = product;
             }
@@ -340,45 +316,29 @@ namespace Gurutw.Controllers
             using (conn)
             {
                 //string sql =
-                //             " SELECT " +
-                //                 "   p.p_id, " +
-                //                 "   p.p_name, " +
-                //                 "   p.p_unitprice,  " +
-                //                 "   p.p_lauchdate," +
-                //                 "   p.p_status," +
-                //                 "   ( " +
-                //                         "SELECT TOP 1 pp.pp_path " +
-                //                         "FROM dbo.Product_Picture pp " +
-                //                         "WHERE pp.p_id = p.p_id " +
-                //                     " ) AS pp_path " +
-                //             " FROM dbo.Product p " +
-                //             " WHERE p.c_id = 3 " +
-                //             " AND p.p_status = 0 ";
+                //       "SELECT distinct " +
+                //       "p.p_id , " +
+                //       "p.p_name, " +
+                //       "p.p_unitprice , " +
+                //       "p.p_lauchdate , " +
+                //       "p.p_status , " +
+                //       "pic_path = STUFF(( " +
+                //              "SELECT ',' + dbo.Product_Picture.pp_path " +
+                //              "FROM dbo.Product_Picture " +
+                //             "where p.p_id = dbo.Product_Picture.p_id " +
+                //             "FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'), 1, 1, ''),  " +
+                //        "d.d_discount, " +
+                //        "d.d_startdate, " +
+                //        "d.d_enddate " +
+                //    "FROM dbo.Product p " +
+                //    "INNER JOIN dbo.Product_Picture ON p.p_id = dbo.Product_Picture.p_id " +
+                //    "INNER JOIN dbo.Category c ON c.c_id = p.c_id " +
+                //    "INNER JOIN dbo.Discount d ON d.c_id = c.c_id " +
+                //    "where p.c_id = 3 " +
+                //    "and p.p_status = 0 " +
+                //    "AND DATEADD(HH,+8, GETDATE() ) BETWEEN d.d_startdate AND d.d_enddate ";
 
-                string sql =
-                       "SELECT distinct " +
-                       "p.p_id , " +
-                       "p.p_name, " +
-                       "p.p_unitprice , " +
-                       "p.p_lauchdate , " +
-                       "p.p_status , " +
-                       "pic_path = STUFF(( " +
-                              "SELECT ',' + dbo.Product_Picture.pp_path " +
-                              "FROM dbo.Product_Picture " +
-                             "where p.p_id = dbo.Product_Picture.p_id " +
-                             "FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'), 1, 1, ''),  " +
-                        "d.d_discount, " +
-                        "d.d_startdate, " +
-                        "d.d_enddate " +
-                    "FROM dbo.Product p " +
-                    "INNER JOIN dbo.Product_Picture ON p.p_id = dbo.Product_Picture.p_id " +
-                    "INNER JOIN dbo.Category c ON c.c_id = p.c_id " +
-                    "INNER JOIN dbo.Discount d ON d.c_id = c.c_id " +
-                    "where p.c_id = 3 " +
-                    "and p.p_status = 0 " +
-                    "AND DATEADD(HH,+8, GETDATE() ) BETWEEN d.d_startdate AND d.d_enddate ";
-
-
+                string sql = homeRepository.GetCategorySqlString(3);
                 var product = conn.Query(sql).ToList();
                 ViewBag.p = product;
             }
@@ -387,7 +347,7 @@ namespace Gurutw.Controllers
         }
 
         /*鍵盤產品頁*/
-        public ActionResult Keyboard_item(int? id=0)
+        public ActionResult Keyboard_item(int id=0)
         {
             if (id == 0)
             {
@@ -395,16 +355,13 @@ namespace Gurutw.Controllers
                 id = nowp;
             }
 
-            List<Product> p_List = db.Product.Where((x) => x.p_id == id).ToList();
-            List<Product_Detail> pd_List = db.Product_Detail.Where((x) => x.p_id == id).ToList();
-            List<Product_Picture> pp_List = db.Product_Picture.Where((x) => x.p_id == id).ToList();
-            List<Product_Feature> pf_List = db.Product_Feature.Where((x) => x.p_id == id).ToList();
-            List<Classify> classift_List = db.Classify.Where((x) => x.p_id == id).ToList();
-            ViewBag.p_List = p_List;
-            ViewBag.pd_List = pd_List;
-            ViewBag.pp_List = pp_List;
-            ViewBag.pf_List = pf_List;
-            ViewBag.classift_List = classift_List;
+
+            //避免之後會下 別的linq語法 改成在這裡ToList 
+            ViewBag.p_List = homeRepository.GetProductData(id).ToList();
+            ViewBag.pd_List = homeRepository.GetProductDetailData(id).ToList();
+            ViewBag.pp_List = homeRepository.GetProductPicturelData(id).ToList();
+            ViewBag.pf_List = homeRepository.GetProductFeaturelData(id).ToList();
+            ViewBag.classift_List = homeRepository.GetClassifylData(id).ToList();
 
             Session["nowproduct"] = id;
             Session["Nowitem"] = "Keyboard_item";
@@ -412,7 +369,7 @@ namespace Gurutw.Controllers
         }
 
         /*滑鼠產品頁*/
-        public ActionResult Mouse_item(int? id = 0)
+        public ActionResult Mouse_item(int id = 0)
         {
             if (id == 0)
             {
@@ -420,16 +377,12 @@ namespace Gurutw.Controllers
                 id = nowp;
             }
 
-            List<Product> p_List = db.Product.Where((x) => x.p_id == id).ToList();
-            List<Product_Detail> pd_List = db.Product_Detail.Where((x) => x.p_id == id).ToList();
-            List<Product_Picture> pp_List = db.Product_Picture.Where((x) => x.p_id == id).ToList();
-            List<Product_Feature> pf_List = db.Product_Feature.Where((x) => x.p_id == id).ToList();
-            List<Classify> classift_List = db.Classify.Where((x) => x.p_id == id).ToList();
-            ViewBag.p_List = p_List;
-            ViewBag.pd_List = pd_List;
-            ViewBag.pp_List = pp_List;
-            ViewBag.pf_List = pf_List;
-            ViewBag.classift_List = classift_List;
+            //避免之後會下 別的linq語法 改成在這裡ToList 
+            ViewBag.p_List = homeRepository.GetProductData(id).ToList();
+            ViewBag.pd_List = homeRepository.GetProductDetailData(id).ToList();
+            ViewBag.pp_List = homeRepository.GetProductPicturelData(id).ToList();
+            ViewBag.pf_List = homeRepository.GetProductFeaturelData(id).ToList();
+            ViewBag.classift_List = homeRepository.GetClassifylData(id).ToList();
 
             Session["nowproduct"] = id;
             Session["Nowitem"] = "Mouse_item";
@@ -437,31 +390,25 @@ namespace Gurutw.Controllers
         }
 
         /*耳機產品頁*/
-        public ActionResult Headset_item(int? id = 0)
+        public ActionResult Headset_item(int id = 0)
         {
             if (id == 0)
             {
                 nowp = Convert.ToInt32(Session["nowproduct"].ToString());
                 id = nowp;
             }
-           
 
-            List<Product> p_List = db.Product.Where(x => x.p_id == id).ToList();
-            List<Product_Detail> pd_List = db.Product_Detail.Where((x) => x.p_id == id).ToList();
-            List<Product_Picture> pp_List = db.Product_Picture.Where((x) => x.p_id == id).ToList();
-            List<Product_Feature> pf_List = db.Product_Feature.Where((x) => x.p_id == id).ToList();
-            List<Classify> classift_List = db.Classify.Where((x) => x.p_id == id).ToList();
-            ViewBag.p_List = p_List;
-            ViewBag.pd_List = pd_List;
-            ViewBag.pp_List = pp_List;
-            ViewBag.pf_List = pf_List;
-            ViewBag.classift_List = classift_List;
+            //避免之後會下 別的linq語法 改成在這裡ToList 
+            ViewBag.p_List = homeRepository.GetProductData(id).ToList();
+            ViewBag.pd_List = homeRepository.GetProductDetailData(id).ToList();
+            ViewBag.pp_List = homeRepository.GetProductPicturelData(id).ToList();
+            ViewBag.pf_List = homeRepository.GetProductFeaturelData(id).ToList();
+            ViewBag.classift_List = homeRepository.GetClassifylData(id).ToList();
 
             Session["nowproduct"] = id;
             Session["Nowitem"] = "Headset_item";
             return View();
         }
-
 
         [HttpPost]
         public ActionResult PassData(int id, int count)
