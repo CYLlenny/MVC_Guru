@@ -26,6 +26,7 @@ namespace Gurutw.Repositorys
 
         public string GetCategorySqlString(int Category)
         {
+            //根據 分類 找出所有上架商品  並確認折價狀態
             string sql =
                     " SELECT distinct " +
                        " p.p_id , " +
@@ -64,6 +65,7 @@ namespace Gurutw.Repositorys
             return sql;
         }
 
+        //撈出生成商品頁畫面需要的資料
 
         public IEnumerable<Product> GetProductData(int id)
         {      

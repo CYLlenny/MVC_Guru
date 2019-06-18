@@ -22,6 +22,7 @@ namespace Gurutw.Controllers
         private MvcDataBaseEntities db = new MvcDataBaseEntities();
         HomeRepository homeRepository = new HomeRepository();
 
+        //連接資料庫
         public HomeController()
         {
             if (string.IsNullOrEmpty(connString))
@@ -45,9 +46,12 @@ namespace Gurutw.Controllers
         [HttpPost]
         public ActionResult Registration(RegisterViewModel m)
         {
+            //gmail的資料
             Guid GmailId = Guid.NewGuid();
             Session["regis-user"] = m.UserName;
             Random rd = new Random();
+            
+            //random值 發認證信
             var code = rd.Next(100000, 999999);
             if (!ModelState.IsValid)
             {
@@ -56,11 +60,13 @@ namespace Gurutw.Controllers
 
             Member user = db.Member.Where(x => x.m_email == m.Email).FirstOrDefault();
 
+            //user 已經存在 
             if (user != null)
             {
                 ModelState.AddModelError("", "The email is invalid.");
                 return View();
             }
+            //新增進資料庫
             else
             {
                 Member memb = new Member()
@@ -77,6 +83,7 @@ namespace Gurutw.Controllers
                 db.SaveChanges();
                 Session["memb_id"] = memb.m_id;
 
+                //寄信給對方 確認信箱有效
                 var email = db.Member.Where(x => x.m_id == memb.m_id).FirstOrDefault().m_email;    //收信人的email            
 
                 System.Net.Mail.MailMessage MyMail = new System.Net.Mail.MailMessage();//建立MAIL   
@@ -95,6 +102,8 @@ namespace Gurutw.Controllers
 
         }
 
+
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -108,12 +117,14 @@ namespace Gurutw.Controllers
             {
                 return View("VerifyRegistration");
             }
+            //如果認證過 把狀態改為1
             if (memb.m_verification.ToString() == c.Code)
             {
                 memb.m_status = "1";
                 db.SaveChanges();
                 return View("RegisResult");
             }
+            //認證碼錯誤
             else
             {
                 Session["wrong-code"] = "Verification failed.";
@@ -239,36 +250,11 @@ namespace Gurutw.Controllers
         /*鍵盤分類頁*/
         public ActionResult Keyboard_Category()
         {
-
             using (conn)
             {
-                //string sql =
-                //       "SELECT distinct " +
-                //       "p.p_id , " +
-                //       "p.p_name, " +
-                //       "p.p_unitprice , " +
-                //       "p.p_lauchdate , " +
-                //       "p.p_status , " +
-                //       "pic_path = STUFF(( " +
-                //              "SELECT ',' + dbo.Product_Picture.pp_path " +
-                //              "FROM dbo.Product_Picture " +
-                //             "where p.p_id = dbo.Product_Picture.p_id " +
-                //             "FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'), 1, 1, ''),  " +
-                //        "d.d_discount, " +
-                //        "d.d_startdate, " +
-                //        "d.d_enddate " +
-                //    "FROM dbo.Product p " +
-                //    "INNER JOIN dbo.Product_Picture ON p.p_id = dbo.Product_Picture.p_id " +
-                //    "INNER JOIN dbo.Category c ON c.c_id = p.c_id " +
-                //    "INNER JOIN dbo.Discount d ON d.c_id = c.c_id " +
-                //    "where p.c_id = 1 " +
-                //    "and p.p_status = 0 " +
-                //    "AND DATEADD(HH,+8, GETDATE() ) BETWEEN d.d_startdate AND d.d_enddate ";
-
                 string sql = homeRepository.GetCategorySqlString(1);
                 var product = conn.Query(sql).ToList();
                 ViewBag.p = product;
-
             }
 
             return View();
@@ -278,30 +264,7 @@ namespace Gurutw.Controllers
         public ActionResult Mouse_Category()
         {
             using (conn)
-            {
-                //string sql =
-                //       "SELECT distinct " +
-                //       "p.p_id , " +
-                //       "p.p_name, " +
-                //       "p.p_unitprice , " +
-                //       "p.p_lauchdate , " +
-                //       "p.p_status , " +
-                //       "pic_path = STUFF(( " +
-                //              "SELECT ',' + dbo.Product_Picture.pp_path " +
-                //              "FROM dbo.Product_Picture " +
-                //             "where p.p_id = dbo.Product_Picture.p_id " +
-                //             "FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'), 1, 1, ''),  " +
-                //        "d.d_discount, " +
-                //        "d.d_startdate, " +
-                //        "d.d_enddate " +
-                //    "FROM dbo.Product p " +
-                //    "INNER JOIN dbo.Product_Picture ON p.p_id = dbo.Product_Picture.p_id " +
-                //    "INNER JOIN dbo.Category c ON c.c_id = p.c_id " +
-                //    "INNER JOIN dbo.Discount d ON d.c_id = c.c_id " +
-                //    "where p.c_id = 2 " +
-                //    "and p.p_status = 0 " +
-                //    "AND DATEADD(HH,+8, GETDATE() ) BETWEEN d.d_startdate AND d.d_enddate ";
-
+            {     
                 string sql = homeRepository.GetCategorySqlString(2);
                 var product = conn.Query(sql).ToList();
                 ViewBag.p = product;
@@ -315,29 +278,6 @@ namespace Gurutw.Controllers
         {
             using (conn)
             {
-                //string sql =
-                //       "SELECT distinct " +
-                //       "p.p_id , " +
-                //       "p.p_name, " +
-                //       "p.p_unitprice , " +
-                //       "p.p_lauchdate , " +
-                //       "p.p_status , " +
-                //       "pic_path = STUFF(( " +
-                //              "SELECT ',' + dbo.Product_Picture.pp_path " +
-                //              "FROM dbo.Product_Picture " +
-                //             "where p.p_id = dbo.Product_Picture.p_id " +
-                //             "FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'), 1, 1, ''),  " +
-                //        "d.d_discount, " +
-                //        "d.d_startdate, " +
-                //        "d.d_enddate " +
-                //    "FROM dbo.Product p " +
-                //    "INNER JOIN dbo.Product_Picture ON p.p_id = dbo.Product_Picture.p_id " +
-                //    "INNER JOIN dbo.Category c ON c.c_id = p.c_id " +
-                //    "INNER JOIN dbo.Discount d ON d.c_id = c.c_id " +
-                //    "where p.c_id = 3 " +
-                //    "and p.p_status = 0 " +
-                //    "AND DATEADD(HH,+8, GETDATE() ) BETWEEN d.d_startdate AND d.d_enddate ";
-
                 string sql = homeRepository.GetCategorySqlString(3);
                 var product = conn.Query(sql).ToList();
                 ViewBag.p = product;
@@ -354,7 +294,6 @@ namespace Gurutw.Controllers
                 nowp = Convert.ToInt32(Session["nowproduct"].ToString());
                 id = nowp;
             }
-
 
             //避免之後會下 別的linq語法 改成在這裡ToList 
             ViewBag.p_List = homeRepository.GetProductData(id).ToList();
@@ -419,7 +358,7 @@ namespace Gurutw.Controllers
 
         public ActionResult UserCart(int? num,int? id)
         {
-
+            //確認登入狀態
             if(Session["m_id"] == null)
             {
                 return RedirectToAction("Login", "Account");
@@ -429,11 +368,14 @@ namespace Gurutw.Controllers
                 var userr = int.Parse(Session["m_id"].ToString());
                 using (conn)
                 {
+                    //將該筆商品 加入購物車
                     if (num != null)
                     {
                         string sql = "SELECT *FROM dbo.Shopping_Cart WHERE dbo.Shopping_Cart.m_id =@mid  AND dbo.Shopping_Cart.pd_id =@pdid";
                         var Cart = conn.QuerySingleOrDefault(sql, new { mid = userr, pdid = id });
 
+
+                        //已經有產品了 更新數量
                         if (Cart != null)
                         {
                             num += Cart.cart_quantity;
@@ -441,6 +383,7 @@ namespace Gurutw.Controllers
                                 "AND dbo.Shopping_Cart.pd_id=" + Cart.pd_id;
                             conn.Execute(sqlUpdata, new { Num = num });
                         }
+                        //沒有就新增進去
                         else
                         {
                             Shopping_Cart sc = new Shopping_Cart();
@@ -453,6 +396,7 @@ namespace Gurutw.Controllers
                     }
                 }
 
+                //加入購物車後 返回商品頁面
                 string temp = Session["Nowitem"].ToString();
                 int tempid = Convert.ToInt32(Session["nowproduct"].ToString());
 

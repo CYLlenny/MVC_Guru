@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Gurutw.Models;
+using Gurutw.Repositorys;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -12,19 +13,14 @@ namespace Gurutw.Controllers
 {
     public class MemberController : Controller
     {
-        // GET: Member
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
         private readonly SqlConnection conn;
-
         private static string connString;
-
+        public readonly MemberRepository _repo;
         private MvcDataBaseEntities db;
 
         public MemberController()
         {
+            _repo = new MemberRepository();
             if (string.IsNullOrEmpty(connString))
             {
                 connString = ConfigurationManager.ConnectionStrings["MvcDataBase"].ConnectionString;
@@ -33,44 +29,26 @@ namespace Gurutw.Controllers
             db = new MvcDataBaseEntities();
         }
 
-        public ActionResult AddCart(int? pdid)
+        //根據按+或- 來改變數量  
+        public ActionResult CountCart(int? addpdid, int? lesspdid)
         {
             var user = int.Parse(Session["m_id"].ToString());
-            var sure = db.Product_Detail.Where(x => x.pd_id == pdid).FirstOrDefault();
-            var pp = db.Shopping_Cart.Where(x => x.pd_id == pdid).Where(i => i.m_id == user).FirstOrDefault();
-            if (pdid != 0)
+            int add = Convert.ToInt32(addpdid);
+
+            int less = Convert.ToInt32(lesspdid);
+
+            if (add != 0)
             {
-                if (sure.pd_stock > sure.pd_onorder)
-                {
-                    sure.pd_onorder++;
-                    pp.cart_quantity++;
-                    pdid = 0;
-                    db.SaveChanges();
-                }
-                //否則跳出已沒庫存
+                _repo.CountCartQuantity(add, user, 1);
+            }
+            else
+            {
+                _repo.CountCartQuantity(less, user, -1);
             }
             return RedirectToAction("Cart");
         }
-
-        public ActionResult LessCart(int? pdid)
-        {
-            var user = int.Parse(Session["m_id"].ToString());
-            var sure = db.Product_Detail.Where(x => x.pd_id == pdid).FirstOrDefault();
-            var pp = db.Shopping_Cart.Where(x => x.pd_id == pdid).Where(i => i.m_id == user).FirstOrDefault();
-            if (pdid != 0)
-            {
-                if (pp.cart_quantity == 0)
-                {
-                    return RedirectToAction("Cart", pdid);
-                }
-                sure.pd_onorder--;
-                pp.cart_quantity--;
-                db.SaveChanges();
-
-            }
-            return RedirectToAction("Cart");
-        }
-
+        
+        //刪除
         public ActionResult DelCart(int? pdid = 0)
         {
             if (pdid != 0)
@@ -81,6 +59,7 @@ namespace Gurutw.Controllers
             return RedirectToAction("Cart");
         }
 
+        //根據會員id 把所有購物車商品找出來 
         public ActionResult Cart()
         {
             Response.Cache.SetNoStore();
@@ -88,30 +67,33 @@ namespace Gurutw.Controllers
             {
                 var nowtime = DateTime.Now;
                 var user = int.Parse(Session["m_id"].ToString());
-                string sql = "SELECT dbo.Member.m_id,  " +
-                               "dbo.Shopping_Cart.pd_id,  " +
-                               "dbo.Product_Detail.pd_color,  " +
-                               "dbo.Product.p_unitprice,  " +
-                               "dbo.Product.p_name, " +
-                               "(select dbo.Discount.d_discount from dbo.Discount where CONVERT(VARCHAR(10), GETDATE(), 120) " +
-                               "between dbo.Discount.d_startdate And dbo.Discount.d_enddate " +
-                               "And dbo.Discount.c_id = dbo.Category.c_id ) d_discount, " +
-                               "(select dbo.Discount.d_activity " +
-                               "from dbo.Discount " +
-                               "where CONVERT(VARCHAR(10), GETDATE(), 120) " +
-                               "between dbo.Discount.d_startdate " +
-                               "And dbo.Discount.d_enddate And dbo.Discount.c_id = dbo.Category.c_id ) d_name," +
-                               "(SELECT TOP 1 dbo.Product_Picture.pp_path " +
-                               "FROM dbo.Product_Picture " +
-                               "WHERE dbo.Product_Picture.p_id = dbo.Product.p_id) AS pp_path," +
-                               "dbo.Category.c_id,  " +
-                               "dbo.Shopping_Cart.cart_quantity " +
-                               "FROM dbo.Product_Detail " +
-                               "INNER JOIN dbo.Product ON dbo.Product_Detail.p_id = dbo.Product.p_id " +
-                               "INNER JOIN dbo.Shopping_Cart ON dbo.Product_Detail.pd_id = dbo.Shopping_Cart.pd_id " +
-                               "INNER JOIN dbo.Member ON dbo.Shopping_Cart.m_id = dbo.Member.m_id " +
-                               "INNER JOIN dbo.Category ON dbo.Product.c_id = dbo.Category.c_id " +
-                               "WHERE dbo.Shopping_Cart.m_id = " + user + ";"; //依照會員id查詢
+          
+                string sql = 
+                    "SELECT  dbo.Member.m_id, " +
+                            "dbo.Shopping_Cart.pd_id, " +
+                            "dbo.Product_Detail.pd_color, " +
+                            "dbo.Product.p_unitprice,  " +
+                            "dbo.Product.p_name,  " +
+                            "( select top 1 dbo.Discount.d_discount " +
+                            "from dbo.Discount " +
+                            "where CONVERT(VARCHAR(10), GETDATE(), 120) " +
+                            "between dbo.Discount.d_startdate " +
+                            "And dbo.Discount.d_enddate And dbo.Discount.c_id = dbo.Category.c_id " +
+                            "order by dbo.Discount.d_discount ) d_discount, " +
+                            "( select top 1 dbo.Discount.d_activity " +
+                            "from dbo.Discount where CONVERT(VARCHAR(10), GETDATE(), 120) " +
+                            "between dbo.Discount.d_startdate And dbo.Discount.d_enddate " +
+                            "And dbo.Discount.c_id = dbo.Category.c_id order by dbo.Discount.d_discount) d_name, " +
+                            "( SELECT TOP 1 dbo.Product_Picture.pp_path " +
+                            "FROM dbo.Product_Picture WHERE dbo.Product_Picture.p_id = dbo.Product.p_id) AS pp_path, " +
+                            "dbo.Category.c_id, " +
+                            "dbo.Shopping_Cart.cart_quantity " +
+                    "FROM dbo.Product_Detail " +
+                    "INNER JOIN dbo.Product ON dbo.Product_Detail.p_id = dbo.Product.p_id " +
+                    "INNER JOIN dbo.Shopping_Cart ON dbo.Product_Detail.pd_id = dbo.Shopping_Cart.pd_id  " +
+                    "INNER JOIN dbo.Member ON dbo.Shopping_Cart.m_id = dbo.Member.m_id " +
+                    "INNER JOIN dbo.Category ON dbo.Product.c_id = dbo.Category.c_id  "  +
+                    "WHERE dbo.Shopping_Cart.m_id = " + user; //依照會員id查詢
 
                 var CartTotal = conn.Query(sql).ToList();
                 ViewBag.od = CartTotal;
@@ -120,6 +102,7 @@ namespace Gurutw.Controllers
             return View();
         }
 
+        //輸入訂單資訊頁面
         public ActionResult OrderDeliver()
         {
             ViewBag.dw_id = new SelectList(db.Delive_Way, "dw_id", "dw_name");
@@ -127,6 +110,8 @@ namespace Gurutw.Controllers
 
             return View();
         }
+
+        //將訂單資訊 結合購物車 生成訂單 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult OrderDeliver([Bind(Include = "o_receiver,o_address,pay_id,dw_id")]Order or)
@@ -145,11 +130,13 @@ namespace Gurutw.Controllers
             return View(or);
         }
 
+        //將訂單的詳細資料 找出來
         public ActionResult CreateOrderDetail(int? id)
         {
             var user = int.Parse(Session["m_id"].ToString());
             var cart = db.Shopping_Cart.Where(x => x.m_id == user).ToList();
 
+            //撈出每一筆資料
             foreach (var u in cart)
             {
                 var pdetail = db.Product_Detail.Where(x => x.pd_id == u.pd_id).FirstOrDefault();
@@ -186,8 +173,7 @@ namespace Gurutw.Controllers
             var uid = db.Member.Where(x => x.m_id == user).FirstOrDefault().m_email_id;
             var email = db.Member.Where(x => x.m_id == user).FirstOrDefault().m_email;
             string a = Convert.ToString(uid);
-            //if()
-            //{
+            //寄信給對方
             string cont;
             cont = "http://" + Request.Url.Authority + "/Member/result?uid=" + a;
             System.Net.Mail.MailMessage MyMail = new System.Net.Mail.MailMessage();//建立MAIL   
@@ -201,19 +187,11 @@ namespace Gurutw.Controllers
             Client.Credentials = new System.Net.NetworkCredential("gurutw201905@gmail.com", "wearethe@1");//帳密，Hinet不用但須在它的ADLS(區段)裡面   
             Client.EnableSsl = true;//Gmail需啟動SSL，Hinet不用   
             Client.Send(MyMail);//寄出  
-            //}
-
-            //db.SaveChanges();
-            return RedirectToAction("result");
-            //return View();
+         
+            return RedirectToAction("result");       
         }
-        //[HttpGet]
-        //public ActionResult result()
-        //{
-
-        //}
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
+  
+        //訂單結果
         public ActionResult result(string uid)
         {
             var user = int.Parse(Session["m_id"].ToString());
@@ -232,7 +210,6 @@ namespace Gurutw.Controllers
                             "dbo.Payment AS Payment_1 ON dbo.[Order].pay_id = Payment_1.pay_id " +
                             "WHERE(dbo.[Order].m_id = " + user + " AND dbo.[Order].o_status != 4 AND dbo.[Order].o_status != 8 and dbo.[Order].o_id = dbo.[Order_Detail].o_id );";
 
-
                 var o = conn.Query(sql2, new { mid = user });
 
                 ViewBag.t = o;
@@ -242,12 +219,10 @@ namespace Gurutw.Controllers
             return View();
         }
 
+
         public ActionResult Outcome(int? Id)
         {
             var user = int.Parse(Session["m_id"].ToString());
-            //var orde = db.Order.Where(x => x.m_id == user).FirstOrDefault();
-
-            //var order_tail = db.Order_Detail.Where(x => x.o_id == Id).ToList();
             var check = db.Order.Where(x => x.o_id == Id).FirstOrDefault().m_id;
 
             if (user != check)
@@ -255,11 +230,8 @@ namespace Gurutw.Controllers
                 return RedirectToAction("result");
             }
 
-            //if (order_tail.o_id == Id)" 
-            //{
             using (conn)
             {
-
                 string sql1 = "SELECT dbo.Member.m_name, dbo.Order_Detail.od_price, dbo.Order_Detail.od_discount, dbo.Order_Detail.od_quantity, " +
                             "dbo.Product_Detail.pd_color, dbo.[Order].o_date, dbo.[Order].o_receiver, dbo.[Order].o_address, dbo.Product.p_name, " +
                             "dbo.Product.p_unitprice, (SELECT TOP(1) pp_path FROM dbo.Product_Picture WHERE(dbo.Product.p_id = p_id)) AS pp_path, dbo.Delive_Way.dw_name, dbo.Payment.pay_name FROM dbo.[Order] INNER JOIN " +
@@ -271,19 +243,14 @@ namespace Gurutw.Controllers
                             "dbo.Payment ON dbo.[Order].pay_id = dbo.Payment.pay_id " +
                             "WHERE dbo.[Order].m_id = " + user + " and dbo.[Order_Detail].o_id = " + Id; 
 
-
                 var o = conn.Query(sql1, new { mid = user }).ToList();
                 ViewBag.t = o;
             }
-            //}
-            //else
-            //{
-            //    return RedirectToAction("Index", "Home");
-            //}
 
             return View();
         }
 
+        //會員管理 查看會員資料
         public ActionResult Member_Manager()
         {
             var user = int.Parse(Session["m_id"].ToString());
@@ -292,6 +259,7 @@ namespace Gurutw.Controllers
             return View();
         }
 
+        //用partial view 改變會員管理頁面
         public ActionResult Account_DashBoard()
         {
             TempData["view"] = "Account_DashBoard";
@@ -303,18 +271,14 @@ namespace Gurutw.Controllers
             TempData["view"] = "Account_Information";
             return RedirectToAction("Member_Manager");
         }
-        //public ActionResult My_Orders()
-        //{
-        //    TempData["view"] = "My_Orders";
-        //    return RedirectToAction("Member_Manager");
-        //}
+
 
         [HttpGet]
         public ActionResult Update_Profile()
         {
             return View();
         }
-
+        //更新資料
         [HttpPost]
         public ActionResult Update_Profile(UpdateProfileViewModel model)
         {
@@ -336,7 +300,7 @@ namespace Gurutw.Controllers
         {
             return View();
         }
-
+        //更新資料
         [HttpPost]
         public ActionResult Change_Pw(ChangePassword model)
         {

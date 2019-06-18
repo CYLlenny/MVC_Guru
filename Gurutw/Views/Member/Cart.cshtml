@@ -33,13 +33,13 @@
                 </div>
                 <div class="item-price-right">
                     <div class="item-quantity">
-                        <form method="post" name="form" action="/Member/LessCart">
-                            <input name="pdid" type="hidden" value=@x.pd_id />
+                        <form method="post" name="form" action="/Member/CountCart">
+                            <input name="lesspdid" type="hidden" value=@x.pd_id />
                             <button type="submit"><i class="fas fa-minus"></i></button>
                         </form>
                         <h4 class="quantity"> @x.cart_quantity </h4>
-                        <form method="post" name="form" action="/Member/AddCart">
-                            <input name="pdid" type="hidden" value=@x.pd_id />
+                        <form method="post" name="form" action="/Member/CountCart">
+                            <input name="addpdid" type="hidden" value=@x.pd_id />
                             <button type="submit"><i class="fas fa-plus"></i></button>
                         </form>
 

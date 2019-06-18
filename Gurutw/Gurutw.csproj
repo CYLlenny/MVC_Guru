@@ -241,6 +241,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositorys\HomeRepository.cs" />
+    <Compile Include="Repositorys\MemberRepository.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\SignInViewModel.cs" />
