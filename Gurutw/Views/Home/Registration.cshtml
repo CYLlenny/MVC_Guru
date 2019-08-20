@@ -6,9 +6,9 @@
 
 
 <div class="registration">
-    @Html.AntiForgeryToken()
+    
     <form action="/Home/Registration" class="frame-container-regis" method="POST">
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.AntiForgeryToken()
         <h2>CREATE AN ACCOUNT</h2>
         <h4>PERSONAL INFORMATION</h4>
         @*<input type="text" id="username" name="m_name" placeholder="USERNAME">*@
@@ -27,6 +27,7 @@
         @Html.CheckBoxFor(model => model.TermsAndConditions, new { @class = "check" })
         @Html.LabelFor(model => model.TermsAndConditions)
         @Html.ValidationMessageFor(model => model.TermsAndConditions, "", new { @class = "text-danger" })
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <input type="submit" name="submit" id="submit" value="SUBMIT">
     </form>
 </div>

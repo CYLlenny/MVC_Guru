@@ -23,7 +23,7 @@
                     <div class="item-spec">
                         <h4 class="productName">@x.p_name</h4>
                         <span>Color : @x.pd_color</span>
-                        @{string dname = x.d_name.ToString();}
+                        @{string dname =  Convert.ToString(x.d_name);}
                         @if (dname != null)
                         {
                             <br />
